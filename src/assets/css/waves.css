@@ -1,0 +1,48 @@
+.waves-effect {
+	overflow: hidden; vertical-align: middle; display: inline-block; position: relative; z-index: 1; cursor: pointer; -webkit-tap-highlight-color: transparent; -webkit-transition: all 0.3s ease-out; -o-transition: all 0.3s ease-out; transition: all 0.3s ease-out; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; -moz-transition: all 0.3s ease-out; will-change: opacity, transform; -ms-transition: all 0.3s ease-out;
+}
+.waves-effect .waves-ripple {
+	background: rgba(0, 0, 0, 0.2); border-radius: 50%; width: 20px; height: 20px; margin-top: -10px; margin-left: -10px; position: absolute; opacity: 0; pointer-events: none; -ms-transform: scale(0); transform: scale(0); -webkit-transform: scale(0); -webkit-transition: all 0.7s ease-out; -o-transition: all 0.7s ease-out; transition: all 0.7s ease-out; -webkit-transition-property: -webkit-transform, opacity; transition-property: transform, opacity; -o-transform: scale(0); -moz-transition: all 0.7s ease-out; -ms-transition: all 0.7s ease-out; -moz-transition-property: -moz-transform, opacity; -o-transition-property: -o-transform, opacity; -moz-transform: scale(0);
+}
+.waves-light.waves-effect .waves-ripple {
+	background-color: rgba(255, 255, 255, 0.45);
+}
+.waves-red.waves-effect .waves-ripple {
+	background-color: rgba(0, 0, 0, 0.7);
+}
+.waves-yellow.waves-effect .waves-ripple {
+	background-color: rgba(0, 0, 0, 0.7);
+}
+.waves-orange.waves-effect .waves-ripple {
+	background-color: rgba(255, 152, 0, 0.7);
+}
+.waves-purple.waves-effect .waves-ripple {
+	background-color: rgba(156, 39, 176, 0.7);
+}
+.waves-green.waves-effect .waves-ripple {
+	background-color:#48b0d7;
+}
+.waves-teal.waves-effect .waves-ripple {
+	background-color: rgba(0, 150, 136, 0.7);
+}
+.waves-notransition {
+	-webkit-transition: none; -o-transition: none; transition: none; -moz-transition: none; -ms-transition: none;
+}
+.waves-circle {
+	transform: translateZ(0); -webkit-transform: translateZ(0); -o-transform: translateZ(0); -moz-transform: translateZ(0); -webkit-mask-image: -webkit-radial-gradient(circle, #ffffff 100%, #000000 100%);
+}
+.waves-input-wrapper {
+	border-radius: 0.2em; vertical-align: bottom;
+}
+.waves-input-wrapper .waves-button-input {
+	left: 0px; top: 0px; position: relative; z-index: 1;
+}
+.waves-circle {
+	border-radius: 50%; width: 2.5em; height: 2.5em; text-align: center; line-height: 2.5em; -webkit-mask-image: none;
+}
+.waves-block {
+	display: block;
+}
+a.waves-effect .waves-ripple {
+	z-index: -1;
+}

@@ -1,0 +1,297 @@
+<app-menubar></app-menubar>
+<form [formGroup]="addcustomerForm" (ngSubmit)="onSubmit()">
+<div class="col-md-12">
+  <div class="white_box opportunity_modal" style="margin: 10px 0 0 0;">
+    <ul class="nav nav-tabs">
+      <li class="active">
+        <a href="#tabone" data-toggle="tab">Customer Basic Details</a>
+      </li>
+      <li>
+          <a href="#tabtwo" data-toggle="tab">Compressor Room Details</a>
+      </li>
+      <li>
+          <a href="#tabthree" data-toggle="tab">Contact Person Details</a>
+      </li>
+      <li class="pull-right">
+        <a [routerLink]="['/customerlist']" title="Back to Customer List">
+          <i class="fa fa-reply"></i>
+      </a>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane fade in active" id="tabone">        
+        <div class="col-md-2 form-group">
+            <label for="" class="mandatory">Customer Name</label>
+        </div>
+        <div class="col-md-2 form-group">
+            <input type="text"  formControlName="Cust_Name"  class="form-control" placeholder="Enter Customer Name" title="Enter Customer Name">
+            <div *ngIf="submitted && f.Cust_Name.errors" class="invalid-feedback">
+                    <div *ngIf="f.Cust_Name.errors.required">is required</div>
+                </div>
+        </div>
+        <div class="col-md-2 form-group">
+            <label for="" class="mandatory">Address Line1</label>
+        </div>
+        <div class="col-md-2 form-group">
+            <input type="text"  formControlName="Cust_Address_Line1"  class="form-control" placeholder="Enter Customer Address" title="Enter Customer Address">
+            <div *ngIf="submitted && f.Cust_Address_Line1.errors" class="invalid-feedback">
+                    <div *ngIf="f.Cust_Address_Line1.errors.required">is required</div>
+                </div>
+        </div>
+        <div class="col-md-2 form-group">
+            <label for="">Address Line2</label>
+        </div>
+        <div class="col-md-2 form-group">
+            <input type="text"  formControlName="Cust_Address_Line2" class="form-control" placeholder="Enter Customer Address" title="Enter Customer Address">
+        </div>
+        <div class="col-md-2 form-group">
+            <label for="" class="mandatory">Zone</label>
+        </div>
+        <div class="col-md-2 form-group">
+            <select  class="form-control"  formControlName="Cust_PK_Zone_Id" (change)="getstateListChange($event)"
+                    title="Please Select Zone">
+                    <option value="" disabled>Select</option>
+                    <option *ngFor="let zone of ZoneIdList" value={{zone.PK_Zone_Id}}>
+                            {{zone.Zone_Desc}}
+                    </option>
+            </select>
+            <div *ngIf="submitted && f.Cust_PK_Zone_Id.errors" class="invalid-feedback">
+                    <div *ngIf="f.Cust_PK_Zone_Id.errors.required">is required</div>
+                </div>
+        </div>
+        <div class="col-md-2 form-group">
+            <label for="" class="mandatory">State</label>
+        </div>
+        <div class="col-md-2 form-group">
+                <select  class="form-control" formControlName="Cust_PK_State_Id" (change)="getcityListChange($event)"
+                title="Please Select Zone">
+                <option value="" disabled>Select</option>
+                <option *ngFor="let state of StateIdList" value={{state.PK_State_Id}}>
+                        {{state.State_Desc}}
+                </option>
+        </select>
+        <div *ngIf="submitted && f.Cust_PK_State_Id.errors" class="invalid-feedback">
+                <div *ngIf="f.Cust_PK_State_Id.errors.required">is required</div>
+            </div>
+        </div>
+        <div class="col-md-2 form-group">
+            <label for="" class="mandatory">City</label>
+        </div>
+        <div class="col-md-2 form-group">
+                <select  class="form-control"  formControlName="Cust_PK_City_Id"
+                title="Please Select Zone">
+                <option value="" disabled>Select</option>
+                <option *ngFor="let city of CityIdList" value={{city.PK_City_Id}}>
+                        {{city.City_Name}}
+                </option>
+        </select>
+        <div *ngIf="submitted && f.Cust_PK_City_Id.errors" class="invalid-feedback">
+                <div *ngIf="f.Cust_PK_City_Id.errors.required">is required</div>
+            </div>
+        </div>
+        <div class="col-md-2 form-group">
+            <label for="" class="mandatory">GSTN No.</label>
+        </div>
+        <div class="col-md-2 form-group">
+            <input type="text" formControlName="Cust_GSTN_No" class="form-control" placeholder="Enter Customer GSTN No" title="Enter Customer GSTN No" maxlength="15">
+            <div *ngIf="submitted && f.Cust_GSTN_No.errors" class="invalid-feedback">
+                    <div *ngIf="f.Cust_GSTN_No.errors.required">is required</div>
+                </div>
+        </div>
+        <div class="col-md-2 form-group">
+            <label for="" class="mandatory">Compressor Air Application</label>
+        </div>
+        <div class="col-md-2 form-group">
+            <input type="text" formControlName="Cust_Cmprsd_Air_App" class="form-control" placeholder="Enter Compressor Air Application" title="Enter Compressor Air Application">
+            <div *ngIf="submitted && f.Cust_Cmprsd_Air_App.errors" class="invalid-feedback">
+                    <div *ngIf="f.Cust_Cmprsd_Air_App.errors.required">is required</div>
+                </div>
+        </div>
+        <div class="col-md-2 form-group">
+            <label for="" class="mandatory">Industry Type</label>
+        </div>
+        <div class="col-md-2 form-group">
+            <!-- <select name="langOpt[]"  id="langOpt" multiple="multiple"  -->
+            <select name="langOpt[]"  formControlName="Cust_Industry_Id"  multiple="multiple" 
+                title="Please Select Industry Type" style="display: block; width: 100%;">
+                <option *ngFor="let industry of IndustryIdList" [ngValue]="industry.Industry_Id">
+                        {{ industry.Industry_Name }}
+                </option>
+            </select>
+            <div *ngIf="submitted && f.Cust_Industry_Id.errors" class="invalid-feedback">
+                    <div *ngIf="f.Cust_Industry_Id.errors.required">is required</div>
+                </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="col-md-2 form-group">
+            <label for="" class="mandatory">End Product</label>
+        </div>
+        <div class="col-md-2 form-group">
+            <input type="text" formControlName="Cust_End_Product" class="form-control" placeholder="Enter End Product" title="Enter End Product">
+            <div *ngIf="submitted && f.Cust_End_Product.errors" class="invalid-feedback">
+                    <div *ngIf="f.Cust_End_Product.errors.required">is required</div>
+                </div>
+        </div>
+        <div class="col-md-2 form-group">
+            <label for="" class="mandatory">Visiting Card Picture</label>
+        </div>
+        <div id="list" style="display:none">
+
+        </div>
+        <div class="col-md-2 form-group">
+            <div class="">
+                <input type="file" id="pwd" formControlName="Cust_File" placeholder="" class="pull-left">
+                <input type="submit" style="display:none" name="" value="Upload" class="btn btn-primary btn_upload pull-right">
+                <div *ngIf="submitted && f.Cust_File.errors" class="invalid-feedback">
+                        <div *ngIf="f.Cust_File.errors.required">is required</div>
+                    </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+      <div class="tab-pane fade" id="tabtwo">
+        <div id="">
+          <div class="table-responsive">
+              <table id="monthly_table" class="table table-bordered report_table">
+                  <thead>
+                      <tr>
+                          <th>Sr. No.</th>
+                          <th>Model</th>
+                          <th>Compressor Room Details</th>
+                          <th>Year of Manufacturing</th>
+                          <th>Year of Comissioning</th>
+                          <th>Working Status</th>
+                          <th class="text-center">Action</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr>
+                          <td></td>
+                          <td>
+                              <input type="text" ng-model="Cust_Cmprsor_Model" class="form-control" title="Enter Model Details" placeholder="Enter Model Details">
+                          </td>
+                          <td>
+                              <select ng-model="ddlCompressorRoomDetail" class="form-control"
+                                      title="Please Select Compressor Room Detail" ng-options="item as item.List_Desc for item in CompressorRoomDetailList track by item.W2S_List_Id">
+                                  <option value="" selected>Select Compressor Room Detail</option>
+                              </select>
+                          </td>
+                          <td>
+                              <input type="text" ng-model="Cust_Cmprsor_Mfg_Year" class="form-control date-own " title="Select Manufacturing Year" placeholder="Select Manufacturing Year">
+                          </td>
+                          <td>
+                              <input type="text" ng-model="Cust_Cmprsor_Commissioning_Year" class="form-control date-own " title="Select Compressor Commissioning Year" placeholder="Select Compressor Commissioning Year">
+                          </td>
+                          <td>
+                              <select ng-model="ddlCompressorWorkingStatus" class="form-control"
+                                      title="Please Select Compressor Working Status" ng-options="item as item.List_Desc for item in CompressorWorkingStatusList track by item.W2S_List_Id">
+                                  <option value="" selected>Select Compressor Working Status</option>
+                              </select>
+                          </td>
+                          <td class="text-center">
+                              <a ng-click="AddNewCustomerCompressorDetail()" class="btn btn-info btnedit">Add</a>
+                          </td>
+                      </tr>
+
+                      <tr ng-repeat="cmprsrdetail in CustomerDetailsList.Cust_CompressorRoom_List">
+                          <td ng-bind="$index+1"></td>
+                          <td>
+                              <input type="text" ng-model="cmprsrdetail.Cust_Cmprsor_Model" class="form-control">
+                          </td>
+                          <td>
+                              <select ng-model="cmprsrdetail.Cust_Cmprsor_RoomDetails" class="form-control"
+                                      title="Please Select Compressor Room Detail" ng-options="item as item.List_Desc for item in CompressorRoomDetailList track by item.W2S_List_Id">
+                                  <option value="" selected>Select Compressor Room Detail</option>
+                              </select>
+                          </td>
+                          <td>
+                              <input type="text" ng-model="cmprsrdetail.Cust_Cmprsor_Mfg_Year" class="form-control">
+                          </td>
+                          <td>
+                              <input type="text" ng-model="cmprsrdetail.Cust_Cmprsor_Commissioning_Year" class="form-control">
+                          </td>
+                          <td>
+                              <select ng-model="cmprsrdetail.Cust_Cmprsor_Status" class="form-control"
+                                      title="Please Select Compressor Working Status" ng-options="item as item.List_Desc for item in CompressorWorkingStatusList track by item.W2S_List_Id">
+                                  <option value="" selected>Select Compressor Working Status</option>
+                              </select>
+                          </td>
+                          <td class="text-center">
+                              <a ng-click="DeleteCustomerCompressorDetail(cmprsrdetail)" class="btn btn-info btnedit">Delete</a>
+                          </td>
+                      </tr>
+                  </tbody>
+              </table>
+          </div>
+      </div>
+      <div class="clearfix"></div>
+      </div>
+      <div class="tab-pane fade" id="tabthree">
+        <div id="">
+          <div class="table-responsive">
+              <table id="monthly_table" class="table table-bordered report_table">
+                  <thead>
+                      <tr>
+                          <th>Sr. No.</th>
+                          <th>Name</th>
+                          <th>Contact No.</th>
+                          <th>Company Email</th>
+                          <th>Designation</th>
+                          <th class="text-center">Action</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr>
+                          <td></td>
+                          <td><input type="text" class="form-control" ng-model="ContactPersonName" placeholder="Name" maxlength="30"></td>
+                          <td><input type="text" class="form-control" ng-model="ContactPersonContactNo" onkeypress="return isNumber(event)" maxlength="10" placeholder="Contact No" ></td>
+                          <td><input type="email" class="form-control" ng-model="ContactPersonemail" placeholder="Email Id" id="Cust_CntctPrson_Email_Id" onblur="validateEmail()" maxlength="30" ></td>
+                          <td>
+                              <select ng-model="ddlContactPersonDesignation" class="form-control"
+                                      title="Please Select Designation" ng-options="item as item.List_Desc for item in ContactPersonDesignationList track by item.W2S_List_Id">
+                                  <option value="" selected>Select Designation</option>
+                              </select>
+                          </td>
+                          <td  class="text-center">
+                              <a ng-click="AddNewCustomerContactPersonDetail()" class="btn btn-info btnedit">Add</a>
+                          </td>
+                      </tr>
+                      <tr ng-repeat="contactDetail in CustomerDetailsList.Cust_Contact_Person_List">
+                          <td ng-bind="$index+1"></td>
+                          <td>
+                              <input type="text" class="form-control" ng-model="contactDetail.Cust_CntctPrson_Name" id="Cust_CntctPrson_Name" placeholder="" maxlength="30">
+                          </td>
+                          <td>
+                              <input type="text" class="form-control" ng-model="contactDetail.Cust_CntctPrson_Contact_No" placeholder="">
+                          </td>
+                          <td>
+                              <input type="text" class="form-control" ng-model="contactDetail.Cust_CntctPrson_Email_Id"  placeholder="" >
+                          </td>
+                          <td>
+                              <select ng-model="contactDetail.Cust_CntctPrson_Designation" class="form-control"
+                                      title="Please Select Designation" ng-options="item as item.List_Desc for item in ContactPersonDesignationList track by item.W2S_List_Id">
+                                  <option value="" selected>Select Designation</option>
+                              </select>
+                          </td>
+                          <td class="text-center">
+                              <a ng-click="DeleteCustomerContactPersonDetail(contactDetail)" class="btn btn-info btnedit">Delete</a>
+                          </td>
+                      </tr>
+                  </tbody>
+              </table>
+          </div>
+      </div>
+      <div class="clearfix"></div>
+      </div>
+    </div>
+    <div class="ActionArea">
+      <div class="dropdown pull-right">
+        <button [disabled]="loading" class="btn btn_login">Submit</button>&nbsp;
+        <a href="#" class="btn btn-default">Cancel</a>
+      </div>
+      <div class="clearfix"></div>
+  </div>
+  </div>
+</div>
+</form>

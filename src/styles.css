@@ -1,0 +1,51 @@
+/* You can add global styles to this file, and also import other style files */
+@import url('https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css');
+@import url('https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
+@import url("assets/css/AdminLTE.css");
+@import url('assets/css/skins/_all-skins.min.css');
+/* @import url("assets/css/jquery-ui.css"); */
+@import url("assets/css/hover.css");
+@import url("assets/css/util.css");
+/* @import url("assets/css/font-awesome.min.css"); */
+
+@import url("assets/css/waves.css");
+@import url("assets/css/layout.css");
+@import url("assets/css/bootstrap-datepicker.css");
+@import url('assets/Multiselect/jquery.multiselect.css');
+@import url('assets/css/application.css');
+@import url('assets/css/custom.css');
+
+
+
+@font-face {
+    font-family: 'UniversLTStd';
+    src: url('fonts/univers/UniversLTStd.eot');
+    src: url('fonts/univers/UniversLTStd.eot') format('embedded-opentype'),
+         url('fonts/univers/UniversLTStd.woff2') format('woff2'),
+         url('fonts/univers/UniversLTStd.woff') format('woff'),
+         url('fonts/univers/UniversLTStd.ttf') format('truetype'),
+         url('fonts/univers/UniversLTStd.svg#UniversLTStd') format('svg');
+}
+html,
+body{
+    height: 100%;
+    font-family: 'UniversLTStd';
+    background-color: #f0f0f0;
+}
+.pagebg{
+    background-image: url(assets/css/images/bg.jpg );
+    background-repeat: no-repeat;
+    height: 100%;
+}
+/* .atlas_logo_large{
+    background-image: url(images/atlas_logo_large.png);
+    width: 192px;
+    height: 89px;
+    display: inline-block;
+}
+.atlas_logo{
+    background-image: url(images/atlas_logo.png);
+    width: 125px;
+    height: 60px;
+    display: inline-block;
+} */

@@ -1,0 +1,53 @@
+<app-menubar></app-menubar>
+<div class="col-md-12">
+    <div class="white_box">
+      <div class="col-md-12 nopadding">
+        <div class="report_outer" id="reportouter">
+          <div class="report_heading col-md-8 nopadding">
+            <div class="pull-left">
+                <h4>Customer list</h4>
+            </div>
+            <div class=" pull-left" style="margin-left: 20px;">
+                <a [routerLink]="['/addcustomer']" class="btn btn-info btn_addnew">+ Add New Customer</a>              
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="table-responsive">
+          <table class="table table-bordered report_table" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="5">
+            <thead>
+                <tr>
+                    <th>SR.No.</th>
+                    <th>Customer Name</th>
+                    <th>GSTN No.</th>
+                    <th>Comp Air App</th>
+                    <th>End Product</th>
+                    <th class="text-center">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of customerlistdata">
+                    <td>{{item.PK_Cust_Id}}</td>
+                    <td>{{item.Cust_Name}}</td>
+                    <td>{{item.Cust_Address_Line1}}</td>
+                    <td class="text-right">{{item.Cust_End_Product}}</td>
+                    <td>{{item.Cust_End_Product | uppercase}}</td>
+                    <td><a class="btn btn-info btnedit" ng-click="UpdateCustomerInformation(cust)">Edit</a></td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="4">
+                        <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
+                    </td>
+                </tr>
+                </tfoot>
+        </table>
+        </div>
+        <div class="clearfix"></div>
+        </div>
+      </div>
+      <div class="clearfix"></div>
+    </div>    
+  </div>
+  
