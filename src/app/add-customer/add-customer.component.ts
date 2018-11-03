@@ -10,6 +10,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class AddCustomerComponent implements OnInit {
   addcustomerForm: FormGroup;
   submitted = false;
+  loading = false;
   public ZoneIdList = {};
   public StateIdList = {};
   public CityIdList = {};
@@ -74,9 +75,11 @@ export class AddCustomerComponent implements OnInit {
       });
     }
     onSubmit() {
+      this.loading = true;
       this.submitted = true;
       // stop here if form is invalid
       if (this.addcustomerForm.invalid) {
+        this.loading = false;
           return;
       }
       let sumbitdata = {
