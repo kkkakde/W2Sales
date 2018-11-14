@@ -1,0 +1,142 @@
+<app-menubar></app-menubar>
+<div class="col-md-12">
+  <div class="white_box">
+      <div class="col-md-12 nopadding">
+          <div class="report_outer" id="reportouter">
+              <div class="report_heading col-md-12 nopadding">
+                  <div class="pull-left">
+                      <h4>Opportunities</h4>
+                  </div>
+                  <div class=" pull-left" style="margin-left: 20px;">
+                      <a [routerLink]="['/addopportunities']" class="btn btn-info btn_addnew">+ Add New Opportunities</a>
+                  </div>
+                  <div class="clearfix"></div>
+              </div>
+              <div class="clearfix"></div>
+              <div class="table-responsive">
+                    <div class="col-md-12 nopadding">
+                            <div class="opportunity_strip" style="margin: 0; height: auto;">
+                                <h4 class="panel-title">
+                                    My Open Opportunities
+                                    <i class="fa fa-filter pull-right" style="color:white;"></i>
+                                    <i class="fa fa-search pull-right" style="color:white;"></i>
+                                </h4>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                <table class="table table-bordered report_table" >
+                  <thead>
+                      <tr>
+                          <th>Name</th>
+                          <th>Account</th>
+                          <th>Closed Date</th>
+                          <th>Sales Phase</th>
+                          <th>Owner</th>
+                          <th>Status</th>
+                          <th>Created On</th>
+                          <th>Expected Value</th>
+                          <th class="text-center">Action</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr *ngFor="let item of opportunitieslistdata">
+                          <td>{{item.Opportunity_Name}}</td>
+                          <td>{{item.Cust_Name}}</td>
+                          <td>{{item.Closed_Date}}</td>
+                          <td>{{item.Sales_Phase}}</td>
+                          <td>{{item.Resource_Name }}</td>
+                          <td>{{item.Status}}</td>
+                          <td>{{item.Added_Date }}</td>
+                          <td>{{item.Expected_Value }}</td>
+                          <td><a class="btn btn-info btnedit" ng-click="UpdateCustomerInformation(cust)">Edit</a></td>
+                      </tr>
+                  </tbody>
+                  <tfoot>
+                      <tr>
+                          <td colspan="4">
+                              <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
+                          </td>
+                      </tr>
+                      </tfoot>
+              </table>
+              </div>
+              <div class="clearfix"></div>
+            
+          </div>
+      </div>
+      <div class="clearfix"></div>
+  </div>
+</div>
+<div class="clearfix"></div>
+
+<script>
+$(document).ready(function () {
+
+
+  $('#Visit_Start_Date').datepicker({
+      showAnim: "fadeIn",
+      format: "dd-M-yyyy",
+      startDate: '+1d',
+      setDate: new Date(),
+      // endDate: '+' + $("#maxdate").val() + 'd',
+      // endDate: '+30d',
+      defaultDate: new Date(), autoclose: true
+  }).on('changeDate', function (ev) {
+      (ev.viewMode == 'days') ? $(this).datepicker('hide') : '';
+      var dateData = $(this).val();
+      $(this).value = dateData;
+      $('#Visit_End_Date').val('').removeAttr('disabled');
+      $('#Visit_End_Date').datepicker('remove');
+      $('#Visit_End_Date').datepicker({ showAnim: "fadeIn", format: "dd-M-yyyy", startDate: $('#Visit_Start_Date').val(), clearBtn: true, autoclose: true });
+  });
+  $('#Visit_End_Date').datepicker({
+      showAnim: "fadeIn",
+      format: "dd-M-yyyy",
+      startDate: '+1d',
+      setDate: new Date(),
+      //  endDate: '+' + $("#maxdate").val() + 'd',
+      // endDate: '+30d',
+      defaultDate: new Date(), autoclose: true
+  });
+  $('.clockpicker').clockpicker({
+      placement: 'top',
+      align: 'left',
+      donetext: 'Done'
+  });
+  $('.datepicker1').datepicker({
+      format: 'dd-M-yyyy',
+      // startDate1: new Date(),
+      startDate: '+1d',
+      //  minDate: new Date(),
+      setDate: new Date(),
+      endDate: '+' + 2 + 'y',
+      autoclose: true, todayHighlight: true,
+      allowInputToggle: true,
+      clearBtn: true
+  }).on('changeDate', function (ev) {
+      (ev.viewMode == 'days') ? $(this).datepicker('hide') : '';
+      var dateData = $(this).val();
+      $(this).value = dateData;
+  });
+
+  //Datepicker for ng-table filter
+  $('.datepickerfilter').datepicker({
+      format: 'dd-M-yyyy',
+      setDate: new Date(),
+      autoclose: true, todayHighlight: true,
+      allowInputToggle: true,
+      clearBtn: true
+  }).on('changeDate', function (ev) {
+      (ev.viewMode == 'days') ? $(this).datepicker('hide') : '';
+      var dateData = $(this).val();
+      $(this).value = dateData;
+      angular.element('#HolidayangularData').scope().PagesizeChangeInterval();
+  });
+  $('.clockpicker').clockpicker({
+      placement: 'top',
+      align: 'left',
+      donetext: 'Done'
+  });
+
+});
+</script>

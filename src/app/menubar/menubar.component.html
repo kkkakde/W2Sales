@@ -44,7 +44,7 @@
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li><a href="../Login/ChangePassword"><i class="fa fa-cog"></i>Change Password</a></li>
-                                    <li><a href="../Login/Login"><i class="fa fa-sign-out"></i>Logout</a></li>
+                                    <li> <a [routerLink]="['/Login']">><i class="fa fa-sign-out"></i>Logout</a></li>
                                 </ul>
                             </li>
                         </ul>
@@ -124,14 +124,14 @@
                             <li class="treeview">
                                 <a href="#"> <i class="fa fa-users"></i> <span class="">Customers</span><span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span> </a>
                                 <ul class="treeview-menu">
-                                    <li><a href="../Master_Customer/Master_Customer"><i class="fa fa-circle-o round_dis"></i><i class="fa fa-circle round_over"></i>Customers</a></li>
+                                    <li><a [routerLink]="['/addcustomer']"><i class="fa fa-circle-o round_dis"></i><i class="fa fa-circle round_over"></i>Customers</a></li>
                                 </ul>
                             </li>
                 
                             <li class="treeview">
                                 <a href="#"> <i class="fa fa-globe"></i> <span class="">Opportunities</span><span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span> </a>
                                 <ul class="treeview-menu">
-                                    <li><a href="../Master_Opportunities/Opportunities_List"><i class="fa fa-circle-o round_dis"></i><i class="fa fa-circle round_over"></i>Opportunities</a></li>
+                                    <li><a [routerLink]="['/opportunitieslist']"><i class="fa fa-circle-o round_dis"></i><i class="fa fa-circle round_over"></i>Opportunities</a></li>
                                 </ul>
                             </li>
                 

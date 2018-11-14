@@ -1,6 +1,6 @@
-﻿import { NgModule }      from '@angular/core';
+﻿import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { ReactiveFormsModule }    from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 // used to create fake backend
@@ -19,7 +19,10 @@ import { RegisterComponent } from './register';
 import { AddCustomerComponent } from './add-customer/add-customer.component';
 import { MenubarComponent } from './menubar/menubar.component';
 import { CustomerlistComponent } from './customerlist/customerlist.component';
-import {DataTableModule} from "angular-6-datatable";
+import {DataTableModule} from 'angular-6-datatable';
+import { OpportunitieslistComponent } from './opportunitieslist/opportunitieslist.component';
+;
+import { AddopportunitiesComponent } from './addopportunities/addopportunities.component';
 @NgModule({
     imports: [
         BrowserModule,
@@ -37,7 +40,9 @@ import {DataTableModule} from "angular-6-datatable";
 ,
         AddCustomerComponent ,
         MenubarComponent ,
-        CustomerlistComponent  ],
+        CustomerlistComponent ,
+        OpportunitieslistComponent ,
+        AddopportunitiesComponent],
     providers: [
         AuthGuard,
         AlertService,

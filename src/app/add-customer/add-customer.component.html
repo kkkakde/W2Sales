@@ -112,7 +112,7 @@
         </div>
         <div class="col-md-2 form-group">
             <!-- <select name="langOpt[]"  id="langOpt" multiple="multiple"  -->
-            <select name="langOpt[]"  formControlName="Cust_Industry_Id"  multiple="multiple" 
+            <select name="langOpt[]"    formControlName="Cust_Industry_Id"  multiple="multiple" 
                 title="Please Select Industry Type" style="display: block; width: 100%;">
                 <option *ngFor="let industry of IndustryIdList" [ngValue]="industry.Industry_Id">
                         {{ industry.Industry_Name }}
@@ -150,137 +150,123 @@
         </div>
         <div class="clearfix"></div>
       </div>
+
       <div class="tab-pane fade" id="tabtwo">
         <div id="">
           <div class="table-responsive">
               <table id="monthly_table" class="table table-bordered report_table">
                   <thead>
                       <tr>
-                          <th>Sr. No.</th>
-                          <th>Model</th>
-                          <th>Compressor Room Details</th>
-                          <th>Year of Manufacturing</th>
-                          <th>Year of Comissioning</th>
-                          <th>Working Status</th>
-                          <th class="text-center">Action</th>
+                          <td>
+                              <input type="text" formControlName="Cust_Cmprsor_Model" class="form-control" title="Enter Model Details" placeholder="Enter Model Details">
+                          </td>
+                          <td>
+                                <select  class="form-control" formControlName="Cust_Cmprsor_RoomDetails" 
+                                title="Please Select Zone">
+                                <option value="" disabled>Select Compressor Room Detail</option>
+                                <option *ngFor="let room of DesignationIdList" value={{room.W2S_List_Id}}>
+                                        {{room.List_Desc}}
+                                </option>
+                        </select>
+                          </td>
+                          <td>
+                              <input type="text" formControlName="Cust_Cmprsor_Mfg_Year" class="form-control date-own " title="Select Manufacturing Year" placeholder="Select Manufacturing Year">
+                          </td>
+                          <td>
+                              <input type="text" formControlName="Cust_Cmprsor_Commissioning_Year" class="form-control date-own " title="Select Compressor Commissioning Year" placeholder="Select Compressor Commissioning Year">
+                          </td>
+                          <td>
+                                <select  class="form-control" formControlName="Cust_Cmprsor_Status" 
+                                title="Please Select Zone">
+                                <option value="" disabled>Select Compressor Working Status</option>
+                                <option *ngFor="let room of WorkingStatusList" value={{room.W2S_List_Id}}>
+                                        {{room.List_Desc}}
+                                </option>
+                                </select>
+                          </td>
+                          <td class="text-center">
+                              <a (click)="onSubmitRoom($event)" class="btn btn-info btnedit">Add</a>
+                          </td>
                       </tr>
                   </thead>
-                  <tbody>
-                      <tr>
-                          <td></td>
-                          <td>
-                              <input type="text" ng-model="Cust_Cmprsor_Model" class="form-control" title="Enter Model Details" placeholder="Enter Model Details">
-                          </td>
-                          <td>
-                              <select ng-model="ddlCompressorRoomDetail" class="form-control"
-                                      title="Please Select Compressor Room Detail" ng-options="item as item.List_Desc for item in CompressorRoomDetailList track by item.W2S_List_Id">
-                                  <option value="" selected>Select Compressor Room Detail</option>
-                              </select>
-                          </td>
-                          <td>
-                              <input type="text" ng-model="Cust_Cmprsor_Mfg_Year" class="form-control date-own " title="Select Manufacturing Year" placeholder="Select Manufacturing Year">
-                          </td>
-                          <td>
-                              <input type="text" ng-model="Cust_Cmprsor_Commissioning_Year" class="form-control date-own " title="Select Compressor Commissioning Year" placeholder="Select Compressor Commissioning Year">
-                          </td>
-                          <td>
-                              <select ng-model="ddlCompressorWorkingStatus" class="form-control"
-                                      title="Please Select Compressor Working Status" ng-options="item as item.List_Desc for item in CompressorWorkingStatusList track by item.W2S_List_Id">
-                                  <option value="" selected>Select Compressor Working Status</option>
-                              </select>
-                          </td>
-                          <td class="text-center">
-                              <a ng-click="AddNewCustomerCompressorDetail()" class="btn btn-info btnedit">Add</a>
-                          </td>
-                      </tr>
-
-                      <tr ng-repeat="cmprsrdetail in CustomerDetailsList.Cust_CompressorRoom_List">
-                          <td ng-bind="$index+1"></td>
-                          <td>
-                              <input type="text" ng-model="cmprsrdetail.Cust_Cmprsor_Model" class="form-control">
-                          </td>
-                          <td>
-                              <select ng-model="cmprsrdetail.Cust_Cmprsor_RoomDetails" class="form-control"
-                                      title="Please Select Compressor Room Detail" ng-options="item as item.List_Desc for item in CompressorRoomDetailList track by item.W2S_List_Id">
-                                  <option value="" selected>Select Compressor Room Detail</option>
-                              </select>
-                          </td>
-                          <td>
-                              <input type="text" ng-model="cmprsrdetail.Cust_Cmprsor_Mfg_Year" class="form-control">
-                          </td>
-                          <td>
-                              <input type="text" ng-model="cmprsrdetail.Cust_Cmprsor_Commissioning_Year" class="form-control">
-                          </td>
-                          <td>
-                              <select ng-model="cmprsrdetail.Cust_Cmprsor_Status" class="form-control"
-                                      title="Please Select Compressor Working Status" ng-options="item as item.List_Desc for item in CompressorWorkingStatusList track by item.W2S_List_Id">
-                                  <option value="" selected>Select Compressor Working Status</option>
-                              </select>
-                          </td>
-                          <td class="text-center">
-                              <a ng-click="DeleteCustomerCompressorDetail(cmprsrdetail)" class="btn btn-info btnedit">Delete</a>
-                          </td>
-                      </tr>
-                  </tbody>
               </table>
+              <div class="clearfix"></div>
+              <div class="table-responsive">
+              <table id="monthly_table" class="table table-bordered report_table">
+                <thead>
+                    <tr>
+                        <th>Model</th>
+                        <th>Compressor Room Details</th>
+                        <th>Year of Manufacturing</th>
+                        <th>Year of Comissioning</th>
+                        <!-- <th>Working Status</th> -->
+                        <th class="text-center">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                        <tr *ngFor="let item of CompressorRoomDetailsList">
+                                <td>{{item.FK_Cust_Id}}</td>
+                                <td>{{item.Cust_Cmprsor_Model}}</td>
+                                <td>{{item.Cust_Cmprsor_Mfg_Year}}</td>
+                                <td>{{item.Cust_Cmprsor_Commissioning_Year}}</td>
+                                <!-- <td>{{item.Cust_Cmprsor_Status}}</td> -->
+                                <td><a class="btn btn-info btnedit" ng-click="UpdateCustomerInformation(cust)">Edit</a></td>
+                            </tr>
+                </tbody>
+            </table>
+            </div>
           </div>
       </div>
       <div class="clearfix"></div>
       </div>
+
       <div class="tab-pane fade" id="tabthree">
         <div id="">
           <div class="table-responsive">
               <table id="monthly_table" class="table table-bordered report_table">
-                  <thead>
-                      <tr>
-                          <th>Sr. No.</th>
-                          <th>Name</th>
-                          <th>Contact No.</th>
-                          <th>Company Email</th>
-                          <th>Designation</th>
-                          <th class="text-center">Action</th>
-                      </tr>
-                  </thead>
                   <tbody>
                       <tr>
-                          <td></td>
-                          <td><input type="text" class="form-control" ng-model="ContactPersonName" placeholder="Name" maxlength="30"></td>
-                          <td><input type="text" class="form-control" ng-model="ContactPersonContactNo" onkeypress="return isNumber(event)" maxlength="10" placeholder="Contact No" ></td>
-                          <td><input type="email" class="form-control" ng-model="ContactPersonemail" placeholder="Email Id" id="Cust_CntctPrson_Email_Id" onblur="validateEmail()" maxlength="30" ></td>
+                          <td><input type="text" class="form-control" formControlName="ContactPersonName" placeholder="Name" maxlength="30"></td>
+                          <td><input type="text" class="form-control" formControlName="ContactPersonContactNo" onkeypress="return isNumber(event)" maxlength="10" placeholder="Contact No" ></td>
+                          <td><input type="email" class="form-control" formControlName="ContactPersonemail" placeholder="Email Id" id="Cust_CntctPrson_Email_Id" onblur="validateEmail()" maxlength="30" ></td>
                           <td>
-                              <select ng-model="ddlContactPersonDesignation" class="form-control"
-                                      title="Please Select Designation" ng-options="item as item.List_Desc for item in ContactPersonDesignationList track by item.W2S_List_Id">
-                                  <option value="" selected>Select Designation</option>
-                              </select>
+                                <select  class="form-control" formControlName="Cust_Contact_Desigation" 
+                                title="Please Select Zone">
+                                <option value="" disabled>Select Designation</option>
+                                <option *ngFor="let room of ContactDesignationList" value={{room.W2S_List_Id}}>
+                                        {{room.List_Desc}}
+                                </option>
+                                </select>
                           </td>
                           <td  class="text-center">
-                              <a ng-click="AddNewCustomerContactPersonDetail()" class="btn btn-info btnedit">Add</a>
+                              <a (click)="onSubmitContactDetail($event)" class="btn btn-info btnedit">Add</a>
                           </td>
                       </tr>
-                      <tr ng-repeat="contactDetail in CustomerDetailsList.Cust_Contact_Person_List">
-                          <td ng-bind="$index+1"></td>
-                          <td>
-                              <input type="text" class="form-control" ng-model="contactDetail.Cust_CntctPrson_Name" id="Cust_CntctPrson_Name" placeholder="" maxlength="30">
-                          </td>
-                          <td>
-                              <input type="text" class="form-control" ng-model="contactDetail.Cust_CntctPrson_Contact_No" placeholder="">
-                          </td>
-                          <td>
-                              <input type="text" class="form-control" ng-model="contactDetail.Cust_CntctPrson_Email_Id"  placeholder="" >
-                          </td>
-                          <td>
-                              <select ng-model="contactDetail.Cust_CntctPrson_Designation" class="form-control"
-                                      title="Please Select Designation" ng-options="item as item.List_Desc for item in ContactPersonDesignationList track by item.W2S_List_Id">
-                                  <option value="" selected>Select Designation</option>
-                              </select>
-                          </td>
-                          <td class="text-center">
-                              <a ng-click="DeleteCustomerContactPersonDetail(contactDetail)" class="btn btn-info btnedit">Delete</a>
-                          </td>
-                      </tr>
-                  </tbody>
+               </tbody>
               </table>
           </div>
+          <div class="table-responsive">
+                <table id="monthly_table" class="table table-bordered report_table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Contact No.</th>
+                            <th>Company Email</th>
+                            <!-- <th>Designation</th> -->
+                            <th class="text-center">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                                <tr *ngFor="let item of ContactDetailsList">
+                                        <td>{{item.Cust_CntctPrson_Name}}</td>
+                                        <td>{{item.Cust_CntctPrson_Contact_No}}</td>
+                                        <td>{{item.Cust_CntctPrson_Email_Id}}</td>
+                                        <!-- <td>{{item.FK_Cust_CntctPrson_Dsgntn_Id}}</td> -->
+                                        <td><a class="btn btn-info btnedit" ng-click="UpdateCustomerInformation(cust)">Edit</a></td>
+                                    </tr>
+                    </tbody>
+                </table>
+            </div>
       </div>
       <div class="clearfix"></div>
       </div>
@@ -289,7 +275,7 @@
       <div class="dropdown pull-right">
             <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
         <button [disabled]="loading" class="btn btn_login">Submit</button>&nbsp;
-        <a href="#" class="btn btn-default">Cancel</a>
+        <a [routerLink]="['/customerlist']" class="btn btn-default">Cancel</a>
       </div>
       <div class="clearfix"></div>
   </div>
