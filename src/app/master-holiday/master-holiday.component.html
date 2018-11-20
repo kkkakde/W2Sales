@@ -1,0 +1,120 @@
+<app-menubar></app-menubar>
+<div class="col-md-12">
+  <div class="white_box">
+    <div class="masters_header">
+        <div class="pull-left">
+            <h4>Holiday List</h4>
+        </div>
+        <div class="pull-right">
+            <ul class="breadcrumb">
+                <li><a href="#">Admin</a></li>
+                <li><a href="#">Master Category</a></li>
+                <li class="active">Holiday List</li>
+            </ul>
+            <button class="btn btn-info btn_addNewForm"  (click)="toggle()">
+                <i class="fa {{iconName}}"></i> Add Holiday
+            </button>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+      <div data-parent="0" class="add_section_txt box-fade fade-in addMaster_block"  *ngIf="show">
+          <div class="add_heading">Add Holiday</div>
+          <div class="row">
+              <div class="form-group pd0 col-sm-6 ">
+                  <label class="col-md-4  pd_decrease label-extra">Holiday Name<span class="requerido">*</span></label>
+                  <div class="col-md-6 pd_decrease input-extra">
+                      <input type="text" id="HolidayName" class="form-control ui-autocomplete-input"
+                             ng-model="Holidayname" placeholder="Holiday Name" title="Please Enter Holiday Name"
+                             maxlength="100" onkeypress="return ((event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || event.charCode == 32 || event.keyCode == 8)">
+                      <input type="text" class="form-control " id="RegisterID" ng-model="RegisterID" style="display:none">
+                  </div>
+              </div>
+              <div class="form-group pd0 col-sm-6 ">
+                  <label class="col-md-4  pd_decrease label-extra">Holiday Date<span class="requerido">*</span></label>
+                  <div class="col-md-6 pd_decrease input-extra">
+                    <input type="text" class="form-control datepicker1" id="Holiday_Date" ng-model="Holiday_Date" placeholder="DD-MM-YYYY"
+                    title="Please Enter Date" required>
+                  </div>
+              </div>
+              <div class="clearfix"></div>
+              <div class="form-group col-sm-6 pd0">
+                  <label class="col-md-4  pd_decrease label-extra">Year<span class="requerido">*</span></label>
+                  <div class="col-md-6 pd_decrease input-extra">
+                      <select id="ddlYear" name="ddlYear" ng-model="ddlYear" ng-change="GetHolidayList()" class="form-control"
+                              ng-options="item as item.YEAR for item in yearList| orderBy:'YEAR'  track by item.YEAR" title="Please Select Year">
+                          <option value="" selected="selected">Please select year</option>
+                      </select>
+                  </div>
+              </div>
+              <div class="form-group pd0 col-sm-6 ">
+                  <label class="col-md-4  pd_decrease label-extra">Description</label>
+                  <div class="col-md-6 pd_decrease input-extra">
+                      <textarea id="Description" name="Description" ng-model="Holidaydescription" class="form-control rema_chara" placeholder="Description" title="Please Enter Description" required="" oninvalid="this.setCustomValidity('Please Enter Description')" onchange="setCustomValidity('')" oninput="InvalidMsg(this,'Please Enter Valid Description','');" maxlength="250"></textarea>
+                      <span class="textarea_feedback_remarks">
+                          <span class="chart_count">250</span>&nbsp;<span class="chart_text">Characters remaining</span>
+                      </span>
+                  </div>
+              </div>
+          </div>
+          <div class="clearfix"> </div>
+          <div class="col-md-12 master_form_buttons">
+              <button type="submit" id="btnSubmit1" title="Submit" ng-model="btnSubmit" class="btn btn-primary SubmitMasters" ng-click="SaveHoliday()">Submit</button>&nbsp;
+              <button type="button" id="btnReset" title="Reset" class="btn btn-default resetMasters" ng-click="ClearAllFeilds()">Reset</button>
+          </div>
+          
+      </div>
+      <div class="clearfix"></div>
+      <div class="container-table100">
+          <div class="wrap-table100">
+              <div class="table100 ver1 ">
+                  <div class="main_table_wrap ">
+                      <table id="Table1" ng-table="tableParams" class="main_table holiday master_holiday" show-filter="true">
+                          <tr ng-repeat="area in $data" class="row100 dnd-moved">
+                              <td class="" data-title="'Holiday Name'" style="width:400px;" filter="{ HOLIDAYNAME: 'text'}" sortable="'HOLIDAYNAME'" ng-bind="area.HOLIDAYNAME" nowrap></td>
+                              <td class="w120" data-title="'Holiday Date'" style="width:100px;" filter="{HOLIDAYDATE: 'datefilter'}" ng-bind="area.HOLIDAYDATE"></td>
+                              <td class="minw500" data-title="'Holiday Description'" filter="{ HOLIDAYDESCRIPTON: 'text'}" ng-bind="area.HOLIDAYDESCRIPTON"></td>
+                              <td class="w50 text-center delt15" data-title="'Action'">
+                                  <a class=" btn btn-xs btn-border upd nopd2" ng-show="area.IsVisible" ng-model="area.Remove" title="Delete" aria-hidden="true" ng-click="removeActualData(area)"><i class="fa fa-trash"></i></a>
+                              </td>
+                          </tr>
+                          <tr ng-show="tableParams.total() == 0&& Nodatafound==false">
+                              <td colspan="4" class="text-center">
+                                  No data available.
+                              </td>
+                          </tr>
+                          <tr ng-show="tableParams.total() == 0 && Nodatafound==true">
+                              <td colspan="4" class="text-center">
+                                  No data available for search criteria
+                              </td>
+                          </tr>
+                      </table>
+                      <div class="footer_pagination" ng-show="tableParams.total()>0">
+                          <div class="col-sm-3 col-xs-3 full_pagination">
+                              <div class="dataTables_info showing-entries position-fix-ent" id="example_info" role="status" aria-live="polite"> Showing {{startrecord}} to {{endrecord}} of {{tableParams.total()}} entries </div>
+                          </div>
+                          <div class="col-md-6 text-center">
+                              <ul class="pagination pagination-size">
+                                  <li class="pg-back" ng-click="click_nextPage('0')"><a href="#"><i class="fa fa-angle-double-left"></i></a></li>
+                                  <li ng-repeat="i in arr" ng-click="changepage(i)" class="pg-page {{i}}"><a href="#">{{i}}</a></li>
+                                  <li ng-click="click_nextPage('1')"><a class="pg-next" href="#"><i class="fa fa-angle-double-right"></i></a></li>
+                              </ul>
+                          </div>
+                          <div class="col-md-3 full_pagination text-right position-fix-page">
+                              <span class="pagination-size">Page size</span>
+                              <select class="pag-size" id="maxRows" title="Please Select Page Size">
+                                  <option value="10" selected="selected">15</option>
+                                  <option value="20">30</option>
+                                  <option value="50">50</option>
+                                  <option value="100">100</option>
+                              </select>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div class="clearfix"></div>
+      </div>
+      <div class="clearfix"></div>
+      </div>
+      <div class="clearfix"></div>

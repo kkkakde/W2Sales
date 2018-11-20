@@ -4,9 +4,9 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://95.154.244.61/sales/W2Sales/api/',
+  //apiUrl: 'http://95.154.244.61/sales/W2Sales/api/',
   //apiUrl: 'http://localhost:44841/api/',
-  // apiUrl: 'sales/W2Sales/api/',
+   apiUrl: 'sales/W2Sales/api/',
   // session: JSON.parse(localStorage.getItem('currentUser'))
 };
 export interface ISession {

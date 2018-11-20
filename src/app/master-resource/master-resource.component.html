@@ -1,0 +1,170 @@
+<app-menubar></app-menubar>
+<div class="col-md-12">
+  <div class="white_box">
+    <div class="masters_header">
+        <div class="pull-left">
+            <h4>Resource Master</h4>
+        </div>
+        <div class="pull-right">
+            <ul class="breadcrumb">
+                <li><a href="#">Admin</a></li>
+                <li><a href="#">Master Category</a></li>
+                <li class="active">Resource Master</li>
+            </ul>
+            <button class="btn btn-info btn_addNewForm" (click)="toggle()">
+                <i class="fa {{iconName}}"></i> Add New Resource
+            </button>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="add_section_txt box-fade fade-in addMaster_block" *ngIf="show">
+        <div class="add_heading">Add Resource</div>
+        <div class="row">
+            <div class="form-group pd0 col-sm-6 ">
+                <label class="col-md-4  pd_decrease label-extra">Name<span class="requerido">*</span></label>
+                <div class="col-md-6 pd_decrease input-extra">
+                    <input id="Resource_Name" name="Resource_Name" maxlength="30" ng-model="Resource_Name" class="form-control ui-autocomplete-input" placeholder="Name" title="Please Enter Resource Name" type="text"
+                            onkeypress="return ((event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || event.charCode == 32 || event.keyCode == 8 || event.charCode >= 48 && event.charCode <= 57 || event.charCode == 46)">
+                    <input id="hiddenID" name="UserId" ng-model="UserId" style="display:none">
+                </div>
+            </div>
+            <div class="form-group pd0 col-sm-6 ">
+                <label class="col-md-4  pd_decrease label-extra">Login ID <span class="requerido">*</span></label>
+                <div class="col-md-6 pd_decrease input-extra">
+                    <input id="Resource_LoginID" name="Resource_LoginID" maxlength="20" ng-model="Resource_LoginID" class="form-control ui-autocomplete-input" placeholder="Login ID" title="Please Enter Resource Login ID" type="text"
+                            onkeypress="return ((event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || event.charCode == 32 || event.keyCode == 8 || event.charCode >= 48 && event.charCode <= 57 || event.charCode == 46)">
+                    <input id="hiddenID" name="UserId" ng-model="UserId" style="display:none">
+                </div>
+            </div>
+            <div class="form-group pd0 col-sm-6 ">
+                <label class="col-md-4  pd_decrease label-extra">Password<span class="requerido">*</span></label>
+                <div class="col-md-6 pd_decrease input-extra">
+                    <input id="Resource_Password" name="Resource_Password" maxlength="20" ng-model="Resource_Password" class="form-control ui-autocomplete-input" placeholder="Password" title="Please Enter Resource Password" type="password">
+                </div>
+            </div>
+            <div class="form-group pd0 col-sm-6 ">
+                <label class="col-md-4 pd_decrease label-extra">
+                    Email ID<span class="requerido">*</span>
+                </label>
+                <div class="col-md-6 pd_decrease input-extra">
+                    <input id="Resource_EmailID" name="Resource_EmailID" maxlength="30" ng-model="Resource_EmailID" class="form-control ui-autocomplete-input" placeholder="Email ID" title="Please Enter Resource Email ID" type="text" onblur="validateEmail()">
+                </div>
+            </div>
+            <div class="form-group pd0 col-sm-6 ">
+                <label class="col-md-4  pd_decrease label-extra">Mobile No.<span class="requerido">*</span></label>
+                <div class="col-md-6 pd_decrease input-extra">
+                    <input id="Resource_Mobile_No" name="Resource_Mobile_No" maxlength="10" ng-model="Resource_Mobile_No" class="form-control ui-autocomplete-input" placeholder="Mobile No" title="Please Enter Resource Mobile No" type="text"
+                            onkeypress='return (event.charCode >= 48 && event.charCode <= 57) || event.keyCode == 8'
+                            pattern="[6-9]{1}[0-9]{9}">
+                </div>
+            </div>
+            <div class="form-group pd0 col-sm-6 ">
+                <label class="col-md-4  pd_decrease label-extra">Designation <span class="requerido">*</span></label>
+                <div class="col-md-6 pd_decrease input-extra">
+                    <select id="ddlDesignation" ng-model="ddlDesignation" class="form-control opt"
+                            title="Please Select Resource Desigantion" ng-options="item as item.Designation_Desc for item in DesignationList track by item.PK_Designation_Id"
+                            ng-change="GetZoneAccToDesg()">
+                        <option value="" selected>Select</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group pd0 col-sm-6 " ng-show="ddlDesignation.PK_Designation_Id==4 ||ddlDesignation.PK_Designation_Id==5||ddlDesignation.PK_Designation_Id==6||ddlDesignation.PK_Designation_Id==7">
+                <label class="col-md-4  pd_decrease label-extra">Zone<span class="requerido">*</span></label>
+                <div class="col-md-6 pd_decrease input-extra">
+                    <select id="ddlZone" ng-model="ddlZone" class="form-control opt"
+                            title="Please Select Resource Zone" ng-options="item as item.Zone_Desc for item in ZoneList track by item.PK_Zone_Id"
+                            ng-change="GetStateList()">
+                        <option value="" selected>Select</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group pd0 col-sm-6 " ng-show="ddlDesignation.PK_Designation_Id==6||ddlDesignation.PK_Designation_Id==7">
+                <label class="col-md-4  pd_decrease label-extra">State<span class="requerido">*</span></label>
+                <div class="col-md-6 pd_decrease input-extra">
+                    <select id="ddlState" ng-model="ddlState" class="form-control opt"
+                            title="Please Select Resource State" ng-options="item as item.State_Desc for item in StateList track by item.PK_State_Id">
+                        <option value="" selected>Select</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group pd0 col-sm-6 ">
+                <div class="col-md-offset-4 col-md-6 pd_decrease">
+                    <div class="checkbox-outerboxright">
+                        <input class="chek techmp-l" checked="checked" ng-model="IsActive" type="checkbox">
+                        <label class="chekspa" for="">Active</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"> </div>
+        <div class="cc_add_dataft">
+            <button type="Submit" title="Submit" ng-show="showSaveBtn" class="btn btn-primary SubmitMasters" ng-click="Submit()">Submit</button>&nbsp;
+            <button type="Submit" title="Update" ng-show="showUpdate" class="btn btn-primary SubmitMasters" ng-click="UpdateResource()">Update</button>&nbsp;
+            <button type="button" title="Reset" ng-show="showReset" class="btn btn-default resetMasters" ng-click="Reset()">Reset</button>&nbsp;
+            <button type="Submit" title="Cancel" ng-show="showCancel" class="btn btn-default resetMasters" ng-click="Back()">Cancel</button>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="container-table100 master_table_outer">
+        <div class="wrap-table100">
+            <div class="table100 ver1 ">
+                <div class="main_table_wrap ">
+                    <table data-vertable="ver1" style="width:100%!important;" class="main_table table table-bordered table-striped report_table" id="myTable" ng-table="tableParams" show-filter="data.length!=0">
+                        <tr ng-repeat="item in $data" class="row100 dnd-moved">
+                            <td class="column100 column1" style="width:120px" data-column="column1" data-title="'Resource Name'" filter="{ Resource_Name: 'text'}" sortable="'Resource_Name'" ng-bind="item.Resource_Name" nowrap></td>
+                            <td class="column100 column2 w350" data-column="column2" data-title="'Login Id'" filter="{ Resource_Login_Id: 'text'}" sortable="'Resource_Login_Id'" ng-bind="item.Resource_Login_Id" nowrap></td>
+                            <td class="column100 column3" style="width:180px" data-column="column3" data-title="'Mobile No'" filter="{ Resource_Mobile_No: 'text'}" sortable="'Resource_Mobile_No'" ng-bind="item.Resource_Mobile_No" nowrap></td>
+                            <td class="column100 column4 w280" data-column="column4" data-title="'Email Id'" filter="{ Resource_Email_Id: 'text'}" ng-bind="item.Resource_Email_Id" nowrap></td>
+                            <td class="column100 column5" style="width:180px" data-column="column5" data-title="'Designation'" filter="{ Designation_Desc: 'text'}" ng-bind="item.Designation_Desc" nowrap></td>
+                            <td class="column100 column4 w100" data-column="column4" style="width:120px;" data-title="'Status'" filter="{IsActive: 'select'}" sortable="'IsActive'" filter-data="status">
+                                <span ng-show="item.IsActive==0">InActive</span><span ng-show="item.IsActive==1">Active</span>
+                            </td>
+                            <td class="text-center">
+                                <div class="add_data" data-status="completed" data-id="0">
+                                    <a class="edit_mg" ng-click="EditResource(item)" style="cursor:pointer;" title="Edit Resource">
+                                        <i class="fa fa-pencil"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr ng-show="tableParams.total() == 0&& Nodatafound==false">
+                            <td colspan="9" class="text-center">
+                                No data available.
+                            </td>
+                        </tr>
+                        <tr ng-show="tableParams.total() == 0 && Nodatafound==true">
+                            <td colspan="9" class="text-center">
+                                No data available for search criteria
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="footer_pagination" ng-show="tableParams.total()>0">
+                    <div class="col-sm-3 col-xs-3 full_pagination">
+                        <div class="dataTables_info showing-entries position-fix-ent" id="example_info" role="status" aria-live="polite"> Showing {{startrecord}} to {{endrecord}} of {{tableParams.total()}} entries </div>
+                    </div>
+                    <div class="col-md-6 text-center">
+                        <ul class="pagination pagination-size">
+                            <li class="pg-back" ng-click="click_nextPage('0')"><a href="#"><i class="fa fa-angle-double-left"></i></a></li>
+                            <li ng-repeat="i in arr" ng-click="changepage(i)" class="pg-page {{i}}"><a href="#">{{i}}</a></li>
+                            <li ng-click="click_nextPage('1')"><a class="pg-next" href="#"><i class="fa fa-angle-double-right"></i></a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-3 full_pagination text-right position-fix-page">
+                        <span class="pagination-size">Page size</span>
+                        <select class="pagination-size" ng-model="pagesize" title="Please Select Page Size" ng-change="PagesizeChange()">
+                            <option value="15" selected>15</option>
+                            <option value="30" selected>30</option>
+                            <option value="50" selected>50</option>
+                            <option value="100" selected>100</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+  </div>
+  <div class="clearfix"></div>
+</div>
+<div class="clearfix"></div>

@@ -13,8 +13,9 @@
             <div class="clearfix"></div>
         </div>
         <div class="clearfix"></div>
+        
         <div class="table-responsive">
-          <table class="table table-bordered report_table"  >
+          <table class="table table-bordered report_table">
             <thead>
                 <tr>
                     <th>SR.No.</th>
@@ -22,26 +23,34 @@
                     <th>GSTN No.</th>
                     <th>Comp Air App</th>
                     <th>End Product</th>
+                    <th>Contact</th>
                     <th class="text-center">Action</th>
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let item of customerlistdata">
+                <tr *ngFor="let item of customerlistdata | paginate:{ id: 'listing_pagination',
+                itemsPerPage:5,
+                currentPage:page,
+                totalItems: totalRec }">
                     <td>{{item.PK_Cust_Id}}</td>
                     <td>{{item.Cust_Name}}</td>
                     <td>{{item.Cust_Address_Line1}}</td>
                     <td class="text-right">{{item.Cust_End_Product}}</td>
                     <td>{{item.Cust_End_Product | uppercase}}</td>
-                    <td><a class="btn btn-info btnedit" ng-click="UpdateCustomerInformation(cust)">Edit</a></td>
+                    <td>{{item.Cust_CntctPrson_Contact_No }}</td>
+                    <td><a class="btn btn-info btnedit" (click)="editPropertyDetails(item)">Edit</a>
+                        <button   class="btn btn-info btnedit" (click)="AddopportunityDetails(item)">Add Opportunity</button>&nbsp;
+                    </td>
                 </tr>
             </tbody>
             <tfoot>
-                <tr>
-                    <td colspan="4">
-                        <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
-                    </td>
-                </tr>
-                </tfoot>
+                    <tr>
+                        <td colspan="6">
+                            <pagination-controls id="listing_pagination" maxSize="5" directionLinks="true"
+                            (pageChange)="page = $event"></pagination-controls>
+                        </td>
+                    </tr>
+                    </tfoot>
         </table>
         </div>
         <div class="clearfix"></div>

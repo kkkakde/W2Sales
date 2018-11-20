@@ -7,11 +7,11 @@
         <a href="#tabone" data-toggle="tab">Customer Basic Details</a>
       </li>
       <li>
-          <a href="#tabtwo" data-toggle="tab">Compressor Room Details</a>
-      </li>
-      <li>
           <a href="#tabthree" data-toggle="tab">Contact Person Details</a>
       </li>
+      <li>
+        <a href="#tabtwo" data-toggle="tab">Compressor Room Details</a>
+    </li>
       <li class="pull-right">
         <a [routerLink]="['/customerlist']" title="Back to Customer List">
           <i class="fa fa-reply"></i>
@@ -24,7 +24,7 @@
             <label for="" class="mandatory">Customer Name</label>
         </div>
         <div class="col-md-2 form-group">
-            <input type="text"  formControlName="Cust_Name"  class="form-control" placeholder="Enter Customer Name" title="Enter Customer Name">
+            <input type="text"  formControlName="Cust_Name"   class="form-control" placeholder="Enter Customer Name" title="Enter Customer Name">
             <div *ngIf="submitted && f.Cust_Name.errors" class="invalid-feedback">
                     <div *ngIf="f.Cust_Name.errors.required">is required</div>
                 </div>
@@ -112,7 +112,7 @@
         </div>
         <div class="col-md-2 form-group">
             <!-- <select name="langOpt[]"  id="langOpt" multiple="multiple"  -->
-            <select name="langOpt[]"    formControlName="Cust_Industry_Id"  multiple="multiple" 
+            <select name="langOpt[]"   formControlName="Cust_Industry_Id"  multiple="multiple" 
                 title="Please Select Industry Type" style="display: block; width: 100%;">
                 <option *ngFor="let industry of IndustryIdList" [ngValue]="industry.Industry_Id">
                         {{ industry.Industry_Name }}
@@ -139,8 +139,9 @@
 
         </div>
         <div class="col-md-2 form-group">
-            <div class="">
-                <input type="file" id="pwd" formControlName="Cust_File" placeholder="" class="pull-left">
+            <div class="">  
+                    <!-- (change)="fileChange($event)" -->
+                <input type="file"   id="pwd"  formControlName="Cust_File" placeholder="" class="pull-left">
                 <input type="submit" style="display:none" name="" value="Upload" class="btn btn-primary btn_upload pull-right">
                 <div *ngIf="submitted && f.Cust_File.errors" class="invalid-feedback">
                         <div *ngIf="f.Cust_File.errors.required">is required</div>
@@ -148,9 +149,15 @@
                 <div class="clearfix"></div>
             </div>
         </div>
-        <div class="clearfix"></div>
+        <div class="ActionArea">
+            <div class="dropdown pull-right">
+                  <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+              <button [disabled]="loading" class="btn btn_login">Submit</button>&nbsp;
+              <a [routerLink]="['/customerlist']" class="btn btn-default">Cancel</a>
+            </div>
+            <div class="clearfix"></div>
+        </div>
       </div>
-
       <div class="tab-pane fade" id="tabtwo">
         <div id="">
           <div class="table-responsive">
@@ -170,10 +177,10 @@
                         </select>
                           </td>
                           <td>
-                              <input type="text" formControlName="Cust_Cmprsor_Mfg_Year" class="form-control date-own " title="Select Manufacturing Year" placeholder="Select Manufacturing Year">
+                              <input type="text" formControlName="Cust_Cmprsor_Mfg_Year" class="form-control date-own " title="Select Manufacturing Year" id="Cust_Cmprsor_Mfg_Year" placeholder="Select Manufacturing Year">
                           </td>
                           <td>
-                              <input type="text" formControlName="Cust_Cmprsor_Commissioning_Year" class="form-control date-own " title="Select Compressor Commissioning Year" placeholder="Select Compressor Commissioning Year">
+                              <input type="text" formControlName="Cust_Cmprsor_Commissioning_Year" id="Cust_Cmprsor_Commissioning_Year" class="form-control date-own " title="Select Compressor Commissioning Year" placeholder="Select Compressor Commissioning Year">
                           </td>
                           <td>
                                 <select  class="form-control" formControlName="Cust_Cmprsor_Status" 
@@ -210,7 +217,7 @@
                                 <td>{{item.Cust_Cmprsor_Mfg_Year}}</td>
                                 <td>{{item.Cust_Cmprsor_Commissioning_Year}}</td>
                                 <!-- <td>{{item.Cust_Cmprsor_Status}}</td> -->
-                                <td><a class="btn btn-info btnedit" ng-click="UpdateCustomerInformation(cust)">Edit</a></td>
+                                <td><a class="btn btn-info btnedit" (click)="DeleteCompressorRoom(item)">Delete</a></td>
                             </tr>
                 </tbody>
             </table>
@@ -219,7 +226,6 @@
       </div>
       <div class="clearfix"></div>
       </div>
-
       <div class="tab-pane fade" id="tabthree">
         <div id="">
           <div class="table-responsive">
@@ -262,7 +268,7 @@
                                         <td>{{item.Cust_CntctPrson_Contact_No}}</td>
                                         <td>{{item.Cust_CntctPrson_Email_Id}}</td>
                                         <!-- <td>{{item.FK_Cust_CntctPrson_Dsgntn_Id}}</td> -->
-                                        <td><a class="btn btn-info btnedit" ng-click="UpdateCustomerInformation(cust)">Edit</a></td>
+                                        <td><a class="btn btn-info btnedit"(click)="DeleteContactDetails(item)">Delete</a></td>
                                     </tr>
                     </tbody>
                 </table>
@@ -271,14 +277,7 @@
       <div class="clearfix"></div>
       </div>
     </div>
-    <div class="ActionArea">
-      <div class="dropdown pull-right">
-            <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
-        <button [disabled]="loading" class="btn btn_login">Submit</button>&nbsp;
-        <a [routerLink]="['/customerlist']" class="btn btn-default">Cancel</a>
-      </div>
-      <div class="clearfix"></div>
-  </div>
+   
   </div>
 </div>
 </form>

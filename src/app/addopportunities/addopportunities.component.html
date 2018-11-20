@@ -19,6 +19,8 @@
                                     <label class="mandatory" for="">Customer Name:</label>
                                 </div>
                                 <div class="col-md-2 form-group">
+                                    <input id="CustomerId" formControlName="CustomerId" style="display: none;" type="text" >
+                                    
                                     <input id="Cust_Name" name="Cust_Name" formControlName="Cust_Name" maxlength="20"  class="form-control ui-autocomplete-input" placeholder="Enter Customer Name" title="Please Enter Customer Name" type="text" ng-blur="getContactNo()"
                                            onkeypress="return ((event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || event.charCode == 32 || event.keyCode == 8 || event.charCode >= 48 && event.charCode <= 57 || event.charCode == 46)">
                                         <div *ngIf="submitted && f.Cust_Name.errors" class="invalid-feedback">
@@ -27,10 +29,9 @@
                                 </div>
                                 <div class="col-md-2 form-group">
                                     <label for="">Customer Conatct No:</label>
-    
                                 </div>
                                 <div class="col-md-2 form-group">
-                                    <input type="text" formControlName="Customer_Contact_No" class="form-control" placeholder="Enter Customer Contact No" title="Customer Contact No" disabled="disabled">
+                                    <input type="text"  formControlName="Customer_Contact_No" class="form-control" placeholder="Enter Customer Contact No" title="Customer Contact No" disabled="disabled">
                                 </div>
                                 <div class="col-md-2 form-group">
                                     <label class="mandatory" for="">Opportunity Source:</label>
@@ -66,7 +67,7 @@
                                     <label for="">Opportunity Name:</label>
                                 </div>
                                 <div class="col-md-2 form-group">
-                                    <input type="text" formControlName="Opportunity_Name" class="form-control" maxlength="50" placeholder="Enter Opportunity Name" title="Enter Opportunity Name"  onkeypress="return ((event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || event.charCode == 32 || event.keyCode == 8 || event.charCode >= 48 && event.charCode <= 57 || event.charCode == 46)">
+                                    <input type="text" formControlName="Opportunity_Name" class="form-control"  maxlength="50" placeholder="Enter Opportunity Name" title="Enter Opportunity Name"  onkeypress="return ((event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || event.charCode == 32 || event.keyCode == 8 || event.charCode >= 48 && event.charCode <= 57 || event.charCode == 46)">
                                 </div>
                                 <div class="col-md-2 form-group">
                                     <label class="mandatory" for="">Expected Value:</label>
@@ -113,13 +114,21 @@
                                     <label class="mandatory" for="">Start Date:</label>
                                 </div>
                                 <div class="col-md-2 form-group ">
-                                    <!-- <ng-datepicker [(ngModel)]="startdate" position="bottom-left"></ng-datepicker> -->
-                                </div>
+                                        <!-- <ng-datepicker [formControl]="date" formControlName="Startdate" ></ng-datepicker> -->
+                                        <input type="text" class="form-control " formControlName="Startdate" id="Startdate"  placeholder="dd-mmm-yyyy" title="Please Enter End Date" onkeypress="return false; event.charCode >= 48 && event.charCode <= 57" onkeydown="return false" autocomplete="off">
+                                        <div *ngIf="submitted && f.Startdate.errors" class="invalid-feedback">
+                                                <div *ngIf="f.Startdate.errors.required">is required</div>
+                                        </div>
+                                    </div>
                                 <div class="col-md-2 form-group">
                                     <label class="mandatory" for="">Closed Date:</label>
                                 </div>
                                 <div class="col-md-2 form-group ">
-                                    <!-- <ng-datepicker [(ngModel)]="closeddate" position="bottom-left"></ng-datepicker> -->
+                                        <!-- <ng-datepicker [formControl]="date" formControlName="closeddate" ></ng-datepicker> -->
+                                        <input type="text" class="form-control " formControlName="closeddate" id="closeddate"  placeholder="dd-mmm-yyyy" title="Please Enter End Date" onkeypress="return false; event.charCode >= 48 && event.charCode <= 57" onkeydown="return false" autocomplete="off">
+                                        <div *ngIf="submitted && f.closeddate.errors" class="invalid-feedback">
+                                                <div *ngIf="f.closeddate.errors.required">is required</div>
+                                        </div>
                                 </div>
                                 <div class="col-md-2 form-group">
                                     <label class="mandatory" for="">Status:</label>
@@ -142,11 +151,8 @@
                                 </div>
                                 <div class="clearfix"></div>
                                 <div class="col-md-12" style="margin-top: 15px; text-align:center">
-                                    <button   class="btn btn_login">Submit</button>&nbsp;
-                                   
-                                  <button  class="btn btn_login">Submit</button>&nbsp;
-                                    <a [routerLink]="['/customerlist']" class="btn btn-default">Cancel</a>&nbsp;
-                                    <a [routerLink]="['/addcustomer']" ng-click="AddNewCustomer()" class="btn btn-primary">Add New Customer</a>
+                                    <button [disabled]="loading"  class="btn btn_login">Submit</button>&nbsp;
+                                    <button  [routerLink]="['/opportunitieslist']"  class="btn btn_login">Cancel</button>&nbsp;
                                 </div>
                                 <div class="clearfix"></div>
                             </div>
@@ -158,5 +164,6 @@
         </div>
     </div>
 </form>
+
 
 

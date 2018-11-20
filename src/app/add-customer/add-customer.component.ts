@@ -1,17 +1,22 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertService, AuthenticationService } from '../_services';
+import { Customer } from '../_services';
+import { Router, ActivatedRoute } from '@angular/router';
 import { first } from 'rxjs/operators';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Alert } from 'selenium-webdriver';
+import { forEach } from '@angular/router/src/utils/collection';
+declare var jquery: any;
+declare var $: any;
+
+
 @Component({
   selector: 'app-add-customer',
   templateUrl: './add-customer.component.html',
   styleUrls: ['./add-customer.component.css']
 })
-
 export class AddCustomerComponent implements OnInit {
+
   addcustomerForm: FormGroup;
-  addcustomerRoomForm: FormGroup;
   submitted = false;
   loading = false;
   public  CustID: any = 0;
@@ -26,14 +31,25 @@ export class AddCustomerComponent implements OnInit {
   public ContactDetailsList = {};
   public data: any = [];
   public session: any;
+  public sub: any;
   dropdownList = [];
   selectedItems = [];
   dropdownSettings = {};
+  public updatelistdata: any;
   constructor(
-     private authenticationservice: AuthenticationService ,
+     private authenticationservice: Customer ,
      private formBuilder: FormBuilder,
+     private router: Router,
+     private route: ActivatedRoute,
      ) { }
   ngOnInit() {
+
+    $('.date-own').datepicker({
+      minViewMode: 2,
+      format: 'yyyy',
+      autoclose: true
+    });
+
     this.session = {
       session: JSON.parse(localStorage.getItem('currentUser'))
     };
@@ -56,7 +72,6 @@ export class AddCustomerComponent implements OnInit {
     Cust_Cmprsor_Mfg_Year : ['' , ''],
     Cust_Cmprsor_Commissioning_Year : [ '' , ''],
     Cust_Cmprsor_Status: ['', '' ],
-
     ContactPersonName: ['' , ''],
     ContactPersonContactNo : ['' , ''],
     ContactPersonemail : ['' , ''],
@@ -68,8 +83,49 @@ export class AddCustomerComponent implements OnInit {
     this.GetContactPersonDesignationList();
     this.GetWorkingStatus();
     this.GetContactDesignationList();
+
+    this.sub = this.route.queryParams.subscribe(params => {
+      let CusIid = params['Id'];
+      let body = {
+        PK_Cust_Id: CusIid
+      }
+   this.authenticationservice.GetUpdateustomerList(body)
+      .subscribe(
+          data => {
+               console.log(data);
+               this.updatelistdata = data;
+               this.CustID = this.updatelistdata.PK_Cust_Id;
+              //  alert(JSON.stringify( this.updatelistdata.CustomerIndustryTypeList));
+               this.authenticationservice.GetStateList(this.updatelistdata.FK_Zone_Id.PK_Zone_Id)
+               .pipe(first())
+               .subscribe( statelist => {
+                 this.StateIdList = statelist;
+               });
+               this.authenticationservice.GetCityList(this.updatelistdata.FK_State_Id.PK_State_Id)
+               .pipe(first())
+               .subscribe( citylist => {
+                 this.CityIdList = citylist;
+               });
+              // this.IndustryIdList = this.updatelistdata.CustomerIndustryTypeList;
+              // for (let i = 0; i < this.updatelistdata.CustomerIndustryTypeList.length; i++) {
+              //   console.log(this.updatelistdata.CustomerIndustryTypeList[i]);
+              // }
+              this.CompressorRoomDetailsList = this.updatelistdata.Cust_CompressorRoom_List;
+              this.ContactDetailsList = this.updatelistdata.Cust_Contact_Person_List;
+               this.f.Cust_Name.setValue(this.updatelistdata.Cust_Name);
+               this.f.Cust_Address_Line1.setValue(this.updatelistdata.Cust_Address_Line1);
+               this.f.Cust_Address_Line2.setValue(this.updatelistdata.Cust_Address_Line1);
+               this.f.Cust_PK_Zone_Id.setValue(this.updatelistdata.FK_Zone_Id.PK_Zone_Id);
+               this.f.Cust_PK_City_Id.setValue(this.updatelistdata.FK_City_Id.PK_City_Id);
+               this.f.Cust_PK_State_Id.setValue(this.updatelistdata.FK_State_Id.PK_State_Id);
+               this.f.Cust_GSTN_No.setValue(this.updatelistdata.Cust_GSTN_No);
+               this.f.Cust_Cmprsd_Air_App.setValue(this.updatelistdata.Cust_Cmprsd_Air_App);
+              // this.f.Cust_Industry_Id.setValue(this.updatelistdata.Cust_Industry_Id);
+               this.f.Cust_End_Product.setValue(this.updatelistdata.Cust_End_Product);
+    });
+  });
      }
-  get f() { return this.addcustomerForm.controls;
+   get f() { return this.addcustomerForm.controls;
    }
   // get r() { return this.addcustomerRoomForm.controls; }
   getzoneList()  {
@@ -97,7 +153,7 @@ export class AddCustomerComponent implements OnInit {
       this.authenticationservice.GetIndustryList()
       .pipe(first())
       .subscribe( data => {
-        this.IndustryIdList = data;
+       this.IndustryIdList = data;
       });
     }
   GetContactPersonDesignationList() {
@@ -121,6 +177,26 @@ export class AddCustomerComponent implements OnInit {
         this.ContactDesignationList = data;
       });
     }
+  //   fileChange(event) {
+  //     alert();
+  //     let fileList: FileList = event.target.files;
+  //     alert(fileList.length )
+  //     // if(fileList.length > 0) {
+  //         let file: File = fileList[0];
+  //         let formData:FormData = new FormData();
+  //         formData.append('uploadFile', file, file.name);
+  //         this.authenticationservice.UploadVisitCard(formData)
+  //         .pipe(first())
+  //         .subscribe( data => {
+  //         });
+  //             // .map(res => res.json())
+  //             // .catch(error => Observable.throw(error))
+  //             // .subscribe(
+  //             //     data => console.log('success'),
+  //             //     error => console.log(error)
+  //             // )
+  //     // }
+  // }
   onSubmit() {
       this.loading = true;
       this.submitted = true;
@@ -130,6 +206,7 @@ export class AddCustomerComponent implements OnInit {
           return;
       }
       let body = {
+          PK_Cust_Id:  this.CustID,
           Cust_Name: this.f.Cust_Name.value,
           Cust_Address_Line1: this.f.Cust_Address_Line1.value,
           Cust_Address_Line2: this.f.Cust_Address_Line2.value,
@@ -144,12 +221,16 @@ export class AddCustomerComponent implements OnInit {
           Created_By: this.session.session.PK_Resource_Id,
           PK_Industry_Id: this.f.Cust_Industry_Id.value
       };
-      alert(JSON.stringify(body));
+          console.log(this.f.Cust_File);
+          this.authenticationservice.UploadVisitCard(this.f.Cust_File)
+             .pipe(first())
+               .subscribe( data => {
+          });
           this.authenticationservice.SubmitCustomerDetails(body)
-          .pipe(first())
-          .subscribe( data => {
-          this.CustID  = data;
-          console.log(this.CustID );
+             .pipe(first())
+               .subscribe( data => {
+                  this.CustID  = data;
+             console.log(this.CustID );
           this.loading = false;
           alert('Customer information saved successfully.');
           },
@@ -159,7 +240,6 @@ export class AddCustomerComponent implements OnInit {
               this.loading = false;
           });
         }
-
   GetCompressorRoomDetailsList() {
           this.authenticationservice.GetCompressorRoomDetails(this.CustID)
           .pipe(first())
@@ -188,8 +268,8 @@ export class AddCustomerComponent implements OnInit {
         PK_Cust_Id:  this.CustID,
         Cust_Cmprsor_Model: this.f.Cust_Cmprsor_Model.value,
         Cust_Cmprsor_RoomDetails: this.f.Cust_Cmprsor_RoomDetails.value,
-        Cust_Cmprsor_Mfg_Year: this.f.Cust_Cmprsor_Mfg_Year.value,
-        Cust_Cmprsor_Commissioning_Year: this.f.Cust_Cmprsor_Commissioning_Year.value,
+        Cust_Cmprsor_Mfg_Year: $('#Cust_Cmprsor_Mfg_Year').val(), // this.f.Cust_Cmprsor_Mfg_Year.value,
+        Cust_Cmprsor_Commissioning_Year: $('#Cust_Cmprsor_Commissioning_Year').val(), // this.f.Cust_Cmprsor_Commissioning_Year.value,
         Cust_Cmprsor_Status: this.f.Cust_Cmprsor_Status.value,
         Created_By: this.session.session.PK_Resource_Id
     };
@@ -209,7 +289,7 @@ export class AddCustomerComponent implements OnInit {
   .pipe(first())
   .subscribe( data => {
     this.ContactDetailsList = data;
-});
+  });
   }
   onSubmitContactDetail(f) {
   if ( this.CustID === 0 ) {
@@ -251,4 +331,31 @@ export class AddCustomerComponent implements OnInit {
       alert('Invalid request.');
   });
   }
-}
+  DeleteCompressorRoom(e) {
+    let body = {
+      PK_Cust_Cmprsor_Mapng_Id: e.PK_Cust_Cmprsor_Mapng_Id
+     };
+     alert(JSON.stringify(body));
+    this.authenticationservice.DeleteCompressorRoomList(body)
+    .pipe(first())
+      .subscribe( data => {
+        this.data = data;
+         alert(JSON.stringify(this.data.Response));
+         this.GetCompressorRoomDetailsList();
+    });
+  }
+  DeleteContactDetails(e) {
+    let body = {
+      PK_Cust_CntctPrson_Mapng_Id: e.PK_Cust_CntctPrson_Mapng_Id
+     };
+     alert(JSON.stringify(body));
+    this.authenticationservice.DeleteContactDetailsList(body)
+    .pipe(first())
+      .subscribe( data => {
+        this.data = data;
+        alert(JSON.stringify(this.data.Response));
+         this.GetContactDetailsList();
+    });
+ }
+ }
+
