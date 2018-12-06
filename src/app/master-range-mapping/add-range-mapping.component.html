@@ -1,0 +1,144 @@
+<app-menubar></app-menubar>
+<!-- <form [formGroup]="addRangeMappingForm" (ngSubmit)="onSubmit()"> -->
+    <div class="col-md-12">
+        <div class="white_box opportunity_modal" style="margin: 10px 0 0 0;">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="#tabone" data-toggle="tab">Range Mapping Details</a>
+                </li>
+                <!-- <li class="pull-right">
+                    <a [routerLink]="['/masterSubRangeMapping']" title="Back to SubRange List"> 
+                    <i class="fa fa-reply"></i>
+                    </a>
+                </li> -->
+            </ul>
+
+            <div class="tab-content">
+                <div class="tab-pane fade in active" id="tabone">        
+
+                    <div class="col-md-2 form-group">
+                        <label for="" class="mandatory">Mapping Type</label>
+                    </div>
+                    <div class="col-md-2 form-group">
+                        <select  class="form-control" 
+                                title="Please Select Mapping Type" (change)="getSubMappingList($event)" >
+                                <option value="" disabled>Select</option>
+                                <option *ngFor="let mappingType of mappingTypes" value={{mappingType.List_Code}}> 
+                                         {{mappingType.List_Desc}} 
+                                </option>
+                        </select>
+                    </div>
+                        
+                    <div class="col-md-2 form-group">
+                        <label for="" class="mandatory">Sub Mapping</label>
+                    </div>
+                    <div class="col-md-2 form-group">
+                        <select *ngIf="mapping_type == 'M1'"  class="form-control" 
+                                title="Please Select Sub Mapping" (change)="getMappingList($event)">
+                                <option value="" disabled>Select</option>
+                                <option *ngFor="let range of rangeTypes" value={{range.List_Code}}>
+                                       {{range.List_Desc}} 
+                                </option>
+                        </select>
+                        <select *ngIf="mapping_type == 'M2'"  class="form-control"  
+                                title="Please Select Sub Mapping" (change)="getSub_MappingList($event)">
+                                <option value="" disabled>Select</option>
+                                <option *ngFor="let range of subrangeTypes" value={{range.PK_SubRange_Id}}>
+                                        {{range.SubRange_Description}} 
+                                </option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-2 form-group">
+                        <label for="" class="mandatory">Range Map</label>
+                    </div>
+                    <div class="col-md-2 form-group" *ngIf="mapping_type == 'M1'">
+                        <div class="multiselect">
+                            <div class="selectBox">
+                              <select>
+                                <option>Select</option>
+                              </select>
+                              <div class="overSelect"></div>
+                            </div>
+                            <div></div>
+                            <div id="checkboxes" *ngFor="let range of subrangeTypes" >
+                                <input (click)="checkValue(range)" [checked]="isTrue" type="checkbox" id="range.FK_W2S_List_Id"/> {{range.SubRange_Description}} 
+                            </div>
+                          </div>
+                    </div>
+                    <div class="col-md-2 form-group" *ngIf="mapping_type == 'M2'">
+                        <div class="multiselect">
+                            <div class="selectBox">
+                              <select>
+                                <option>Select</option>
+                              </select>
+                              <div class="overSelect"></div>
+                            </div>
+                            <div></div>
+                            <div id="checkboxes" *ngFor="let prod of productDetails" >
+                                <input (click)="checkValue_prod(prod)" [checked]="isTrue" type="checkbox" id="prod.Product_Id"/> {{prod.Product_Desc}} 
+                            </div>
+                          </div>
+                    </div>
+
+                    <div class="ActionArea">
+                        <div class="dropdown pull-right">
+                            <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+                            <button [disabled]="loading" class="btn btn_login" *ngIf="!disabledAddUpdate" (click)="onSubmit()">Submit</button>
+                            <a [routerLink]="['/masterRangeMapping']" class="btn btn-default">Cancel</a>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- </form> -->
+<!-- <div class=" add_section_txt box-fade fade-in addMaster_block">
+        <div class="add_heading">Add SubRange Details</div>
+        <div class="addMaster_block_inner">
+            <div class="col-md-2">
+                <label class="mandatory" for="">Segment</label>
+            </div>
+            <div class="col-md-4">
+                <select id="ddlSegmentType" ng-options="s.List_Desc for s in SegmentList track by s.W2S_List_Id" ng-model="ddlSegmentType"
+                        class="form-control ng-valid ng-dirty dropdown" required>
+                    <option value="">--Select Segment--</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label class="mandatory" for="">SubRange Name</label>
+            </div>
+            <div class="col-md-4">
+                <input type="text" id="SubRange_Name" name="SubRange_Name" ng-model="SubRange_Name" ng-click="HideLable();"
+                       class="form-control" placeholder="Enter SubRange name" title="Please enter SubRange name"
+                       oninvalid="InvalidMsg(this,'Please enter SubRange name','Please enter SubRange name');"
+                       maxlength="30"
+                       onkeydown="preventNumberInput(event)" required>
+            </div>
+            <div class="col-md-2">
+                <label class="" for="">Description</label>
+            </div>
+            <div class="col-md-4">
+                <textarea id="SubRange_Description" name="SubRange_Description" ng-model="SubRange_Description" class="form-control"
+                          title="Please enter SubRange description" maxlength="250" placeholder="Enter SubRange description"
+                          onKeyUp="toCount('Cha_c','cha_cnt','{CHAR} characters remaining',250);" required>
+                    </textarea>
+                <span class="textarea_feedback_remarks">
+                    <span class="chart_count">250</span>&nbsp;<span class="chart_text">Characters remaining</span>
+                </span>
+            </div>
+            <div class="col-md-2"></div>
+            <div class="col-md-4">
+                <input type="checkbox" id="isActive" ng-model="IsActive" ng-checked="true" ng-init="IsActive=true">
+                <label for="isActive">Active</label>
+            </div>
+            <div class="clearfix"></div>
+            <div class="col-md-12 master_form_buttons">
+                <input type="submit" value="Add" ng-click="AddSubRange()" ng-show="addShow" class="btn btn-primary SubmitMasters" href="javascript:void(0);" />&nbsp;
+                <input type="submit" value="Update" ng-click="UpdateSubRange()" ng-show="updateShow" class="btn btn-primary SubmitMasters" href="javascript:void(0);" />&nbsp;
+                <input type="button" value="Reset" ng-click="cancel()" class="btn btn-default resetMasters" href="javascript:void(0);" />
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div> -->

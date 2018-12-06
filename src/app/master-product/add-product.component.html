@@ -1,0 +1,63 @@
+<app-menubar></app-menubar>
+<form [formGroup]="addProductForm" (ngSubmit)="onSubmit()">
+    <div class="col-md-12">
+        <div class="white_box opportunity_modal" style="margin: 10px 0 0 0;">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="#tabone" data-toggle="tab">Product Basic Details</a>
+                </li>
+                <li class="pull-right">
+                    <a [routerLink]="['/masterProduct']" title="Back to Product List">
+                    <i class="fa fa-reply"></i>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="tab-content">
+                <div class="tab-pane fade in active" id="tabone">        
+                    <div class="col-md-2 form-group">
+                        <label for="" class="mandatory">Product Name</label>
+                    </div>
+                    <div class="col-md-2 form-group">
+                        <input type="text"  formControlName="Prod_Name"   class="form-control" placeholder="Enter Product Name" title="Enter Product Name" maxlength="30">
+                        <div *ngIf="submitted && f.Prod_Name.errors" class="invalid-feedback">
+                                <div *ngIf="f.Prod_Name.errors.required">is required</div>
+                            </div>
+                    </div>
+                   
+                    <div class="col-md-2 form-group">
+                        <label for="">Description</label>
+                    </div>
+                    <div class="col-md-2 form-group">
+                            <input type="text"  formControlName="Prod_Description"   class="form-control" placeholder="Enter Product Description" title="Enter Product Description" maxlength="50">
+                            <div *ngIf="submitted && f.Prod_Description.errors" class="invalid-feedback">
+                                    <div *ngIf="f.Prod_Description.errors.required">is required</div>
+                                </div>
+                   </div>
+                    
+                   <!-- <div class="col-md-4">
+                    <input class="chek" id="Forecast" formControlName="Forecast" type="checkbox" style="vertical-align: middle; margin: 0 5px 0 0;">
+                    <label class="Forecast">Forecast</label>
+                  </div> -->
+                    <div class="col-md-2 form-group">
+                       <label for="">IsActive</label>
+                    </div>
+                    <div class="col-md-2 form-group">
+                            <input class="chek" id="IsActive" formControlName="IsActive" type="checkbox" style="vertical-align: middle; margin: 0 5px 0 0;">
+                     </div>
+                                  
+                    <div class="ActionArea">
+                        <div class="dropdown pull-right">
+                            <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+                            <button [disabled]="loading" class="btn btn_login" *ngIf="!disabledAddUpdate">Submit</button>
+                            <button [disabled]="loading" class="btn btn_login" *ngIf="disabledAddUpdate">Update</button>&nbsp;
+                            <a [routerLink]="['/masterProduct']" class="btn btn-default">Cancel</a>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+        
+        </div>
+    </div>
+</form>

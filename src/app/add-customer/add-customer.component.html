@@ -1,283 +1,288 @@
 <app-menubar></app-menubar>
 <form [formGroup]="addcustomerForm" (ngSubmit)="onSubmit()">
-<div class="col-md-12">
-  <div class="white_box opportunity_modal" style="margin: 10px 0 0 0;">
-    <ul class="nav nav-tabs">
-      <li class="active">
-        <a href="#tabone" data-toggle="tab">Customer Basic Details</a>
-      </li>
-      <li>
+  <div class="col-md-12">
+    <div class="white_box opportunity_modal" style="margin: 10px 0 0 0;">
+      <ul class="nav nav-tabs">
+        <li class="active">
+          <a href="#tabone" data-toggle="tab">Customer Basic Details</a>
+        </li>
+        <li>
           <a href="#tabthree" data-toggle="tab">Contact Person Details</a>
-      </li>
-      <li>
-        <a href="#tabtwo" data-toggle="tab">Compressor Room Details</a>
-    </li>
-      <li class="pull-right">
-        <a [routerLink]="['/customerlist']" title="Back to Customer List">
-          <i class="fa fa-reply"></i>
-      </a>
-      </li>
-    </ul>
-    <div class="tab-content">
-      <div class="tab-pane fade in active" id="tabone">        
-        <div class="col-md-2 form-group">
+        </li>
+        <li>
+          <a href="#tabtwo" data-toggle="tab">Compressor Room Details</a>
+        </li>
+        <li class="pull-right">
+          <a [routerLink]="['/customerlist']" title="Back to Customer List">
+            <i class="fa fa-reply"></i>
+          </a>
+        </li>
+      </ul>
+      <div class="tab-content">
+        <div class="tab-pane fade in active" id="tabone">
+          <div class="col-md-2 form-group">
             <label for="" class="mandatory">Customer Name</label>
-        </div>
-        <div class="col-md-2 form-group">
-            <input type="text"  formControlName="Cust_Name"   class="form-control" placeholder="Enter Customer Name" title="Enter Customer Name">
+          </div>
+          <div class="col-md-2 form-group">
+            <input type="text" formControlName="Cust_Name" class="form-control" placeholder="Enter Customer Name" title="Enter Customer Name">
             <div *ngIf="submitted && f.Cust_Name.errors" class="invalid-feedback">
-                    <div *ngIf="f.Cust_Name.errors.required">is required</div>
-                </div>
-        </div>
-        <div class="col-md-2 form-group">
+              <div *ngIf="f.Cust_Name.errors.required">is required</div>
+            </div>
+          </div>
+          <div class="col-md-2 form-group">
             <label for="" class="mandatory">Address Line1</label>
-        </div>
-        <div class="col-md-2 form-group">
-            <input type="text"  formControlName="Cust_Address_Line1"  class="form-control" placeholder="Enter Customer Address" title="Enter Customer Address">
+          </div>
+          <div class="col-md-2 form-group">
+            <input type="text" formControlName="Cust_Address_Line1" class="form-control" placeholder="Enter Customer Address" title="Enter Customer Address">
             <div *ngIf="submitted && f.Cust_Address_Line1.errors" class="invalid-feedback">
-                    <div *ngIf="f.Cust_Address_Line1.errors.required">is required</div>
-                </div>
-        </div>
-        <div class="col-md-2 form-group">
+              <div *ngIf="f.Cust_Address_Line1.errors.required">is required</div>
+            </div>
+          </div>
+          <div class="col-md-2 form-group">
             <label for="">Address Line2</label>
-        </div>
-        <div class="col-md-2 form-group">
-            <input type="text"  formControlName="Cust_Address_Line2" class="form-control" placeholder="Enter Customer Address" title="Enter Customer Address">
-        </div>
-        <div class="col-md-2 form-group">
+          </div>
+          <div class="col-md-2 form-group">
+            <input type="text" formControlName="Cust_Address_Line2" class="form-control" placeholder="Enter Customer Address" title="Enter Customer Address">
+          </div>
+          <div class="col-md-2 form-group">
             <label for="" class="mandatory">Zone</label>
-        </div>
-        <div class="col-md-2 form-group">
-            <select  class="form-control"  formControlName="Cust_PK_Zone_Id" (change)="getstateListChange($event)"
+          </div>
+          <div class="col-md-2 form-group">
+            <select class="form-control" formControlName="Cust_PK_Zone_Id" (change)="getstateListChange($event)"
                     title="Please Select Zone">
-                    <option value="" disabled>Select</option>
-                    <option *ngFor="let zone of ZoneIdList" value={{zone.PK_Zone_Id}}>
-                            {{zone.Zone_Desc}}
-                    </option>
+              <option value="" disabled>Select</option>
+              <option *ngFor="let zone of ZoneIdList.Response" value={{zone.PK_Zone_Id}}>
+                {{zone.Zone_Desc}}
+              </option>
             </select>
             <div *ngIf="submitted && f.Cust_PK_Zone_Id.errors" class="invalid-feedback">
-                    <div *ngIf="f.Cust_PK_Zone_Id.errors.required">is required</div>
-                </div>
-        </div>
-        <div class="col-md-2 form-group">
+              <div *ngIf="f.Cust_PK_Zone_Id.errors.required">is required</div>
+            </div>
+          </div>
+          <div class="col-md-2 form-group">
             <label for="" class="mandatory">State</label>
-        </div>
-        <div class="col-md-2 form-group">
-                <select  class="form-control" formControlName="Cust_PK_State_Id" (change)="getcityListChange($event)"
-                title="Please Select Zone">
-                <option value="" disabled>Select</option>
-                <option *ngFor="let state of StateIdList" value={{state.PK_State_Id}}>
-                        {{state.State_Desc}}
-                </option>
-        </select>
-        <div *ngIf="submitted && f.Cust_PK_State_Id.errors" class="invalid-feedback">
-                <div *ngIf="f.Cust_PK_State_Id.errors.required">is required</div>
+          </div>
+          <div class="col-md-2 form-group">
+            <select class="form-control" formControlName="Cust_PK_State_Id" (change)="getcityListChange($event)"
+                    title="Please Select Zone">
+              <option value="" disabled>Select</option>
+              <option *ngFor="let state of StateIdList" value={{state.PK_State_Id}}>
+                {{state.State_Desc}}
+              </option>
+            </select>
+            <div *ngIf="submitted && f.Cust_PK_State_Id.errors" class="invalid-feedback">
+              <div *ngIf="f.Cust_PK_State_Id.errors.required">is required</div>
             </div>
-        </div>
-        <div class="col-md-2 form-group">
+          </div>
+          <div class="col-md-2 form-group">
             <label for="" class="mandatory">City</label>
-        </div>
-        <div class="col-md-2 form-group">
-                <select  class="form-control"  formControlName="Cust_PK_City_Id"
-                title="Please Select Zone">
-                <option value="" disabled>Select</option>
-                <option *ngFor="let city of CityIdList" value={{city.PK_City_Id}}>
-                        {{city.City_Name}}
-                </option>
-        </select>
-        <div *ngIf="submitted && f.Cust_PK_City_Id.errors" class="invalid-feedback">
-                <div *ngIf="f.Cust_PK_City_Id.errors.required">is required</div>
+          </div>
+          <div class="col-md-2 form-group">
+            <select class="form-control" formControlName="Cust_PK_City_Id"
+                    title="Please Select Zone">
+              <option value="" disabled>Select</option>
+              <option *ngFor="let city of CityIdList" value={{city.PK_City_Id}}>
+                {{city.City_Name}}
+              </option>
+            </select>
+            <div *ngIf="submitted && f.Cust_PK_City_Id.errors" class="invalid-feedback">
+              <div *ngIf="f.Cust_PK_City_Id.errors.required">is required</div>
             </div>
-        </div>
-        <div class="col-md-2 form-group">
+          </div>
+          <div class="col-md-2 form-group">
             <label for="" class="mandatory">GSTN No.</label>
-        </div>
-        <div class="col-md-2 form-group">
+          </div>
+          <div class="col-md-2 form-group">
             <input type="text" formControlName="Cust_GSTN_No" class="form-control" placeholder="Enter Customer GSTN No" title="Enter Customer GSTN No" maxlength="15">
             <div *ngIf="submitted && f.Cust_GSTN_No.errors" class="invalid-feedback">
-                    <div *ngIf="f.Cust_GSTN_No.errors.required">is required</div>
-                </div>
-        </div>
-        <div class="col-md-2 form-group">
+              <div *ngIf="f.Cust_GSTN_No.errors.required">is required</div>
+            </div>
+          </div>
+          <div class="col-md-2 form-group">
             <label for="" class="mandatory">Compressor Air Application</label>
-        </div>
-        <div class="col-md-2 form-group">
+          </div>
+          <div class="col-md-2 form-group">
             <input type="text" formControlName="Cust_Cmprsd_Air_App" class="form-control" placeholder="Enter Compressor Air Application" title="Enter Compressor Air Application">
             <div *ngIf="submitted && f.Cust_Cmprsd_Air_App.errors" class="invalid-feedback">
-                    <div *ngIf="f.Cust_Cmprsd_Air_App.errors.required">is required</div>
-                </div>
-        </div>
-        <div class="col-md-2 form-group">
+              <div *ngIf="f.Cust_Cmprsd_Air_App.errors.required">is required</div>
+            </div>
+          </div>
+          <div class="col-md-2 form-group">
             <label for="" class="mandatory">Industry Type</label>
-        </div>
-        <div class="col-md-2 form-group">
-            <!-- <select name="langOpt[]"  id="langOpt" multiple="multiple"  -->
-            <select name="langOpt[]"   formControlName="Cust_Industry_Id"  multiple="multiple" 
+          </div>
+          <div class="col-md-2 form-group">
+            <select name="langOpt[]" id="langOpt" multiple="multiple" title="Please Select Industry Type" style="display: block; width: 100%;"></select>
+            <!-- <select name="langOpt[]"  id="langOpt" formControlName="Cust_Industry_Id" multiple="multiple"  -->
+            <!-- <select name="langOpt[]"    id="langOpt"   multiple="multiple"
                 title="Please Select Industry Type" style="display: block; width: 100%;">
                 <option *ngFor="let industry of IndustryIdList" [ngValue]="industry.Industry_Id">
                         {{ industry.Industry_Name }}
                 </option>
-            </select>
+            </select> -->
             <div *ngIf="submitted && f.Cust_Industry_Id.errors" class="invalid-feedback">
-                    <div *ngIf="f.Cust_Industry_Id.errors.required">is required</div>
-                </div>
-        </div>
-        <div class="clearfix"></div>
-        <div class="col-md-2 form-group">
+              <div *ngIf="f.Cust_Industry_Id.errors.required">is required</div>
+            </div>
+          </div>
+          <div class="clearfix"></div>
+          <div class="col-md-2 form-group">
             <label for="" class="mandatory">End Product</label>
-        </div>
-        <div class="col-md-2 form-group">
+          </div>
+          <div class="col-md-2 form-group">
             <input type="text" formControlName="Cust_End_Product" class="form-control" placeholder="Enter End Product" title="Enter End Product">
             <div *ngIf="submitted && f.Cust_End_Product.errors" class="invalid-feedback">
-                    <div *ngIf="f.Cust_End_Product.errors.required">is required</div>
-                </div>
-        </div>
-        <div class="col-md-2 form-group">
-            <label for="" class="mandatory">Visiting Card Picture</label>
-        </div>
-        <div id="list" style="display:none">
-
-        </div>
-        <div class="col-md-2 form-group">
-            <div class="">  
-                    <!-- (change)="fileChange($event)" -->
-                <input type="file"   id="pwd"  formControlName="Cust_File" placeholder="" class="pull-left">
-                <input type="submit" style="display:none" name="" value="Upload" class="btn btn-primary btn_upload pull-right">
-                <div *ngIf="submitted && f.Cust_File.errors" class="invalid-feedback">
-                        <div *ngIf="f.Cust_File.errors.required">is required</div>
-                    </div>
-                <div class="clearfix"></div>
+              <div *ngIf="f.Cust_End_Product.errors.required">is required</div>
             </div>
-        </div>
-        <div class="ActionArea">
+          </div>
+          <div class="col-md-2 form-group">
+            <label for="" class="">Visiting Card Picture</label>
+          </div>
+          <div id="list" style="display:none">
+          </div>
+          <div class="col-md-2 form-group">
+            <div class="">
+              <input type="file" id="upload" (change)="onSelectAttachment($event)" name="File" class="form-control" style="float:left" />
+              <div *ngIf="submitted && f.Cust_File.errors" class="invalid-feedback">
+                <div *ngIf="f.Cust_File.errors.required">is required</div>
+              </div>
+              <input type="button" name="" value="Upload" class="btn btn-primary btn_upload pull-right" (click)="uploadVisitCard()">
+              <div class="clearfix"></div>
+            </div>
+          </div>
+          <div class="ActionArea">
             <div class="dropdown pull-right">
-                  <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+              <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
               <button [disabled]="loading" class="btn btn_login">Submit</button>&nbsp;
               <a [routerLink]="['/customerlist']" class="btn btn-default">Cancel</a>
             </div>
             <div class="clearfix"></div>
+          </div>
         </div>
-      </div>
-      <div class="tab-pane fade" id="tabtwo">
-        <div id="">
-          <div class="table-responsive">
+        <div class="tab-pane fade" id="tabtwo">
+          <div id="">
+            <div class="table-responsive">
               <table id="monthly_table" class="table table-bordered report_table">
-                  <thead>
-                      <tr>
-                          <td>
-                              <input type="text" formControlName="Cust_Cmprsor_Model" class="form-control" title="Enter Model Details" placeholder="Enter Model Details">
-                          </td>
-                          <td>
-                                <select  class="form-control" formControlName="Cust_Cmprsor_RoomDetails" 
-                                title="Please Select Zone">
-                                <option value="" disabled>Select Compressor Room Detail</option>
-                                <option *ngFor="let room of DesignationIdList" value={{room.W2S_List_Id}}>
-                                        {{room.List_Desc}}
-                                </option>
-                        </select>
-                          </td>
-                          <td>
-                              <input type="text" formControlName="Cust_Cmprsor_Mfg_Year" class="form-control date-own " title="Select Manufacturing Year" id="Cust_Cmprsor_Mfg_Year" placeholder="Select Manufacturing Year">
-                          </td>
-                          <td>
-                              <input type="text" formControlName="Cust_Cmprsor_Commissioning_Year" id="Cust_Cmprsor_Commissioning_Year" class="form-control date-own " title="Select Compressor Commissioning Year" placeholder="Select Compressor Commissioning Year">
-                          </td>
-                          <td>
-                                <select  class="form-control" formControlName="Cust_Cmprsor_Status" 
-                                title="Please Select Zone">
-                                <option value="" disabled>Select Compressor Working Status</option>
-                                <option *ngFor="let room of WorkingStatusList" value={{room.W2S_List_Id}}>
-                                        {{room.List_Desc}}
-                                </option>
-                                </select>
-                          </td>
-                          <td class="text-center">
-                              <a (click)="onSubmitRoom($event)" class="btn btn-info btnedit">Add</a>
-                          </td>
-                      </tr>
-                  </thead>
+                <thead>
+                  <tr>
+                    <td>
+                      <input type="text" formControlName="Cust_Cmprsor_Model" class="form-control" title="Enter Model Details" placeholder="Enter Model Details">
+                    </td>
+                    <td>
+                      <select class="form-control" formControlName="Cust_Cmprsor_RoomDetails"
+                              title="Please Select Zone">
+                        <option value="" disabled>Select Compressor Room Detail</option>
+                        <option *ngFor="let room of DesignationIdList" value={{room.W2S_List_Id}}>
+                          {{room.List_Desc}}
+                        </option>
+                      </select>
+                    </td>
+                    <td>
+                      <input type="text" formControlName="Cust_Cmprsor_Mfg_Year" class="form-control date-own " title="Select Manufacturing Year" id="Cust_Cmprsor_Mfg_Year" placeholder="Select Manufacturing Year">
+                    </td>
+                    <td>
+                      <input type="text" formControlName="Cust_Cmprsor_Commissioning_Year" id="Cust_Cmprsor_Commissioning_Year" class="form-control date-own " title="Select Compressor Commissioning Year" placeholder="Select Compressor Commissioning Year">
+                    </td>
+                    <td>
+                      <select class="form-control" formControlName="Cust_Cmprsor_Status"
+                              title="Please Select Zone">
+                        <option value="" disabled>Select Compressor Working Status</option>
+                        <option *ngFor="let room of WorkingStatusList" value={{room.W2S_List_Id}}>
+                          {{room.List_Desc}}
+                        </option>
+                      </select>
+                    </td>
+                    <td class="text-center">
+                      <a (click)="onSubmitRoom($event)" class="btn btn-info btnedit">Add</a>
+                    </td>
+                  </tr>
+                </thead>
               </table>
               <div class="clearfix"></div>
               <div class="table-responsive">
+                <table id="monthly_table" class="table table-bordered report_table">
+                  <thead>
+                    <tr>
+                      <th>Model</th>
+                      <th>Compressor Room Details</th>
+                      <th>Year of Manufacturing</th>
+                      <th>Year of Comissioning</th>
+                      <!-- <th>Working Status</th> -->
+                      <th class="text-center">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of CompressorRoomDetailsList">
+                      <td>{{item.Cust_Cmprsor_Model}}</td>
+                      <td>{{item.Cust_Cmprsor_RoomDetailsName}}</td>
+                      <td>{{item.Cust_Cmprsor_Mfg_Year}}</td>
+                      <td>{{item.Cust_Cmprsor_Commissioning_Year}}</td>
+                      <!-- <td>{{item.Cust_Cmprsor_Status}}</td> -->
+                      <td><a class="btn btn-info btnedit" (click)="DeleteCompressorRoom(item)">Delete</a></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+        <div class="tab-pane fade" id="tabthree">
+          <div id="">
+            <div class="table-responsive">
+              <table id="monthly_table" class="table table-bordered report_table">
+                <tbody>
+                  <tr>
+                    <td><input type="text" class="form-control" formControlName="ContactPersonName" placeholder="Name" maxlength="30"></td>
+                    <td><input type="text" class="form-control" formControlName="ContactPersonContactNo" onkeypress="return isNumber(event)" maxlength="10" placeholder="Contact No"></td>
+                    <td><input type="email" class="form-control" formControlName="ContactPersonemail" placeholder="Email Id" id="Cust_CntctPrson_Email_Id" onblur="validateEmail()" maxlength="30"></td>
+                    <td>
+                      <select class="form-control" formControlName="Cust_Contact_Desigation"
+                              title="Please Select Zone">
+                        <option value="" disabled>Select Designation</option>
+                        <option *ngFor="let room of ContactDesignationList" value={{room.W2S_List_Id}}>
+                          {{room.List_Desc}}
+                        </option>
+                      </select>
+                    </td>
+                    <td class="text-center">
+                      <a (click)="onSubmitContactDetail($event)" class="btn btn-info btnedit">Add</a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="table-responsive">
               <table id="monthly_table" class="table table-bordered report_table">
                 <thead>
-                    <tr>
-                        <th>Model</th>
-                        <th>Compressor Room Details</th>
-                        <th>Year of Manufacturing</th>
-                        <th>Year of Comissioning</th>
-                        <!-- <th>Working Status</th> -->
-                        <th class="text-center">Action</th>
-                    </tr>
+                  <tr>
+                    <th>Set as default</th>
+                    <th>Name</th>
+                    <th>Contact No.</th>
+                    <th>Company Email</th>
+                    <!-- <th>Designation</th> -->
+                    <th class="text-center">Action</th>
+                  </tr>
                 </thead>
                 <tbody>
-                        <tr *ngFor="let item of CompressorRoomDetailsList">
-                                <td>{{item.FK_Cust_Id}}</td>
-                                <td>{{item.Cust_Cmprsor_Model}}</td>
-                                <td>{{item.Cust_Cmprsor_Mfg_Year}}</td>
-                                <td>{{item.Cust_Cmprsor_Commissioning_Year}}</td>
-                                <!-- <td>{{item.Cust_Cmprsor_Status}}</td> -->
-                                <td><a class="btn btn-info btnedit" (click)="DeleteCompressorRoom(item)">Delete</a></td>
-                            </tr>
+                  <tr *ngFor="let item of ContactDetailsList">
+                    <td >
+                       <input *ngIf="item.Set_DefaultNo==1"  type="radio" id="radio_cnt" checked name="radiogroup" (change)="onSelectionChange(item)">
+                       <input  *ngIf="item.Set_DefaultNo==0" type="radio" id="radio_cnt"  name="radiogroup" (change)="onSelectionChange(item)"> 
+                    
+                    </td>
+                    <td>{{item.Cust_CntctPrson_Name}}</td>
+                    <td>{{item.Cust_CntctPrson_Contact_No}}</td>
+                    <td>{{item.Cust_CntctPrson_Email_Id}}</td>
+                    <!-- <td>{{item.FK_Cust_CntctPrson_Dsgntn_Id}}</td> -->
+                    <td><a class="btn btn-info btnedit" (click)="DeleteContactDetails(item)">Delete</a></td>
+                  </tr>
                 </tbody>
-            </table>
-            </div>
-          </div>
-      </div>
-      <div class="clearfix"></div>
-      </div>
-      <div class="tab-pane fade" id="tabthree">
-        <div id="">
-          <div class="table-responsive">
-              <table id="monthly_table" class="table table-bordered report_table">
-                  <tbody>
-                      <tr>
-                          <td><input type="text" class="form-control" formControlName="ContactPersonName" placeholder="Name" maxlength="30"></td>
-                          <td><input type="text" class="form-control" formControlName="ContactPersonContactNo" onkeypress="return isNumber(event)" maxlength="10" placeholder="Contact No" ></td>
-                          <td><input type="email" class="form-control" formControlName="ContactPersonemail" placeholder="Email Id" id="Cust_CntctPrson_Email_Id" onblur="validateEmail()" maxlength="30" ></td>
-                          <td>
-                                <select  class="form-control" formControlName="Cust_Contact_Desigation" 
-                                title="Please Select Zone">
-                                <option value="" disabled>Select Designation</option>
-                                <option *ngFor="let room of ContactDesignationList" value={{room.W2S_List_Id}}>
-                                        {{room.List_Desc}}
-                                </option>
-                                </select>
-                          </td>
-                          <td  class="text-center">
-                              <a (click)="onSubmitContactDetail($event)" class="btn btn-info btnedit">Add</a>
-                          </td>
-                      </tr>
-               </tbody>
               </table>
-          </div>
-          <div class="table-responsive">
-                <table id="monthly_table" class="table table-bordered report_table">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Contact No.</th>
-                            <th>Company Email</th>
-                            <!-- <th>Designation</th> -->
-                            <th class="text-center">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                                <tr *ngFor="let item of ContactDetailsList">
-                                        <td>{{item.Cust_CntctPrson_Name}}</td>
-                                        <td>{{item.Cust_CntctPrson_Contact_No}}</td>
-                                        <td>{{item.Cust_CntctPrson_Email_Id}}</td>
-                                        <!-- <td>{{item.FK_Cust_CntctPrson_Dsgntn_Id}}</td> -->
-                                        <td><a class="btn btn-info btnedit"(click)="DeleteContactDetails(item)">Delete</a></td>
-                                    </tr>
-                    </tbody>
-                </table>
             </div>
+          </div>
+          <div class="clearfix"></div>
+        </div>
       </div>
-      <div class="clearfix"></div>
-      </div>
+
     </div>
-   
   </div>
-</div>
 </form>

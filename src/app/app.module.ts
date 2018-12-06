@@ -1,6 +1,8 @@
 ﻿import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
+
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 // used to create fake backend
 import { fakeBackendProvider } from './_helpers';
@@ -8,8 +10,10 @@ import { AppComponent } from './app.component';
 import { routing } from './app.routing';
 import { AlertComponent } from './_directives';
 import { AuthGuard } from './_guards';
-import { JwtInterceptor, ErrorInterceptor } from './_helpers';
-import { AlertService, AuthenticationService, UserService, Customer, Opportunities } from './_services/';
+import { JwtInterceptor, ErrorInterceptor,  } from './_helpers';
+import { SegmentType, MappingType, SubRangeDetails, ProductDetails} from './_models';
+import { AlertService, AuthenticationService, UserService, Customer, Opportunities, visit,
+    Competitor, CommonService, ProductService , SubRangeMappingService, Resource, Master } from './_services/';
 import { HomeComponent } from './home';
 import { LoginComponent } from './login';
 import { RegisterComponent } from './register';
@@ -19,29 +23,64 @@ import { CustomerlistComponent } from './customerlist/customerlist.component';
 import { DataTableModule} from 'angular-6-datatable';
 import { OpportunitieslistComponent } from './opportunitieslist/opportunitieslist.component';
 import { AddopportunitiesComponent } from './addopportunities/addopportunities.component';
-import { MasterAbsentComponent} from './master-absent/master-absent.component';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { VisitsComponent } from './visits/visits.component';
+import { CalendarComponent } from './calendar/calendar.component';
+
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { HomePageComponent } from './home-page/home-page.component';
+import { CalendarModule, DateAdapter} from 'angular-calendar';
+import {adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { Ng2SearchPipeModule } from 'ng2-search-filter'; // importing the module
+import { Ng2OrderModule } from 'ng2-order-pipe'; // importing the module
+
+// Import angular-fusioncharts
+import { FusionChartsModule } from 'angular-fusioncharts';
+
+// Import FusionCharts library
+import * as FusionCharts from 'fusioncharts';
+
+// Load FusionCharts Individual Charts
+import * as Charts from 'fusioncharts/fusioncharts.charts';
+import * as FusionTheme from 'fusioncharts/themes/fusioncharts.theme.fusion';
+import * as FintTheme from 'fusioncharts/themes/fusioncharts.theme.fint';
+import { ChangepasswordComponent } from './changepassword/changepassword.component';
+import { ForgotpasswordComponent } from './forgotpassword/forgotpassword.component';
 import { MasterCompetitorComponent } from './master-competitor/master-competitor.component';
-import { MasterEnquirySourceComponent} from './master-enquiry-source/master-enquiry-source.component';
-import { MasterEnquiryTypeComponent } from './master-enquiry-type/master-enquiry-type.component';
-import { MasterHolidayComponent} from './master-holiday/master-holiday.component';
-import { MasterIndustryComponent } from './master-industry/master-industry.component';
-import { MasterNavigationComponent} from './master-navigation/master-navigation.component';
-import { MasterNavigationRoleMappingComponent} from './master-navigation-role-mapping/master-navigation-role-mapping.component';
 import { MasterProductComponent } from './master-product/master-product.component';
 import { MasterRangeMappingComponent} from './master-range-mapping/master-range-mapping.component';
 import { MasterResourceComponent} from './master-resource/master-resource.component';
+import { AddResourceComponent} from './master-resource/add-resource.component';
 import { MasterResourceRoleMappingComponent } from './master-resource-role-mapping/master-resource-role-mapping.component';
 import { MasterSubRangeMappingComponent} from './master-sub-range-mapping/master-sub-range-mapping.component';
-import { NgxPaginationModule } from 'ngx-pagination';
+import { AddIndustryComponent } from './master-industry/add-industry.component';
+import { MasterIndustryComponent } from './master-industry/master-industry.component';
+import { AddProductComponent} from './master-product/add-product.component';
+import { AddSubRangeComponent } from './master-sub-range-mapping/add-subrange.component';
+import { AddRangeMappingComponent } from './master-range-mapping/add-range-mapping.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
+
+// Use fcRoot function to inject FusionCharts library, and the modules you want to use
+FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme, FintTheme);
+
 
 @NgModule({
     imports: [
         BrowserModule,
         ReactiveFormsModule,
+        FormsModule,
         HttpClientModule,
         DataTableModule,
         routing,
-        NgxPaginationModule
+        NgxPaginationModule,
+        Ng2OrderModule,
+        Ng2SearchPipeModule , // including into imports
+        FusionChartsModule,
+        NgxSpinnerModule,
+        CalendarModule.forRoot({
+            provide: DateAdapter,
+            useFactory: adapterFactory
+        })
     ],
     declarations: [
         AppComponent,
@@ -54,19 +93,25 @@ import { NgxPaginationModule } from 'ngx-pagination';
         CustomerlistComponent ,
         OpportunitieslistComponent ,
         AddopportunitiesComponent,
+        VisitsComponent,
+        CalendarComponent,
+        DashboardComponent,
+        HomePageComponent,
+        ChangepasswordComponent,
         MasterCompetitorComponent,
-        MasterEnquirySourceComponent,
-        MasterEnquiryTypeComponent,
-        MasterHolidayComponent,
-        MasterIndustryComponent,
-        MasterNavigationComponent,
-        MasterNavigationRoleMappingComponent,
+        ForgotpasswordComponent,
         MasterProductComponent,
         MasterRangeMappingComponent,
         MasterResourceComponent,
+        AddResourceComponent,
         MasterResourceRoleMappingComponent,
         MasterSubRangeMappingComponent,
-        MasterAbsentComponent
+        AddProductComponent,
+        AddSubRangeComponent,
+        AddRangeMappingComponent,
+        AddIndustryComponent,
+        MasterIndustryComponent
+
     ],
     providers: [
         AuthGuard,
@@ -75,6 +120,17 @@ import { NgxPaginationModule } from 'ngx-pagination';
         Customer,
         UserService,
         Opportunities,
+        visit,
+        Competitor,
+        SegmentType,
+        MappingType,
+        SubRangeDetails,
+        ProductDetails,
+        CommonService,
+        ProductService ,
+        Resource,
+        Master,
+        SubRangeMappingService,
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
 
@@ -84,4 +140,4 @@ import { NgxPaginationModule } from 'ngx-pagination';
     bootstrap: [AppComponent]
 })
 
-export class AppModule { }
+export class AppModule {}

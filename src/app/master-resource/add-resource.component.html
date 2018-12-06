@@ -1,0 +1,133 @@
+<app-menubar></app-menubar>
+    <div class="col-md-12">
+        <div class="white_box opportunity_modal" style="margin: 10px 0 0 0;">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="#tabone" data-toggle="tab">Resource Basic Details</a>
+                </li>
+                <li class="pull-right">
+                    <a [routerLink]="['/masterResource']" title="Back to Resource List">
+                    <i class="fa fa-reply"></i>
+                    </a>
+                </li>
+            </ul>
+            <form [formGroup]="addresourceForm" (ngSubmit)="onSubmit()">
+            <div class="tab-content">
+                <div class="tab-pane fade in active" id="tabone">   
+                <div class="col-md-2 form-group">
+                    <label class="mandatory" >Name</label>
+                  </div>
+                  <div class="col-md-2 form-group">
+                      <input type="text" formControlName="Resource_Name" 
+                      class="form-control" placeholder="Resource Name" title="Please enter Resource Name" maxlength="30" >
+                      <div *ngIf="submitted && f.Resource_Name.errors" class="invalid-feedback">
+                          <div *ngIf="f.Resource_Name.errors.required">is required</div>
+                        </div>
+                  </div>
+                  <div class="col-md-2 form-group">
+                    <label class="mandatory">Login ID</label>
+                  </div>
+                  <div class="col-md-2 form-group ">
+                      <input class="form-control" maxlength="15"  formControlName="LoginID" placeholder="Login ID" title="Please Enter Resource Login ID" type="text"
+                      >
+                      <div *ngIf="submitted && f.LoginID.errors" class="invalid-feedback">
+                          <div *ngIf="f.LoginID.errors.required">is required</div>
+                        </div>
+                  </div>
+                  <div class="clearfix"></div>
+                  <div class="col-md-2 form-group">
+                    <label class="mandatory" >Password</label>
+                  </div>
+                  <div class="col-md-2 form-group ">
+                      <input class="form-control" formControlName="Resource_Password" [ngClass]="{ 'is-invalid': submitted && f.Resource_Password.errors }" placeholder="Password" title="Please Enter Resource Password" type="password">
+                      <div *ngIf="submitted && f.Resource_Password.errors" class="invalid-feedback">
+                          <div *ngIf="f.Resource_Password.errors.required">Password is required</div>
+                          <div *ngIf="f.Resource_Password.errors.minlength">Password must be at least 6 characters</div>
+                      </div>
+                  </div>
+                  <div class="col-md-2 form-group">
+                    <label class="mandatory" for="">Email ID</label>
+                  </div>
+                  <div class="col-md-2 form-group ">
+                      <input class="form-control" formControlName="Resource_EmailID" [ngClass]="{ 'is-invalid': submitted && f.Resource_EmailID.errors }" placeholder="Email ID" title="Please Enter Email ID" type="text">
+                      <div *ngIf="submitted && f.Resource_EmailID.errors" class="invalid-feedback">
+                          <div *ngIf="f.Resource_EmailID.errors.required">Email is required</div>
+                          <div *ngIf="f.Resource_EmailID.errors.email">Email must be a valid email address</div>
+                      </div>
+                  </div>
+                  <div class="clearfix"></div>
+                  <div class="col-md-2 form-group">
+                    <label class="mandatory" for="">Mobile No</label>
+                  </div>
+                  <div class="col-md-2 form-group ">
+                    <input formControlName="Resource_Mobile_No" class="form-control" placeholder="Mobile No" title="Please Enter Resource Mobile No" type="text"
+                    onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.keyCode == 8" maxlength="10">
+                      <div *ngIf="submitted && f.Resource_Mobile_No.errors" class="invalid-feedback">
+                        <div *ngIf="f.Resource_Mobile_No.errors.required">is required</div>
+                      </div>
+                  </div>
+                  <div class="col-md-2 form-group">
+                    <label class="mandatory" for="">Designation</label>
+                  </div>
+                  <div class="col-md-2 form-group ">
+                    <select  formControlName="ddlDesignation" class="form-control" (change)="onChangeSelectDesignation($event)"
+                        title="Please Select Designation">
+                       <option value="" disabled>Select</option>
+                       <option *ngFor="let data of Designationlist" value={{data.PK_Designation_Id}}>
+                        {{data.Designation_Desc}}
+                       </option>
+                    </select>
+                      <div *ngIf="submitted && f.ddlDesignation.errors" class="invalid-feedback">
+                        <div *ngIf="f.ddlDesignation.errors.required">is required</div>
+                      </div>
+                  </div>
+                  <div class="form-group pd0 col-sm-12 " *ngIf="ZoneShowHideFlag">
+                        <div class="col-md-2 form-group">
+                          <label class="mandatory" for="">Zone</label>
+                        </div>
+                        <div class="col-md-2 form-group ">
+                                <select  formControlName="ddlZone" class="form-control" (change)="onChangeSelectZone($event)"
+                                title="Please Select Resource Zone">
+                               <option value="" disabled>Select</option>
+                               <option *ngFor="let data of Zonelist" value={{data.PK_Zone_Id}}>
+                                {{data.Zone_Desc}}
+                               </option>
+                               </select>
+                                  <div *ngIf="submitted && f.ddlZone.errors" class="invalid-feedback">
+                                    <div *ngIf="f.ddlZone.errors.required">is required</div>
+                                  </div>
+                        </div>
+                       </div>
+                       <div class="form-group pd0 col-sm-12 " *ngIf="stateShowHideFlag">
+                            <div class="col-md-2 form-group">
+                                    <label class="mandatory" for="">State</label>
+                                </div>
+                                <div class="col-md-2 form-group ">
+                                        <select  formControlName="ddlstate" class="form-control" 
+                                        title="Please Select Resource State">
+                                    <option value="" disabled>Select</option>
+                                    <option *ngFor="let data of Statelist" value={{data.PK_State_Id}}>
+                                        {{data.State_Desc}}
+                                    </option>
+                                    </select>
+                                            <div *ngIf="submitted && f.ddlstate.errors" class="invalid-feedback">
+                                            <div *ngIf="f.ddlstate.errors.required">is required</div>
+                                            </div>
+                                </div>
+                    </div>
+                  <div class="clearfix"></div>
+                  <div class="col-md-4">
+                    <input formControlName="IsActive" [checked]="IsActive == true" type="checkbox" style="vertical-align: middle; margin: 0 5px 0 0;">
+                    <label class="Active">Active</label>
+                 </div>
+                 <div class="clearfix"></div>
+                 <div class="col-md-2">
+                    <button class="btn btn-primary">Submit</button>&nbsp;
+                    <button class="btn btn-primary" *ngIf="disabledReset" (click)="Reset()">Cancel</button>&nbsp;
+                </div>
+                  <div class="clearfix"></div>
+            </div>
+          </div>
+        </form>
+        </div> 
+    </div>

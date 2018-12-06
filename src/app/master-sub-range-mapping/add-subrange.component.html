@@ -1,0 +1,124 @@
+<app-menubar></app-menubar>
+<form [formGroup]="addSubRangeForm" (ngSubmit)="onSubmit()">
+    <div class="col-md-12">
+        <div class="white_box opportunity_modal" style="margin: 10px 0 0 0;">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="#tabone" data-toggle="tab">SubRange Details</a>
+                </li>
+                <li class="pull-right">
+                    <a [routerLink]="['/masterSubRangeMapping']" title="Back to SubRange List"> 
+                    <i class="fa fa-reply"></i>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="tab-content">
+                <div class="tab-pane fade in active" id="tabone">        
+
+                    <div class="col-md-2 form-group">
+                        <label for="" class="mandatory">Segment</label>
+                    </div>
+                    <div class="col-md-2 form-group">
+                        <select  class="form-control"  formControlName="Segment_Type" 
+                                title="Please Select Segment">
+                                <option value="" disabled>Select</option>
+                                <option *ngFor="let segmnet of segmentList" value={{segmnet.List_Code}}>
+                                        {{segmnet.List_Code}} {{segmnet.List_Desc}} 
+                                </option>
+                        </select>
+                        <div *ngIf="submitted && f.Segment_Type.errors" class="invalid-feedback">
+                                <div *ngIf="f.Segment_Type.errors.required">is required</div>
+                            </div>
+                    </div>
+                        
+                    <div class="col-md-2 form-group">
+                            <label for="">Name</label>
+                    </div>
+                    <div class="col-md-2 form-group">
+                            <input type="text"  formControlName="SubRange_Name"   class="form-control" placeholder="Enter SubRange Name" title="Enter SubRange Name" maxlength="30">
+                            <div *ngIf="submitted && f.SubRange_Name.errors" class="invalid-feedback">
+                                    <div *ngIf="f.SubRange_Name.errors.required">is required</div>
+                                </div>
+                    </div>
+
+                    <div class="col-md-2 form-group">
+                        <label for="">Description</label>
+                    </div>
+                    <div class="col-md-2 form-group">
+                            <input type="text"  formControlName="SubRange_Description"   class="form-control" placeholder="Enter SubRange Description" title="Enter SubRange Description" maxlength="50">
+                            <div *ngIf="submitted && f.SubRange_Description.errors" class="invalid-feedback">
+                                    <div *ngIf="f.SubRange_Description.errors.required">is required</div>
+                                </div>
+                   </div>
+                 
+                    <div class="col-md-2 form-group">
+                       <label for="">IsActive</label>
+                    </div>
+                    <div class="col-md-2 form-group">
+                            <input class="chek" id="IsActive" formControlName="IsActive" type="checkbox" style="vertical-align: middle; margin: 0 5px 0 0;">
+                    </div>
+                                  
+                    <div class="ActionArea">
+                        <div class="dropdown pull-right">
+                            <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+                            <button [disabled]="loading" class="btn btn_login" *ngIf="!disabledAddUpdate">Submit</button>
+                            <button [disabled]="loading" class="btn btn_login" *ngIf="disabledAddUpdate">Update</button>&nbsp;
+                            <a [routerLink]="['/masterSubRangeMapping']" class="btn btn-default">Cancel</a>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+        
+        </div>
+    </div>
+</form>
+<!-- <div class=" add_section_txt box-fade fade-in addMaster_block">
+        <div class="add_heading">Add SubRange Details</div>
+        <div class="addMaster_block_inner">
+            <div class="col-md-2">
+                <label class="mandatory" for="">Segment</label>
+            </div>
+            <div class="col-md-4">
+                <select id="ddlSegmentType" ng-options="s.List_Desc for s in SegmentList track by s.W2S_List_Id" ng-model="ddlSegmentType"
+                        class="form-control ng-valid ng-dirty dropdown" required>
+                    <option value="">--Select Segment--</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label class="mandatory" for="">SubRange Name</label>
+            </div>
+            <div class="col-md-4">
+                <input type="text" id="SubRange_Name" name="SubRange_Name" ng-model="SubRange_Name" ng-click="HideLable();"
+                       class="form-control" placeholder="Enter SubRange name" title="Please enter SubRange name"
+                       oninvalid="InvalidMsg(this,'Please enter SubRange name','Please enter SubRange name');"
+                       maxlength="30"
+                       onkeydown="preventNumberInput(event)" required>
+            </div>
+            <div class="col-md-2">
+                <label class="" for="">Description</label>
+            </div>
+            <div class="col-md-4">
+                <textarea id="SubRange_Description" name="SubRange_Description" ng-model="SubRange_Description" class="form-control"
+                          title="Please enter SubRange description" maxlength="250" placeholder="Enter SubRange description"
+                          onKeyUp="toCount('Cha_c','cha_cnt','{CHAR} characters remaining',250);" required>
+                    </textarea>
+                <span class="textarea_feedback_remarks">
+                    <span class="chart_count">250</span>&nbsp;<span class="chart_text">Characters remaining</span>
+                </span>
+            </div>
+            <div class="col-md-2"></div>
+            <div class="col-md-4">
+                <input type="checkbox" id="isActive" ng-model="IsActive" ng-checked="true" ng-init="IsActive=true">
+                <label for="isActive">Active</label>
+            </div>
+            <div class="clearfix"></div>
+            <div class="col-md-12 master_form_buttons">
+                <input type="submit" value="Add" ng-click="AddSubRange()" ng-show="addShow" class="btn btn-primary SubmitMasters" href="javascript:void(0);" />&nbsp;
+                <input type="submit" value="Update" ng-click="UpdateSubRange()" ng-show="updateShow" class="btn btn-primary SubmitMasters" href="javascript:void(0);" />&nbsp;
+                <input type="button" value="Reset" ng-click="cancel()" class="btn btn-default resetMasters" href="javascript:void(0);" />
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div> -->

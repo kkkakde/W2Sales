@@ -1,0 +1,53 @@
+<app-menubar></app-menubar>
+<div class="col-md-12">
+        <div class="white_box opportunity_modal" style="margin: 10px 0 0 0;">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="#tabone" data-toggle="tab">Industry Basic Details</a>
+                </li>
+                <li class="pull-right">
+                    <a [routerLink]="['/masterIndustry']" title="Back to Industry List">
+                    <i class="fa fa-reply"></i>
+                    </a>
+                </li>
+            </ul>
+        <form [formGroup]="IndustryForm" (ngSubmit)="onSubmit()">
+                <div class="tab-content">
+                        <div class="tab-pane fade in active" id="tabone">   
+                        <div class="col-md-2 form-group">
+                            <label class="mandatory" > Industry Name</label>
+                        </div>
+                        <div class="col-md-2 form-group">
+                            <input type="text" formControlName="Industry_Name" 
+                            class="form-control" placeholder="Industry Name" title="Please enter Industry Name" maxlength="30" >
+                            <div *ngIf="submitted && f.Industry_Name.errors" class="invalid-feedback">
+                                <div *ngIf="f.Industry_Name.errors.required">is required</div>
+                                </div>
+                        </div>
+                        <div class="col-md-2 form-group">
+                            <label class="mandatory">Description</label>
+                        </div>
+                        <div class="col-md-2 form-group ">
+                                <textarea id="Cha_c"  formControlName="Industry_Desc" class="form-control rema_chara" placeholder="Industry Description"
+                                title="Please enter Industry description" maxlength="250">
+                            </textarea>
+                            <div *ngIf="submitted && f.Industry_Desc.errors" class="invalid-feedback">
+                                <div *ngIf="f.Industry_Desc.errors.required">is required</div>
+                                </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="col-md-4">
+                            <input formControlName="IsActive" [checked]="IsActive == true" type="checkbox" style="vertical-align: middle; margin: 0 5px 0 0;">
+                            <label class="Active">Active</label>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="col-md-2">
+                            <button class="btn btn-primary">Submit</button>&nbsp;
+                            <button class="btn btn-primary" (click)="Reset()">Cancel</button>&nbsp;
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>  
+        </form>
+        </div>
+</div>

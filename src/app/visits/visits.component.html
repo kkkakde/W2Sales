@@ -1,0 +1,75 @@
+<app-menubar></app-menubar>
+<div class="col-md-12">
+
+  <div class="pull-left">
+    <h4>Visits</h4>
+  </div>
+  <div class="clearfix"></div>
+  <div class="table-responsive">
+    <div class="col-md-12 nopadding">
+      <div class="opportunity_strip" style="margin: 0; height: auto;">
+        <h4 class="panel-title">
+          My Visit
+          <i class="fa fa-filter pull-right" style="color:white;"></i>
+          <i class="fa fa-search pull-right" style="color:white;"></i>
+          <div class="pull-right">
+              <input class="form-control" type="text" name="search" [(ngModel)]="filter" placeholder="Search here">
+          </div>
+        </h4>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+    <table id="monthly_table" class="table table-bordered report_table">
+      <thead>
+        <tr>
+          <th (click)="sort('CustomerName')">Customer Name
+              <span class="glyphicon sort-icon" *ngIf="key =='CustomerName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+          </th>
+          <th (click)="sort('OpportunityName')">Opportunity Name
+              <span class="glyphicon sort-icon" *ngIf="key =='OpportunityName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+          </th>
+          <th (click)="sort('List_Visit_type')">Visit Type
+              <span class="glyphicon sort-icon" *ngIf="key =='List_Visit_type'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+          </th>
+          <th (click)="sort('List_Visit_Start_Date')">Start Date
+              <span class="glyphicon sort-icon" *ngIf="key =='List_Visit_Start_Date'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+          </th>
+          <th (click)="sort('List_Visit_Start_Time')">Start Time
+              <span class="glyphicon sort-icon" *ngIf="key =='List_Visit_Start_Time'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+          </th>
+          <th (click)="sort('List_Visit_End_Date')">End Date
+              <span class="glyphicon sort-icon" *ngIf="key =='List_Visit_End_Date'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+          </th>
+          <th (click)="sort('List_Visit_End_Time')">End Time
+              <span class="glyphicon sort-icon" *ngIf="key =='List_Visit_End_Time'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+            
+          </th>
+          <th class="text-center">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of list | paginate:{ id: 'listing_pagination',
+        itemsPerPage:5,currentPage:page,totalItems: totalRec}
+        | orderBy: key : reverse  | filter:filter; let i = index">
+          <td>{{item.CustomerName}}</td>
+          <td>{{item.OpportunityName}}</td>
+          <!-- <td style="display: none">{{item.PK_Visit}}</td> -->
+          <td>{{item.List_Visit_type}}</td>
+          <td>{{item.List_Visit_Start_Date}}</td>
+          <td>{{item.List_Visit_Start_Time}}</td>
+          <td>{{item.List_Visit_End_Date }}</td>
+          <td>{{item.List_Visit_End_Time}}</td>
+          <td class="text-center"><button class="fa fa-trash" title="Delete" style="cursor: pointer" (click)="DeleteVisits(item)"></button> </td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="12">
+            <pagination-controls id="listing_pagination" maxSize="5" directionLinks="true"
+                                 (pageChange)="page = $event"></pagination-controls>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>

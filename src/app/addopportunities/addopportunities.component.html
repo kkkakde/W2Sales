@@ -1,169 +1,164 @@
 <app-menubar></app-menubar>
 <form [formGroup]="addOpportunitiesForm" (ngSubmit)="onSubmit()">
-    <div class="col-md-12">
-        <div class="white_box">
-            <div class="panel-group entry_accordion" id="accordion">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a [routerLink]="['/opportunitieslist']" title="Back to Opportunities List">
-                                <i class="fa fa-reply pull-right"></i>
-                            </a>
-                            Add Opportunities
-                        </h4>
-                    </div>
-                    <div id="collapseOne1" class="panel-collapse collapse in">
-                        <div class="panel-body">
-                            <div id="">
-                                <div class="col-md-2 form-group">
-                                    <label class="mandatory" for="">Customer Name:</label>
-                                </div>
-                                <div class="col-md-2 form-group">
-                                    <input id="CustomerId" formControlName="CustomerId" style="display: none;" type="text" >
-                                    
-                                    <input id="Cust_Name" name="Cust_Name" formControlName="Cust_Name" maxlength="20"  class="form-control ui-autocomplete-input" placeholder="Enter Customer Name" title="Please Enter Customer Name" type="text" ng-blur="getContactNo()"
-                                           onkeypress="return ((event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || event.charCode == 32 || event.keyCode == 8 || event.charCode >= 48 && event.charCode <= 57 || event.charCode == 46)">
-                                        <div *ngIf="submitted && f.Cust_Name.errors" class="invalid-feedback">
-                                            <div *ngIf="f.Cust_Name.errors.required">is required</div>
-                                        </div>
-                                </div>
-                                <div class="col-md-2 form-group">
-                                    <label for="">Customer Conatct No:</label>
-                                </div>
-                                <div class="col-md-2 form-group">
-                                    <input type="text"  formControlName="Customer_Contact_No" class="form-control" placeholder="Enter Customer Contact No" title="Customer Contact No" disabled="disabled">
-                                </div>
-                                <div class="col-md-2 form-group">
-                                    <label class="mandatory" for="">Opportunity Source:</label>
-                                </div>
-                                <div class="col-md-2 form-group">
-                                        <select  class="form-control"  formControlName="Enquiry_Source_Id" 
-                                        title="Please Select Opportunity Source">
-                                        <option value="" disabled> Select</option>
-                                        <option *ngFor="let Opportunity of OpportunitySourcelist" value={{Opportunity.Enquiry_Source_Id}}>
-                                                {{Opportunity.Enquiry_Source_Name}}
-                                        </option>
-                                       </select>
-                                       <div *ngIf="submitted && f.Enquiry_Source_Id.errors" class="invalid-feedback">
-                                        <div *ngIf="f.Enquiry_Source_Id.errors.required">is required</div>
-                                    </div>
-                                 </div>
-                                <div class="col-md-2 form-group">
-                                    <label class="mandatory" for="">Opportunity Type:</label>
-                                </div>
-                                <div class="col-md-2 form-group">
-                                        <select  class="form-control"  formControlName="Enquiry_Type_Id" 
-                                        title="Please Select Opportunity Type">
-                                        <option value="" disabled>Select</option>
-                                        <option *ngFor="let OpportunityType of OpportunityTypelist" value={{OpportunityType.Enquiry_Type_Id}}>
-                                                {{OpportunityType.Enquiry_Type_Name}}
-                                        </option>
-                                       </select>
-                                       <div *ngIf="submitted && f.Enquiry_Type_Id.errors" class="invalid-feedback">
-                                        <div *ngIf="f.Enquiry_Type_Id.errors.required">is required</div>
-                                    </div>
-                                </div>
-                                <div class="col-md-2 form-group">
-                                    <label for="">Opportunity Name:</label>
-                                </div>
-                                <div class="col-md-2 form-group">
-                                    <input type="text" formControlName="Opportunity_Name" class="form-control"  maxlength="50" placeholder="Enter Opportunity Name" title="Enter Opportunity Name"  onkeypress="return ((event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || event.charCode == 32 || event.keyCode == 8 || event.charCode >= 48 && event.charCode <= 57 || event.charCode == 46)">
-                                </div>
-                                <div class="col-md-2 form-group">
-                                    <label class="mandatory" for="">Expected Value:</label>
-                                </div>
-                                <div class="col-md-2 form-group">
-                                    <input type="text" formControlName="Expected_Value" class="form-control" placeholder="Enter Expected Value" title="Enter Expected Value" maxlength="5" onkeypress='return (event.charCode >= 48 && event.charCode <= 57) || event.keyCode == 8'>
-                                    <div *ngIf="submitted && f.Expected_Value.errors" class="invalid-feedback">
-                                        <div *ngIf="f.Expected_Value.errors.required">is required</div>
-                                    </div>
-                                </div>
-    
-    
-                                <div class="col-md-2 form-group">
-                                    <label class="mandatory" for="">Chance of Success:</label>
-                                </div>
-                                <div class="col-md-2 form-group">
-                                        <select  class="form-control"  formControlName="List_Code" 
-                                        title="Please Select Chance of Success">
-                                        <option value="" disabled>Select</option>
-                                        <option *ngFor="let ChanceofSuccess of ChanceofSuccessList" value={{ChanceofSuccess.List_Code}}>
-                                                {{ChanceofSuccess.List_Desc}}
-                                        </option>
-                                       </select>
-                                       <div *ngIf="submitted && f.List_Code.errors" class="invalid-feedback">
-                                        <div *ngIf="f.List_Code.errors.required">is required</div>
-                                    </div>
-                                </div>
-                                <div class="col-md-2 form-group">
-                                    <label class="mandatory" for="">Sales Phase:</label>
-                                </div>
-                                <div class="col-md-2 form-group">
-                                        <select  class="form-control"  formControlName="List_CodeSales" 
-                                        title="Please Select Sales Phase">
-                                        <option value="" disabled>Select</option>
-                                        <option *ngFor="let SalesPhase of SalesPhaseList" value={{SalesPhase.List_Code}}>
-                                                {{SalesPhase.List_Desc}}
-                                        </option>
-                                       </select>
-                                       <div *ngIf="submitted && f.List_CodeSales.errors" class="invalid-feedback">
-                                        <div *ngIf="f.List_CodeSales.errors.required">is required</div>
-                                    </div>
-                                </div>
-                                <div class="col-md-2 form-group">
-                                    <label class="mandatory" for="">Start Date:</label>
-                                </div>
-                                <div class="col-md-2 form-group ">
-                                        <!-- <ng-datepicker [formControl]="date" formControlName="Startdate" ></ng-datepicker> -->
-                                        <input type="text" class="form-control " formControlName="Startdate" id="Startdate"  placeholder="dd-mmm-yyyy" title="Please Enter End Date" onkeypress="return false; event.charCode >= 48 && event.charCode <= 57" onkeydown="return false" autocomplete="off">
-                                        <div *ngIf="submitted && f.Startdate.errors" class="invalid-feedback">
-                                                <div *ngIf="f.Startdate.errors.required">is required</div>
-                                        </div>
-                                    </div>
-                                <div class="col-md-2 form-group">
-                                    <label class="mandatory" for="">Closed Date:</label>
-                                </div>
-                                <div class="col-md-2 form-group ">
-                                        <!-- <ng-datepicker [formControl]="date" formControlName="closeddate" ></ng-datepicker> -->
-                                        <input type="text" class="form-control " formControlName="closeddate" id="closeddate"  placeholder="dd-mmm-yyyy" title="Please Enter End Date" onkeypress="return false; event.charCode >= 48 && event.charCode <= 57" onkeydown="return false" autocomplete="off">
-                                        <div *ngIf="submitted && f.closeddate.errors" class="invalid-feedback">
-                                                <div *ngIf="f.closeddate.errors.required">is required</div>
-                                        </div>
-                                </div>
-                                <div class="col-md-2 form-group">
-                                    <label class="mandatory" for="">Status:</label>
-                                </div>
-                                <div class="col-md-2 form-group">
-                                        <select  class="form-control"  formControlName="List_CodeStatus" 
-                                        title="Please Select Status">
-                                        <option value="" disabled>Select</option>
-                                        <option *ngFor="let Status of StatusList" value={{Status.List_Code}}>
-                                                {{Status.List_Desc}}
-                                        </option>
-                                       </select>
-                                       <div *ngIf="submitted && f.List_CodeStatus.errors" class="invalid-feedback">
-                                        <div *ngIf="f.List_CodeStatus.errors.required">is required</div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <input class="chek" id="Forecast" formControlName="Forecast" type="checkbox" style="vertical-align: middle; margin: 0 5px 0 0;">
-                                    <label class="Forecast">Forecast</label>
-                                </div>
-                                <div class="clearfix"></div>
-                                <div class="col-md-12" style="margin-top: 15px; text-align:center">
-                                    <button [disabled]="loading"  class="btn btn_login">Submit</button>&nbsp;
-                                    <button  [routerLink]="['/opportunitieslist']"  class="btn btn_login">Cancel</button>&nbsp;
-                                </div>
-                                <div class="clearfix"></div>
-                            </div>
-                        </div>
-                    </div>
+  <div class="col-md-12">
+    <div class="white_box">
+      <div class="panel-group entry_accordion" id="accordion">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">
+              <a [routerLink]="['/opportunitieslist']" title="Back to Opportunities List">
+                <i class="fa fa-reply pull-right"></i>
+              </a>
+              Add Opportunities
+            </h4>
+          </div>
+          <div id="collapseOne1" class="panel-collapse collapse in">
+            <div class="panel-body">
+              <div id="">
+                <div class="col-md-2 form-group">
+                  <label class="mandatory" for="">Customer Name:</label>
                 </div>
+                <div class="col-md-2 form-group">
+                  <input id="CustomerId" formControlName="CustomerId" style="display: none;" type="text">
+
+                  <input id="Cust_Name" name="Cust_Name" formControlName="Cust_Name" maxlength="20" class="form-control ui-autocomplete-input" placeholder="Enter Customer Name" title="Please Enter Customer Name" type="text" onkeypress="return ((event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || event.charCode == 32 || event.keyCode == 8 || event.charCode >= 48 && event.charCode <= 57 || event.charCode == 46)">
+                  <div *ngIf="submitted && f.Cust_Name.errors" class="invalid-feedback">
+                    <div *ngIf="f.Cust_Name.errors.required">is required</div>
+                  </div>
+                </div>
+                <div class="col-md-2 form-group">
+                  <label for="">Customer Conatct No:</label>
+                </div>
+                <div class="col-md-2 form-group">
+                  <input type="text" formControlName="Customer_Contact_No" class="form-control" placeholder="Enter Customer Contact No" title="Customer Contact No" disabled="disabled">
+                </div>
+                <div class="col-md-2 form-group">
+                  <label class="mandatory" for="">Opportunity Source:</label>
+                </div>
+                <div class="col-md-2 form-group">
+                  <select class="form-control" formControlName="Enquiry_Source_Id"
+                          title="Please Select Opportunity Source">
+                    <option value="" disabled> Select</option>
+                    <option *ngFor="let Opportunity of OpportunitySourcelist" value={{Opportunity.Enquiry_Source_Id}}>
+                      {{Opportunity.Enquiry_Source_Name}}
+                    </option>
+                  </select>
+                  <div *ngIf="submitted && f.Enquiry_Source_Id.errors" class="invalid-feedback">
+                    <div *ngIf="f.Enquiry_Source_Id.errors.required">is required</div>
+                  </div>
+                </div>
+                <div class="col-md-2 form-group">
+                  <label class="mandatory" for="">Opportunity Type:</label>
+                </div>
+                <div class="col-md-2 form-group">
+                  <select class="form-control" formControlName="Enquiry_Type_Id"
+                          title="Please Select Opportunity Type">
+                    <option value="" disabled>Select</option>
+                    <option *ngFor="let OpportunityType of OpportunityTypelist" value={{OpportunityType.Enquiry_Type_Id}}>
+                      {{OpportunityType.Enquiry_Type_Name}}
+                    </option>
+                  </select>
+                  <div *ngIf="submitted && f.Enquiry_Type_Id.errors" class="invalid-feedback">
+                    <div *ngIf="f.Enquiry_Type_Id.errors.required">is required</div>
+                  </div>
+                </div>
+                <div class="col-md-2 form-group">
+                  <label for="">Opportunity Name:</label>
+                </div>
+                <div class="col-md-2 form-group">
+                  <input type="text" formControlName="Opportunity_Name" class="form-control" maxlength="50" placeholder="Enter Opportunity Name" title="Enter Opportunity Name" onkeypress="return ((event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || event.charCode == 32 || event.keyCode == 8 || event.charCode >= 48 && event.charCode <= 57 || event.charCode == 46)">
+                </div>
+                <div class="col-md-2 form-group">
+                  <label class="mandatory" for="">Expected Value:</label>
+                </div>
+                <div class="col-md-2 form-group">
+                  <input type="text" formControlName="Expected_Value" class="form-control" placeholder="Enter Expected Value" title="Enter Expected Value" maxlength="5" onkeypress='return (event.charCode >= 48 && event.charCode <= 57) || event.keyCode == 8'>
+                  <div *ngIf="submitted && f.Expected_Value.errors" class="invalid-feedback">
+                    <div *ngIf="f.Expected_Value.errors.required">is required</div>
+                  </div>
+                </div>
+
+
+                <div class="col-md-2 form-group">
+                  <label class="mandatory" for="">Chance of Success:</label>
+                </div>
+                <div class="col-md-2 form-group">
+                  <select class="form-control" formControlName="List_Code"
+                          title="Please Select Chance of Success">
+                    <option value="" disabled>Select</option>
+                    <option *ngFor="let ChanceofSuccess of ChanceofSuccessList" value={{ChanceofSuccess.List_Code}}>
+                      {{ChanceofSuccess.List_Desc}}
+                    </option>
+                  </select>
+                  <div *ngIf="submitted && f.List_Code.errors" class="invalid-feedback">
+                    <div *ngIf="f.List_Code.errors.required">is required</div>
+                  </div>
+                </div>
+                <div class="col-md-2 form-group">
+                  <label class="mandatory" for="">Sales Phase:</label>
+                </div>
+                <div class="col-md-2 form-group">
+                  <select class="form-control" formControlName="List_CodeSales"
+                          title="Please Select Sales Phase">
+                    <option value="" disabled>Select</option>
+                    <option *ngFor="let SalesPhase of SalesPhaseList" value={{SalesPhase.List_Code}}>
+                      {{SalesPhase.List_Desc}}
+                    </option>
+                  </select>
+                  <div *ngIf="submitted && f.List_CodeSales.errors" class="invalid-feedback">
+                    <div *ngIf="f.List_CodeSales.errors.required">is required</div>
+                  </div>
+                </div>
+                <div class="col-md-2 form-group">
+                  <label class="mandatory" for="">Start Date:</label>
+                </div>
+                <div class="col-md-2 form-group ">
+                  <input type="text" class="form-control " formControlName="Startdate" id="Startdate" placeholder="dd-mmm-yyyy" title="Please Enter End Date" onkeypress="return false; event.charCode >= 48 && event.charCode <= 57" onkeydown="return false" autocomplete="off">
+                  <div *ngIf="submitted && f.Startdate.errors" class="invalid-feedback">
+                    <div *ngIf="f.Startdate.errors.required">is required</div>
+                  </div>
+                </div>
+                <div class="col-md-2 form-group">
+                  <label class="mandatory" for="">Closed Date:</label>
+                </div>
+                <div class="col-md-2 form-group ">
+                  <input type="text" class="form-control " formControlName="closeddate" id="closeddate" placeholder="dd-mmm-yyyy" title="Please Enter End Date" onkeypress="return false; event.charCode >= 48 && event.charCode <= 57" onkeydown="return false" autocomplete="off">
+                  <div *ngIf="submitted && f.closeddate.errors" class="invalid-feedback">
+                    <div *ngIf="f.closeddate.errors.required">is required</div>
+                  </div>
+                </div>
+                <div class="col-md-2 form-group">
+                  <label class="mandatory" for="">Status:</label>
+                </div>
+                <div class="col-md-2 form-group">
+                  <select class="form-control" formControlName="List_CodeStatus"
+                          title="Please Select Status">
+                    <option value="" disabled>Select</option>
+                    <option *ngFor="let Status of StatusList" value={{Status.List_Code}}>
+                      {{Status.List_Desc}}
+                    </option>
+                  </select>
+                  <div *ngIf="submitted && f.List_CodeStatus.errors" class="invalid-feedback">
+                    <div *ngIf="f.List_CodeStatus.errors.required">is required</div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <input class="chek" id="Forecast" formControlName="Forecast" type="checkbox" style="vertical-align: middle; margin: 0 5px 0 0;">
+                  <label class="Forecast">Forecast</label>
+                </div>
+                <div class="clearfix"></div>
+                <div class="col-md-12" style="margin-top: 15px; text-align:center">
+                  <button [disabled]="loading" class="btn btn_login">Submit</button>&nbsp;
+                  <button [routerLink]="['/customerlist']" class="btn btn_login">Cancel</button>&nbsp;
+                </div>
+                <div class="clearfix"></div>
+              </div>
             </div>
-            <div class="clearfix"></div>
+          </div>
         </div>
+      </div>
+      <div class="clearfix"></div>
     </div>
+  </div>
 </form>
-
-
 

@@ -1,731 +1,783 @@
 <app-menubar></app-menubar>
-<form [formGroup]="addCompetitorForm" >  
-<div class="col-md-12">
-  <div class="white_box">
+  <div class="col-md-12">
+    <div class="white_box">
       <div class="col-md-12 nopadding">
-          <div class="report_outer" id="reportouter">
-              <div class="report_heading col-md-12 nopadding">
-                  <div class="pull-left">
-                      <h4>Opportunities</h4>
-                  </div>
-                  <div class=" pull-left" style="margin-left: 20px;">
-                      <a [routerLink]="['/customerlist']" class="btn btn-info btn_addnew">+ Add New Opportunities</a>
-                  </div>
-                  <div class="clearfix"></div>
-              </div>
-              <div class="clearfix"></div>
-              <div class="table-responsive">
-                    <div class="col-md-12 nopadding">
-                            <div class="opportunity_strip" style="margin: 0; height: auto;">
-                                <h4 class="panel-title">
-                                    My Open Opportunities
-                                    <i class="fa fa-filter pull-right" style="color:white;"></i>
-                                    <i class="fa fa-search pull-right" style="color:white;"></i>
-                                </h4>
-                                <div class="clearfix"></div>
-                            </div>
-                        </div>
-                <table class="table table-bordered report_table" >
-                  <thead>
-                      <tr>
-                          <th>Name</th>
-                          <th>Account</th>
-                          <th>Closed Date</th>
-                          <th>Sales Phase</th>
-                          <th>Owner</th>
-                          <th>Status</th>
-                          <th>Created On</th>
-                          <th>Expected Value</th>
-                          <th class="text-center">Action</th>
-                      </tr>
-                  </thead>
-                  <tbody>
-                      <tr *ngFor="let data of opportunitieslistdata | paginate:{ id: 'listing_pagination',
-                      itemsPerPage:5,
-                      currentPage:page,
-                      totalItems: totalRec}">
-                          <td>{{data.Opportunity_Name}}</td>
-                          <td>{{data.Cust_Name}}</td>
-                          <td>{{data.Closed_Date}}</td>
-                          <td>{{data.Sales_Phase}}</td>
-                          <td>{{data.Resource_Name }}</td>
-                          <td>{{data.Status}}</td>
-                          <td>{{data.Added_Date }}</td>
-                          <td>{{data.Expected_Value }}</td>
-                          <!-- data-toggle="modal" data-target="#OpenOpporModal" -->
-                          <td><button class="btn btn-info btnedit"  (click)="Get_Opportunity_Details(data)">+</button>
-                        </td>
-                      </tr>
-                  </tbody>
-                  <tfoot>
-                        <tr>
-                            <td colspan="6">
-                                <pagination-controls id="listing_pagination" maxSize="5" directionLinks="true"
-                                (pageChange)="page = $event"></pagination-controls>
-                            </td>
-                        </tr>
-                        </tfoot>
-              </table>
-              </div>
-              <div class="clearfix"></div>
-            
+        <div class="report_outer" id="reportouter">
+          <div class="report_heading col-md-12 nopadding">
+            <div class="pull-left">
+              <h4>Opportunities</h4>
+            </div>
+            <div class=" pull-left" style="margin-left: 20px;">
+              <a [routerLink]="['/customerlist']" class="btn btn-info btn_addnew">+ Add New Opportunities</a>
+            </div>
+            <div class="clearfix"></div>
           </div>
+          <div class="clearfix"></div>
+          <div class="table-responsive">
+            <div class="col-md-12 nopadding">
+              <div class="opportunity_strip" style="margin: 0; height: auto;">
+                <h4 class="panel-title">
+                  My Open Opportunities
+                  <i class="fa fa-filter pull-right" style="color:white;"></i>
+                  <i class="fa fa-search pull-right" style="color:white;"></i>
+                  <div class="pull-right">
+                      <input class="form-control" type="text" name="search" [(ngModel)]="filter" placeholder="Search here">
+                  </div>
+                </h4>
+                <div class="clearfix"></div>
+              </div>
+            </div>
+            <table class="table table-bordered report_table">
+              <thead>
+                <tr>
+                  <th (click)="sort('Cust_Name')">Account
+                      <span class="glyphicon sort-icon" *ngIf="key =='Cust_Name'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                  </th>
+                  <th (click)="sort('Opportunity_Name')">Name
+                      <span class="glyphicon sort-icon" *ngIf="key =='Opportunity_Name'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                  </th>
+                  <th (click)="sort('Closed_Date')">Closed Date
+                      <span class="glyphicon sort-icon" *ngIf="key =='Closed_Date'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                  </th>
+                  <th (click)="sort('Sales_Phase')">Sales Phase
+                      <span class="glyphicon sort-icon" *ngIf="key =='Sales_Phase'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                  </th>
+                  <th (click)="sort('Resource_Name')">Owner
+                      <span class="glyphicon sort-icon" *ngIf="key =='Resource_Name'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                  </th>
+                  <th (click)="sort('Status')">Status
+                      <span class="glyphicon sort-icon" *ngIf="key =='Status'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                  </th>
+                  <th (click)="sort('Added_Date')">Created On
+                      <span class="glyphicon sort-icon" *ngIf="key =='Added_Date'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                  </th>
+                  <th (click)="sort('Expected_Value')">Expected Value
+                      <span class="glyphicon sort-icon" *ngIf="key =='Expected_Value'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                  </th>
+                  <th class="text-center">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let data of opportunitieslistdata | paginate:{ id: 'listing_pagination',
+                itemsPerPage:8,
+                currentPage:page,
+                totalItems: totalRec } | orderBy: key : reverse  | filter:filter; let i = index">
+                  <td>{{data.Cust_Name}}</td>
+                   <td>{{data.Opportunity_Name}}</td>
+                  <td>{{data.Closed_Date}}</td>
+                  <td>{{data.Sales_Phase}}</td>
+                  <td>{{data.Resource_Name }}</td>
+                  <td>{{data.Status}}</td>
+                  <td>{{data.Added_Date }}</td>
+                  <td>{{data.Expected_Value }}</td>
+                  <td>
+                     <!-- *ngIf="data.TrackInTime ==='00:00' || data.TrackOutTime !=='00:00'" -->
+                    <a *ngIf="data.TrackInTime===false"  (click)="inVisit(data)" class="btn btn-info btnedit">In</a>&nbsp;&nbsp;
+                    <!-- *ngIf="data.TrackOutTime ==='00:00' && data.TrackInTime !=='00:00'" -->
+                    <a title="Stop Visit" *ngIf="data.TrackInTime===true" (click)="outVisit(data)" class="btn btn-info btnedit">Out</a>&nbsp;&nbsp;
+                    <!-- *ngIf="data.TrackOutTime ==='00:00' && data.TrackInTime !=='00:00'" -->
+                    <button title="Action On Opportunity" *ngIf="data.TrackInTime===true" class="btn btn-info btnedit" (click)="Get_Opportunity_Details(data)" ><span class=" glyphicon glyphicon-plus-sign"></span></button>
+                  </td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="12">
+                    <pagination-controls id="listing_pagination" maxSize="5" directionLinks="true"
+                                         (pageChange)="page = $event"></pagination-controls>
+                  </td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+          <div class="clearfix"></div>
+        </div>
       </div>
       <div class="clearfix"></div>
+    </div>
   </div>
-</div>
-<div class="clearfix"></div>
-
- <!-- My Open opportunities Modal Starts -->
-     <div  id="OpenOpporModal"  class="modal fade"   >
-        <div class="white_box opportunity_modal">
-            <ul class="nav nav-tabs">
-                <li class="active">
-                    <a href="#Overview" data-toggle="tab" (click)="Get_Opportunity_Details()">Overview</a>
-                </li>
-                <li>
-                    <a href="#CNTPER" data-toggle="tab" (click)="Get_ContactPerson_Details()" >Contact Person Details</a>
-                </li>
-                <li>
-                    <a href="#Document" data-toggle="tab" (click)="Get_Document_List()">Documents</a>
-                </li>
-                <li>
-                    <a href="#Competitor" data-toggle="tab" (click)="Get_OpportunityCompetitorDetails()">Competitor</a>
-                </li>
-                <li>
-                    <a href="#ProductTab" data-toggle="tab" (click)="Get_Oppor_Prod()">Product</a>
-                </li>
-                <li>
-                    <a href="#Quotation" data-toggle="tab" (click)="Get_Quotation_List()" id="Quotation1">Quotation</a>
-                </li>
-                <li>
-                    <a href="#Visit" data-toggle="tab" (click)="Get_OpportunityVisitDetails()" id="">Visits</a>
-                </li>
-                <li class="pull-right">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="padding-right: 10px;">&times;</button>
-                </li>
-            </ul>
-            <div class="clearfix"></div>
-            <div class="tab-content">
-                <div class="tab-pane fade in active" id="Overview">
-                    <div id="">
-                        <div class="col-md-2 form-group">
-                            <label class="mandatory" for="">Customer Name</label>
-                        </div>
-                        <div class="col-md-2 form-group">
-                            <input type="text" [value]="Cust_Name" class="form-control" disabled="disabled">
-                            <input type="hidden" ng-model="PK_Cust_Id" class="form-control" disabled="disabled">
-                        </div>
-                        <div class="col-md-2 form-group">
-                            <label for="">Customer Conatct No.</label>
-      
-                        </div>
-                        <div class="col-md-2 form-group">
-                            <input type="text" [value]="Customer_Contact_No" class="form-control" disabled="disabled">
-                        </div>
-                        <div class="col-md-2 form-group">
-                            <label class="mandatory" for="">Opportunity Source</label>
-                        </div>
-                        <div class="col-md-2 form-group">
-                            <input type="text" [value]="Enquiry_Source_Name" class="form-control" disabled="disabled">
-                        </div>
-                        <div class="col-md-2 form-group">
-                            <label class="mandatory" for="">Opportunity Type</label>
-      
-                        </div>
-                        <div class="col-md-2 form-group">
-                            <input type="text" [value]="Enquiry_Type_Name" class="form-control" disabled="disabled" />
-                        </div>
-                        <div class="col-md-2 form-group">
-                            <label class="mandatory" for="">Opportunity Name</label>
-                        </div>
-                        <div class="col-md-2 form-group">
-                            <input type="text" [value]="Opportunity_Name" class="form-control" disabled="disabled">
-                        </div>
-                        <div class="col-md-2 form-group">
-                            <label class="mandatory" for="">Start Date</label>
-                        </div>
-                        <div class="col-md-2 form-group">
-                            <input type="text" [value]="Start_Date" class="form-control" disabled="disabled">
-                        </div>
-                        <div class="col-md-2 form-group">
-                            <label class="mandatory" for="">Expected Value</label>
-                        </div>
-                        <div class="col-md-2 form-group">
-                            <input type="text" [value]="Expected_Value" class="form-control" disabled="disabled">
-                        </div>
-                        <div class="col-md-2 form-group">
-                            <label class="mandatory" for="">Chance of Success</label>
-                        </div>
-                        <div class="col-md-2 form-group">
-                            <input type="text" [value]="Chance_Of_Success" class="form-control" disabled="disabled">
-                        </div>
-                        <div class="col-md-2 form-group">
-                            <label class="mandatory" for="">Sales Phase</label>
-                        </div>
-                        <div class="col-md-2 form-group">
-                            <input type="text" [value]="Sales_Phase" class="form-control" disabled="disabled">
-                        </div>
-                        <div class="col-md-2 form-group">
-                            <label class="mandatory" for="">Closed Date</label>
-                        </div>
-                        <div class="col-md-2 form-group">
-                            <input type="text" [value]="Closed_Date" class="form-control" disabled="disabled">
-                        </div>
-                        <div class="col-md-2 form-group">
-                            <label class="mandatory" for="">Status</label>
-                        </div>
-                        <div class="col-md-2 form-group">
-                            <input type="text" [value]="Status" class="form-control" disabled="disabled">
-                        </div>
-      
-                        <div class="col-md-4">
-                            <span *ngIf="Forecast==true">
-                                    <input type="checkbox" class="" checked  id="Forecast" placeholder="" disabled="disabled">
-                            </span>
-                            <span *ngIf="Forecast==false">
-                                <input type="checkbox" class="" id="Forecast" placeholder="" disabled="disabled">
-                            </span>
-                            <label for="Forecast">Forecast</label>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="tab-pane fade" id="CNTPER">
-                    <div class="col-md-12">
-                        <div class="table-responsive">
-                            <table id="monthly_table" class="table table-bordered report_table">
-                                <thead>
-                                    <tr>
-                                        <!-- <th>Sr. No.</th> -->
-                                        <th>Name</th>
-                                        <th>Contact No.</th>
-                                        <th>Company Email</th>
-                                        <th>Designation</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr *ngFor="let contactDetail of ContactPersonlist">
-                                        <!-- <td></td> -->
-                                        <td>{{contactDetail.Cust_CntctPrson_Name}}</td>
-                                        <td>{{contactDetail.Cust_CntctPrson_Contact_No}} </td>
-                                        <td>{{contactDetail.Cust_CntctPrson_Email_Id}}</td>
-                                        <td>{{contactDetail.Cust_CntctPrson_Designation}}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="tab-pane fade" id="Document">
-                    <div>
-                        <div id="">
-                            <div class="col-md-2 form-group">
-                                <label class="mandatory" for="">Attachment</label>
-                            </div>
-                            <div class="col-md-4 form-group">
-                                <input file-model="Documentphoto" id="Documentphoto" onchange="angular.element(this).scope().file_changed(this)" type="file" class="pull-left">
-                                <input type="submit" name="" value="Upload" class="btn btn-primary btn_upload pull-right" (click)="Add_Document()">
-                                <div class="clearfix"></div>
-                                <div id="Documentlist" style="display:none"></div>
-                            </div>
-                            <div class="col-md-12">
-                                <table id="monthly_table" class="table table-bordered report_table">
-                                    <thead>
-                                        <tr>
-                                            <!-- <th>Sr. No.</th> -->
-                                            <th>File</th>
-                                            <th class="text-center">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr *ngFor="let item of Documentlist">
-                                            <!-- <td ng-bind="$index+1"></td> -->
-                                            <td><a href="~/Attachment/Document/{{item.FK_Opportunity_Id}}/{{item.File_Name}} " target="_blank">{{item.File_Name}}</a></td>
-                                            <td class="text-center"><button class="fa fa-trash" title="Delete" style="cursor: pointer" (click)="Delete_Document(item)" ></button> </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="tab-pane fade" id="Competitor">
-                    <div>
-                            <div id="">
-                                        <div class="col-md-2 form-group">
-                                                <label class="mandatory" for="">Competitor Type</label>
-                                        </div>
-                                        <div class="col-md-2 form-group">
-                                                <select formControlName="CompetitorTypeId"  class="form-control" (change)="Get_Competitor_List($event)"
-                                                        title="Please Select Competitor type">
-                                                    <option value="" disabled>Select</option>
-                                                    <option *ngFor="let CompetitorType of CompetitorTypelist" value={{CompetitorType.List_Code}}>
-                                                            {{CompetitorType.List_Desc}}
-                                                    </option>
-                                                </select>
-                                        </div>
-                                        <div class="col-md-2 form-group">
-                                            <label class="mandatory" for="">Competitor</label>
-                                         </div>
-                                        <div class="col-md-2 form-group ">
-                                                <select formControlName="CompetitorId" class="form-control opt" 
-                                                title="Please Select Competitor">
-                                            <option value="" disabled>Select</option>
-                                            <option *ngFor="let Comp of Complist" value={{Comp.PK_Competitor_Id}}>
-                                                    {{Comp.Competitor_Name}}
-                                            </option>
-                                        </select>
-                                        </div>
-                                        <div class="col-md-4">
-                                                <input class="chek" id="Is_Main" formControlName="IsMain" type="checkbox" style="vertical-align: middle; margin: 0;">
-                                                <label class="Forecast" for="Is_Main">Is Main</label>
-                                        </div>
-                                        <div class="clearfix"></div>
-                                        <div class="col-md-2 form-group">
-                                            <label class="mandatory" for="">Products</label>
-                                        </div>
-                                        <div class="col-md-2 form-group ">
-                                            <textarea class="form-control rema_chara" id="Comp_Product" formControlName="CompProduct" placeholder="Please Enter Products" title="Please Enter Products " maxlength="250"></textarea>
-                                        </div>
-                                        <div class="col-md-2 form-group">
-                                                <label for="">Price</label>
-                                            </div>
-                                            <div class=" col-md-2">
-                                                <input type="text" formControlName="CompPrice" class="form-control" placeholder="Enter Price " title="Enter Price " maxlength="10"
-                                                       onkeypress='return (event.charCode >= 48 && event.charCode <= 57) || event.keyCode == 8'>
-                                            </div>
-                                            <div class="col-md-2">
-                                                    <button class="btn btn_login" (click)="AddCompetitor()">Add</button>&nbsp;
-                                           </div>
-
-                                <div class="col-md-12">
-                                    <table id="monthly_table" class="table table-bordered report_table">
-                                        <thead>
-                                            <tr>
-                                                <th>Competitor Type</th>
-                                                <th>Competitor</th>
-                                                <th>Is Main</th>
-                                                <th>Product</th>
-                                                <th>Price</th>
-                                                <th class="text-center">Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr *ngFor="let item of Clist">
-                                               <td>{{item.List_Competitor_type}}</td>
-                                               <td>{{item.Competitor_Name}}</td>
-                                               <td>{{item.Is_Main}}</td>
-                                               <td>{{item.Comp_Product}}</td>
-                                               <td>{{item.Comp_Price}}</td>
-                                               <td><button (click)="Delete_Competitor(item)" class="fa fa-trash" title="Delete" ></button></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="clearfix"></div>
-                            </div>
-                        </div>
-                   
-                        <div class="clearfix"></div>
-                </div>
-                <div class="tab-pane fade" id="Quotation">
-                    <div>
-                        <div id="">
-                            <div class="col-md-2 form-group">
-                                <label class="mandatory" for="">Attachment</label>
-                            </div>
-                            <div class="col-md-4 form-group">
-                                <input file-model="photo" id="photo" onchange="angular.element(this).scope().Quotationfile_changed(this)" type="file" class="pull-left">
-                                <input type="submit" name="" value="Upload" class="btn btn-primary btn_upload pull-right" (click)="Add_Quotation()">
-                                <div class="clearfix"></div>
-                                <div id="list" style="display:none"></div>
-                            </div>
-                            <div class="col-md-12">
-                                <table id="monthly_table" class="table table-bordered report_table">
-                                    <thead>
-                                        <tr>
-                                            <!-- <th>Sr. No.</th> -->
-                                            <th>File</th>
-                                            <th class="text-center">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr *ngFor="let item of Quotationlistdata">
-                                            <!-- <td></td> -->
-                                            <td><a href="~/Attachment/Quotation//{{item.FK_Opportunity_Id}}/{{item.File_Name}} " target="_blank">{{item.File_Name}}</a></td>
-                                            <td class="text-center"><i (click)="Delete_Quotation(item)" class="fa fa-trash" title="Delete" style="cursor: pointer;"></i> </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="tab-pane fade" id="Visit">
-                    <div>
-                        <div id="">
-                            <div class="col-md-2 form-group">
-                                <label class="mandatory" for="">Visit Type</label>
-                           </div>
-                        <div class="col-md-2 form-group">
-                                <select formControlName="VisitType" class="form-control" 
-                                        title="Please Select Visit type">
-                                    <option value="" disabled>Select</option>
-                                    <option *ngFor="let Vtype of visitTypelist" value={{Vtype.List_Code}}>
-                                            {{Vtype.List_Desc}}
-                                    </option>
-                                </select>
-                        </div>
-                        <div class="col-md-2 form-group">
-                            <label class="mandatory" for="">Start Date</label>
-                        </div>
-                        <div class="col-md-2 form-group ">
-                            <input type="text" class="form-control " id="Visit_Start_Date" formControlName="Visit_Start_Date" placeholder="dd-mmm-yyyy" title="Please Enter Start Date" onkeypress="return false; event.charCode >= 48 && event.charCode <= 57" onkeydown="return false" autocomplete="off">
-                        </div>
-                        <div class="col-md-2 form-group">
-                            <label class="mandatory" for="">Start Time</label>
-                        </div>
-                        <div class=" col-md-2  clockpicker " data-placement="top" data-align="top" data-autoclose="true" style="position: relative;">
-                            <input type="text" id="Visit_Start_Time" formControlName="Visit_Start_Time" class="form-control" placeholder="Enter Start Time" title="Enter Start Time">
-                            <span class="input-group-addon clock-icon clockpickicon"> <i class="fa fa-clock-o clock-icon" aria-hidden="true"></i> </span>
-                        </div>
-                        <div class="clearfix"></div>
-                        <div class="col-md-2 form-group">
-                            <label class="mandatory" for="">End Date</label>
-                        </div>
-                        <div class="col-md-2 form-group ">
-                            <input type="text" class="form-control " id="Visit_End_Date" formControlName="Visit_End_Date" placeholder="dd-mmm-yyyy" title="Please Enter End Date" onkeypress="return false; event.charCode >= 48 && event.charCode <= 57" onkeydown="return false" autocomplete="off">
-                        </div>
-                        <div class="col-md-2 form-group">
-                            <label class="mandatory" for="">End Time</label>
-                        </div>
-                        <div class=" col-md-2   clockpicker " data-placement="top" data-align="top" data-autoclose="true" style="position: relative;">
-                            <input type="text" id="Visit_End_Time" formControlName="Visit_End_Time" class="form-control" placeholder="Enter End Time" title="Enter End Time">
-                            <span class="input-group-addon clock-icon clockpickicon"> <i class="fa fa-clock-o clock-icon" aria-hidden="true"></i> </span>
-                        </div>
-                        <div class="col-md-2">
-                                <button class="btn btn_login" (click)="AddVisits()">Add</button>&nbsp;
-                        </div>
-                            <div class="col-md-12">
-                                <table id="monthly_table" class="table table-bordered report_table">
-                                    <thead>
-                                        <tr>
-                                            <th>Visit Type</th>
-                                            <th>Start Date</th>
-                                            <th>Start Time</th>
-                                            <th>End Date</th>
-                                            <th>End Time</th>
-                                            <th class="text-center">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr *ngFor="let item of visitlist">
-                                            <td style="display: none">{{item.PK_Visit}}</td>
-                                           <td>{{item.List_Visit_type}}</td>
-                                           <td>{{item.List_Visit_Start_Date}}</td>
-                                           <td>{{item.List_Visit_Start_Time}}</td>
-                                           <td>{{item.List_Visit_End_Date}}</td>
-                                           <td>{{item.List_Visit_End_Time}}</td>
-                                        <td class="text-center"><button class="fa fa-trash" title="Delete" style="cursor: pointer" (click)="DeleteVisits(item)" ></button> </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="clearfix"></div>
-                     
-                     </div>
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="tab-pane fade" id="ProductTab">
-                        <div>
-                            <div id="">
-                                    <div class="col-md-2 form-group">
-                                            <label class="">Range</label>
-                                    </div>
-                                        <div class="col-md-2 form-group">
-                                                
-                                                <select formControlName="Range" id="Range" class="form-control" (change)="Get_Sub_Range_List($event)"
-                                                title="Please Select Range">
-                                            <option value="" disabled>Select</option>
-                                            <option *ngFor="let item of Rangelist" value={{item.List_Code}}>
-                                                    {{item.List_Desc}}
-                                            </option>
-                                        </select>
-                                        </div>
-                                        <div class="col-md-2 form-group">
-                                                <label class="">Sub Range</label>
-                                            </div>
-                                            <div class="col-md-2 form-group">
-                                                    <select formControlName="SubRange" id="SubRange" class="form-control" (change)="Get_Product_List($event)"
-                                                    title="Please Select Range">
-                                                <option value="" disabled>Select</option>
-                                                <option *ngFor="let item of SubRangelist" value={{item.PK_SubRange_Id}}>
-                                                        {{item.SubRange_Name}}
-                                                </option>
-                                            </select>
-                                            </div>
-                                            <div class="clearfix"></div>
-                                            <!-- ng-show="ShowProduct" -->
-                                            <div class="panel-group entry_accordion" id="accordion" >
-                                                <label id="subrange1"><i class="fa fa-plus-square-o"></i> {{SubRange}}: ( {{Range}} )</label>
-                                                <table>
-                                                    <tr *ngFor="let tRow1 of ProductDetailslist">
-                                                        <td>
-                                                            <input class="text-center chk" type="checkbox"  id="{{tRow1.Product_Id}}" style="text-align:center!important;" />
-                                                            <label> {{tRow1.Product_Name}}:</label>
-                                                        </td>
-                                                        <td>Quantity: <input type="text" class="form-control" id="{{'price'+tRow1.Product_Id}}" value="{{tRow1.Quantity}}" /></td>
-                                                        <td> Price:<input type="text" class="form-control" value="{{tRow1.Price}}" /></td>
-                                                    </tr>
-                                                </table>
-                                                <div class="col-md-12" style="padding-left:248px;margin-top:10px">
-                                                    <button class="btn btn_login" (click)="Add_opporProduct()">Add</button>
-                                                    <!-- <input type="button" class="btn btn-primary"  (click)="Add_opporProduct()" /> -->
-                                                </div>
-                                            </div>
-                            </div>
-                        </div>
-                        <div class="clearfix"></div>
-                        <div class="col-md-12">
-                                    <table id="monthly_table" class="table table-bordered report_table">
-                                        <thead>
-                                            <tr>
-                                                    <th>Range</th>
-                                                    <th>Sub Range</th>
-                                                    <th>Segment</th>
-                                                    <th>Product</th>
-                                                    <th>Quantity</th>
-                                                    <th>Price</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                                <tr *ngFor="let item of productlist | paginate:{ id: 'listing_pagination',
-                                                itemsPerPage:5,
-                                                currentPage:page,
-                                                totalItems: totalRec}">
-                                                        <td>{{item.RangeDesc}}</td>
-                                                        <td>{{item.SubRange_Name}}</td>
-                                                        <td>{{item.segment}}</td>
-                                                        <td>{{item.Product_Name}}</td>
-                                                        <td>{{item.Quantity}}</td>
-                                                        <td>{{item.Price}}</td>
-                                                </tr>
-                                        </tbody>
-                                        <tfoot>
-                                            <tr>
-                                                sdsfhdsbfbdshfbdsh
-                                                <td colspan="6">
-                                                    <pagination-controls id="listing_pagination" maxSize="5" directionLinks="true"
-                                                    (pageChange)="page = $event"></pagination-controls>
-                                                </td>
-                                            </tr>
-                                            </tfoot>
-                                    </table>
-                       </div>
-                        <div class="clearfix"></div>
-                </div>
-                        <div class="clearfix"></div>
-                </div>
-                <div class="ActionArea">
-                    <div class="dropdown pull-right">
-                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
-                            Action
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a href="#" id="mySPPopup" style="color:white" ng-click="SetAsInProc()">Set as in Process &nbsp; &nbsp;</a></li>
-                            <li><a href="#WonModal" data-toggle="modal" id="myWonPopup" style="color:white"  (click)="Get_Oppor_Prod()">Set as Won &nbsp; &nbsp;</a></li>
-                            <li><a href="#LostModal" data-toggle="modal" id="myLostModalPopup" style="color:white" (click)="Get_Oppor_Competitor_List()">Set as Lost &nbsp; &nbsp;</a></li>
-                            <li><a href="#StopModal" data-toggle="modal" id="myStopPopup" style="color:white" (click)="Get_Reason_List()">Set as Stopped &nbsp; &nbsp;</a> </li>
-                            <li><a href="#CopyModal" data-toggle="modal" id="myCopyModalPopup" style="color:white">Copy &nbsp; &nbsp;</a></li>
-                        </ul>
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
+  <div class="clearfix"></div>
+  <form [formGroup]="addCompetitorForm">
+  <!-- My Open opportunities Modal Starts -->
+  <div id="OpenOpporModal" class="modal fade">
+    <div class="white_box opportunity_modal">
+      <ul class="nav nav-tabs">
+        <li class="active">
+          <a href="#Overview" data-toggle="tab" (click)="Get_Opportunity_Details()">Overview</a>
+        </li>
+        <li>
+          <a href="#CNTPER" data-toggle="tab" (click)="Get_ContactPerson_Details()">Contact Person Details</a>
+        </li>
+        <!-- <li>
+            <a href="#Document" data-toggle="tab" (click)="Get_Document_List()">Documents</a>
+        </li> -->
+        <li>
+          <a href="#Competitor" data-toggle="tab" (click)="Get_OpportunityCompetitorDetails()">Competitor</a>
+        </li>
+        <li>
+          <a href="#ProductTab" data-toggle="tab" (click)="Get_Oppor_Prod()">Product</a>
+        </li>
+        <li>
+          <a href="#Quotation" data-toggle="tab" (click)="Get_Quotation_List()" id="Quotation1">Quotation</a>
+        </li>
+        <li>
+          <a href="#Visit" data-toggle="tab" (click)="Get_OpportunityVisitDetails()" id="">Schedule Next Visit</a>
+        </li>
+        <li class="pull-right">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="padding-right: 10px;">&times;</button>
+        </li>
+      </ul>
+      <div class="clearfix"></div>
+      <div class="tab-content">
+        <div class="tab-pane fade in active" id="Overview">
+          <div id="">
+            <div class="col-md-2 form-group">
+              <label class="mandatory" for="">Customer Name</label>
             </div>
+            <div class="col-md-2 form-group">
+              <input type="text" [value]="Cust_Name" class="form-control" disabled="disabled">
+              <input type="hidden" [value]="PK_Cust_Id" class="form-control" disabled="disabled">
+            </div>
+            <div class="col-md-2 form-group">
+              <label for="">Customer Conatct No.</label>
+            </div>
+            <div class="col-md-2 form-group">
+              <input type="text" [value]="Customer_Contact_No" class="form-control" disabled="disabled">
+            </div>
+            <div class="col-md-2 form-group">
+              <label class="mandatory" for="">Opportunity Source</label>
+            </div>
+            <div class="col-md-2 form-group">
+              <input type="text" [value]="Enquiry_Source_Name" class="form-control" disabled="disabled">
+            </div>
+            <div class="col-md-2 form-group">
+              <label class="mandatory" for="">Opportunity Type</label>
+            </div>
+            <div class="col-md-2 form-group">
+              <input type="text" [value]="Enquiry_Type_Name" class="form-control" disabled="disabled" />
+            </div>
+            <div class="col-md-2 form-group">
+              <label class="mandatory" for="">Opportunity Name</label>
+            </div>
+            <div class="col-md-2 form-group">
+              <input type="text" [value]="Opportunity_Name" class="form-control" disabled="disabled">
+            </div>
+            <div class="col-md-2 form-group">
+              <label class="mandatory" for="">Start Date</label>
+            </div>
+            <div class="col-md-2 form-group">
+              <input type="text" [value]="Start_Date" class="form-control" disabled="disabled">
+            </div>
+            <div class="col-md-2 form-group">
+              <label class="mandatory" for="">Expected Value</label>
+            </div>
+            <div class="col-md-2 form-group">
+              <input type="text" [value]="Expected_Value" class="form-control" disabled="disabled">
+            </div>
+            <div class="col-md-2 form-group">
+              <label class="mandatory" for="">Chance of Success</label>
+            </div>
+            <div class="col-md-2 form-group">
+              <input type="text" [value]="Chance_Of_Success" class="form-control" disabled="disabled">
+            </div>
+            <div class="col-md-2 form-group">
+              <label class="mandatory" for="">Sales Phase</label>
+            </div>
+            <div class="col-md-2 form-group">
+              <input type="text" [value]="Sales_Phase" class="form-control" disabled="disabled">
+            </div>
+            <div class="col-md-2 form-group">
+              <label class="mandatory" for="">Closed Date</label>
+            </div>
+            <div class="col-md-2 form-group">
+              <input type="text" [value]="Closed_Date" class="form-control" disabled="disabled">
+            </div>
+            <div class="col-md-2 form-group">
+              <label class="mandatory" for="">Status</label>
+            </div>
+            <div class="col-md-2 form-group">
+              <input type="text" [value]="Status" class="form-control" disabled="disabled">
+            </div>
+
+            <div class="col-md-4">
+              <span *ngIf="Forecast==true">
+                <input type="checkbox" class="" checked id="Forecast" placeholder="" disabled="disabled">
+              </span>
+              <span *ngIf="Forecast==false">
+                <input type="checkbox" class="" id="Forecast" placeholder="" disabled="disabled">
+              </span>
+              <label for="Forecast">Forecast</label>
+            </div>
+            <div class="clearfix"></div>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+        <div class="tab-pane fade" id="CNTPER">
+          <div class="col-md-12">
+            <div class="table-responsive">
+              <table id="monthly_table" class="table table-bordered report_table">
+                <thead>
+                  <tr>
+                    <th>Sr. No.</th>
+                    <th>Name</th>
+                    <th>Contact No.</th>
+                    <th>Company Email</th>
+                    <th>Designation</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let contactDetail of ContactPersonlist;let i=index">
+                    <td>{{i+1}}</td>
+                    <td>{{contactDetail.Cust_CntctPrson_Name}}</td>
+                    <td>{{contactDetail.Cust_CntctPrson_Contact_No}} </td>
+                    <td>{{contactDetail.Cust_CntctPrson_Email_Id}}</td>
+                    <td>{{contactDetail.Cust_CntctPrson_Designation}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+        <div class="tab-pane fade" id="Document">
+          <div>
+            <div id="">
+              <div class="col-md-2 form-group">
+                <label class="mandatory" for="">Attachment</label>
+              </div>
+              <div class="col-md-4 form-group">
+                <!-- <input file-model="Documentphoto" id="Documentphoto" onchange="angular.element(this).scope().file_changed(this)" type="file" class="pull-left"> -->
+                <!-- <input type="file" id="upload" name="File" class="form-control" style="float:left" />
+                <input type="submit" name="" value="Upload" class="btn btn-primary btn_upload pull-right" (click)="Add_Document()">
+                <div class="clearfix"></div> -->
+                <div id="Documentlist" style="display:none"></div>
+              </div>
+              <div class="col-md-12">
+                <table id="monthly_table" class="table table-bordered report_table">
+                  <thead>
+                    <tr>
+                      <!-- <th>Sr. No.</th> -->
+                      <th>File</th>
+                      <th class="text-center">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of Documentlist">
+                      <!-- <td>{{"$index+1"}}</td>  -->
+                      <td><a href="~/Attachment/Document/{{item.FK_Opportunity_Id}}/{{item.File_Name}} " target="_blank">{{item.File_Name}}</a></td>
+                      <td class="text-center"><button class="fa fa-trash" title="Delete" style="cursor: pointer" (click)="Delete_Document(item)"></button> </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="clearfix"></div>
+            </div>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+        <div class="tab-pane fade" id="Competitor">
+          <div>
+            <div id="">
+              <div class="col-md-2 form-group">
+                <label class="mandatory" for="">Competitor Type</label>
+              </div>
+              <div class="col-md-2 form-group">
+                <select formControlName="CompetitorTypeId" class="form-control" (change)="Get_Competitor_List($event)"
+                        title="Please Select Competitor type">
+                  <option value="" disabled>Select</option>
+                  <option *ngFor="let CompetitorType of CompetitorTypelist" value={{CompetitorType.List_Code}}>
+                    {{CompetitorType.List_Desc}}
+                  </option>
+                </select>
+              </div>
+              <div class="col-md-2 form-group">
+                <label class="mandatory" for="">Competitor</label>
+              </div>
+              <div class="col-md-2 form-group ">
+                <select formControlName="CompetitorId" class="form-control opt"
+                        title="Please Select Competitor">
+                  <option value="" disabled>Select</option>
+                  <option *ngFor="let Comp of Complist" value={{Comp.PK_Competitor_Id}}>
+                    {{Comp.Competitor_Name}}
+                  </option>
+                </select>
+              </div>
+              <div class="col-md-4">
+                <input class="chek" id="Is_Main" formControlName="IsMain" type="checkbox" style="vertical-align: middle; margin: 0;">
+                <label class="Forecast" for="Is_Main">Is Main</label>
+              </div>
+              <div class="clearfix"></div>
+              <div class="col-md-2 form-group">
+                <label class="mandatory" for="">Products</label>
+              </div>
+              <div class="col-md-2 form-group ">
+                <textarea class="form-control rema_chara" id="Comp_Product" formControlName="CompProduct" placeholder="Please Enter Products" title="Please Enter Products " maxlength="250"></textarea>
+              </div>
+              <div class="col-md-2 form-group">
+                <label for="">Price</label>
+              </div>
+              <div class=" col-md-2">
+                <input type="text" formControlName="CompPrice" class="form-control" placeholder="Enter Price " title="Enter Price " maxlength="10"
+                       onkeypress='return (event.charCode >= 48 && event.charCode <= 57) || event.keyCode == 8'>
+              </div>
+              <div class="col-md-2">
+                <button class="btn btn_login" (click)="AddCompetitor()">Add</button>&nbsp;
+              </div>
+              <div class="col-md-12">
+                <table id="monthly_table" class="table table-bordered report_table">
+                  <thead>
+                    <tr>
+                      <th>Sr. No.</th>
+                      <th>Competitor Type</th>
+                      <th>Competitor</th>
+                      <th>Is Main</th>
+                      <th>Product</th>
+                      <th>Price</th>
+                      <th class="text-center">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of Clist;let i = index">
+                      <td>{{i+1}}</td>
+                      <td>{{item.List_Competitor_type}}</td>
+                      <td>{{item.Competitor_Name}}</td>
+                      <td>{{item.Is_Main}}</td>
+                      <td>{{item.Comp_Product}}</td>
+                      <td>{{item.Comp_Price}}</td>
+                      <td><button (click)="Delete_Competitor(item)" class="fa fa-trash" title="Delete"></button></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="clearfix"></div>
+            </div>
+          </div>
+
+          <div class="clearfix"></div>
+        </div>
+        <div class="tab-pane fade" id="Quotation">
+          <div>
+            <div id="">
+              <div class="col-md-2 form-group">
+                <label class="mandatory" for="">Attachment</label>
+              </div>
+              <div class="col-md-4 form-group">
+                <input type="file" id="upload" name="File" (change)="onSelectAttachment($event)" class="form-control" style="float:left" />
+                <input type="submit" name="" value="Upload" class="btn btn-primary btn_upload pull-right" (click)="Add_Quotation()">
+   
+                <div class="clearfix"></div>
+                <div id="list" style="display:none"></div>
+              </div>
+              <div class="col-md-12">
+                <table id="monthly_table" class="table table-bordered report_table">
+                  <thead>
+                    <tr>
+                      <th>Sr. No.</th>
+                      <th>File</th>
+                      <th class="text-center">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of Quotationlistdata;let i=index">
+                      <td>{{i+1}}</td>
+                      <td><a href="{{item.Url}} " target="_blank">{{item.File_Name}}</a></td>
+                      <td class="text-center"><i (click)="Delete_Quotation(item)" class="fa fa-trash" title="Delete" style="cursor: pointer;"></i> </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="clearfix"></div>
+            </div>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+        <div class="tab-pane fade" id="Visit">
+          <div>
+            <div id="">
+              <div class="col-md-2 form-group">
+                <label class="mandatory" for="">Visit Type</label>
+              </div>
+              <div class="col-md-2 form-group">
+                <select formControlName="VisitType" class="form-control"
+                        title="Please Select Visit type">
+                  <option value="" disabled>Select</option>
+                  <option *ngFor="let Vtype of visitTypelist" value={{Vtype.List_Code}}>
+                    {{Vtype.List_Desc}}
+                  </option>
+                </select>
+              </div>
+              <div class="col-md-2 form-group">
+                <label class="mandatory" for="">Start Date</label>
+              </div>
+              <div class="col-md-2 form-group ">
+                <input type="text" class="form-control " id="Visit_Start_Date" formControlName="Visit_Start_Date" placeholder="dd-mmm-yyyy" title="Please Enter Start Date" onkeypress="return false; event.charCode >= 48 && event.charCode <= 57" onkeydown="return false" autocomplete="off">
+              </div>
+              <div class="col-md-2 form-group">
+                <label class="mandatory" for="">Start Time</label>
+              </div>
+              <div class=" col-md-2  clockpicker " data-placement="top" data-align="top" data-autoclose="true" style="position: relative;">
+                <input type="text" id="Visit_Start_Time" formControlName="Visit_Start_Time" class="form-control" placeholder="Enter Start Time" title="Enter Start Time">
+                <span class="input-group-addon clock-icon clockpickicon"> <i class="fa fa-clock-o clock-icon" aria-hidden="true"></i> </span>
+              </div>
+              <div class="clearfix"></div>
+              <div class="col-md-2 form-group">
+                <label class="mandatory" for="">End Date</label>
+              </div>
+              <div class="col-md-2 form-group ">
+                <input type="text" class="form-control " id="Visit_End_Date" formControlName="Visit_End_Date" placeholder="dd-mmm-yyyy" title="Please Enter End Date" onkeypress="return false; event.charCode >= 48 && event.charCode <= 57" onkeydown="return false" autocomplete="off">
+              </div>
+              <div class="col-md-2 form-group">
+                <label class="mandatory" for="">End Time</label>
+              </div>
+              <div class=" col-md-2   clockpicker " data-placement="top" data-align="top" data-autoclose="true" style="position: relative;">
+                <input type="text" id="Visit_End_Time" formControlName="Visit_End_Time" class="form-control" placeholder="Enter End Time" title="Enter End Time">
+                <span class="input-group-addon clock-icon clockpickicon"> <i class="fa fa-clock-o clock-icon" aria-hidden="true"></i> </span>
+              </div>
+              <div class="col-md-2">
+                <button class="btn btn_login" *ngIf="Status=='In Process'" (click)="AddVisits()">Add</button>&nbsp;
+              </div>
+              <div class="col-md-12">
+                <table id="monthly_table" class="table table-bordered report_table">
+                  <thead>
+                    <tr>
+                      <th>Sr. No.</th>
+                      <th>Visit Type</th>
+                      <th>Start Date</th>
+                      <th>Start Time</th>
+                      <th>End Date</th>
+                      <th>End Time</th>
+                      <th class="text-center">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of visitlist;let i=index">
+                      <td>{{i+1}}</td>
+                      <td style="display: none">{{item.PK_Visit}}</td>
+                      <td>{{item.List_Visit_type}}</td>
+                      <td>{{item.List_Visit_Start_Date}}</td>
+                      <td>{{item.List_Visit_Start_Time}}</td>
+                      <td>{{item.List_Visit_End_Date}}</td>
+                      <td>{{item.List_Visit_End_Time}}</td>
+                      <td class="text-center"><button class="fa fa-trash" title="Delete" style="cursor: pointer" (click)="DeleteVisits(item)"></button> </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="clearfix"></div>
+
+            </div>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+        <div class="tab-pane fade" id="ProductTab">
+          <div>
+            <div id="">
+              <div class="col-md-2 form-group">
+                <label class="mandatory">Range</label>
+              </div>
+              <div class="col-md-2 form-group">
+                <select formControlName="Range" id="Range" class="form-control" (change)="Get_Sub_Range_List($event)"
+                        title="Please Select Range">
+                  <option value="" disabled>Select</option>
+                  <option *ngFor="let item of Rangelist" value={{item.List_Code}}>
+                    {{item.List_Desc}}
+                  </option>
+                </select>
+              </div>
+              <div class="col-md-2 form-group">
+                <label class="mandatory">Sub Range</label>
+              </div>
+              <div class="col-md-2 form-group">
+                <select formControlName="SubRange" id="SubRange" class="form-control" (change)="Get_Product_List($event)"
+                        title="Please Select Range">
+                  <option value="" disabled>Select</option>
+                  <option *ngFor="let item of SubRangelist" value={{item.PK_SubRange_Id}}>
+                    {{item.SubRange_Name}}
+                  </option>
+                </select>
+              </div>
+              <div class="clearfix"></div>
+              
+              <div class="panel-group entry_accordion" id="accordion">
+                <label id="subrange1"><i class="fa fa-plus-square-o"></i> {{SubRange}}: ( {{Range}} )</label>
+                <table>
+                  <tr *ngFor="let tRow1 of ProductDetailslist">
+                    <td>
+                      <input class="text-center chk" formControlName="chk_prod" type="checkbox" id="{{tRow1.Product_Id}}" style="text-align:center!important;" />
+                      <label> {{tRow1.Product_Name}}:</label>
+                    </td>
+                    <td>Quantity: <input type="text" formControlName="QT" class="form-control" id="{{tRow1.Product_Id +'QR'}}" value="{{tRow1.Quantity}}" /></td>
+                    <td> Price:<input type="text" formControlName="PT" class="form-control" id="{{tRow1.Product_Id +'PR'}}" value="{{tRow1.Price}}" /></td>
+                  </tr>
+                </table>
+                <div class="col-md-12" style="padding-left:248px;margin-top:10px">
+                    <button class="btn btn_login" (click)="Add_opporProduct()">Add</button>
+                  </div>
+              </div>
+            </div>
+          </div>
+          <div class="clearfix"></div>
+          <div class="col-md-12">
+            <table id="monthly_table" class="table table-bordered report_table">
+              <thead>
+                <tr>
+                  <th>Sr. No.</th>
+                  <th>Range</th>
+                  <th>Sub Range</th>
+                  <th>Segment</th>
+                  <th>Product</th>
+                  <th>Quantity</th>
+                  <th>Price</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of productlist;let i=index">
+                  <td>{{i+1}}</td>
+                  <td>{{item.RangeDesc}}</td>
+                  <td>{{item.SubRange_Name}}</td>
+                  <td>{{item.segment}}</td>
+                  <td>{{item.Product_Name}}</td>
+                  <td>{{item.Quantity}}</td>
+                  <td>{{item.Price}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="clearfix"></div>
+        </div>
         <div class="clearfix"></div>
       </div>
-    
-
-      <!--My Open opportunities Modal Ends -->
-      <!-- Won Modal Starts -->
-      <div id="WonModal" class="modal fade">
-      <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Won Details</h4>
+      <div class="ActionArea">
+        <div class="dropdown pull-right">
+          <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+            Action
+          </button>
+          <ul class="dropdown-menu">
+            <li><a href="#InProcessModel" data-toggle="modal" id="aInProcessModel" style="color:white" (click)="Get_Oppor_Prod()">Set as in Process &nbsp; &nbsp;</a></li>
+            <li><a href="#WonModal" data-toggle="modal" id="myWonPopup" style="color:white" (click)="Get_Oppor_Prod()">Set as Won &nbsp; &nbsp;</a></li>
+            <li><a href="#LostModal" data-toggle="modal" id="myLostModalPopup" style="color:white" (click)="Get_OpportunityCompetitorDetails()">Set as Lost &nbsp; &nbsp;</a></li>
+            <li><a href="#StopModal" data-toggle="modal" id="myStopPopup" style="color:white" (click)="Get_Reason_List()">Set as Stopped &nbsp; &nbsp;</a> </li>
+            <li><a href="#CopyModal" data-toggle="modal" id="myCopyModalPopup" style="color:white">Copy &nbsp; &nbsp;</a></li>
+          </ul>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+  </div>
+  <!-- In Process -->
+  <div id="InProcessModel" class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">InProcess Details</h4>
+        </div>
+        <div class="modal-body">
+          <div class="col-md-4 form-group">
+            <label for="">Customer Name:</label>
+          </div>
+          <div class="col-md-8 form-group">
+            <input type="text" class="form-control" id="" placeholder="" title="Please Enter Customer name" [value]="CName"
+                   disabled="disabled">
+          </div>
+          <div class="clearfix"></div>
+          <div class="col-md-4 form-group">
+            <label class="mandatory" for="">Remarks:</label>
+          </div>
+          <div class="col-md-8 form-group">
+            <textarea class="form-control" title="Please Enter Remark" [value]="InProcess_Remarks" formControlName="InProcess_Remarks" rows="3"
+                      oninvalid="InvalidMsg(this,'Please enter Remarks','Please enter Remarks');">
+                      </textarea>
+            <div *ngIf="submitted && f.InProcess_Remarks.errors" class="invalid-feedback">
+              <div *ngIf="f.InProcess_Remarks.errors.required">is required</div>
             </div>
-            <div class="modal-body">
-                <div class="col-md-4 form-group">
-                    <label class="mandatory" for="">Won Value:</label>
-                </div>
-                <div class="col-md-8 form-group">
-                    <input type="text" class="form-control" id="" placeholder="" title="Please Enter Won Value" ng-model="Won_Value"
-                           oninvalid="InvalidMsg(this,'Please enter Won Value','Please enter Won Value');">
-                </div>
-      
-              
-      
-                <div class="col-md-4 form-group">
-                    <label class="mandatory" for="">Product Name:</label>
-      
-                </div>
-                <div class="col-md-8 form-group">
-                    <select id="ddlWonProduct" ng-model="ddlWonProduct" class="form-control opt"
-                            title="Please Select Product" ng-options="item as item.Product_Name for item in Oppor_Product_List track by item.Product_Id">
-                        <option value="" selected>Select</option>
-                    </select>
-                </div>
-                <div class="col-md-4 form-group">
-                    <label class="mandatory" for="">Customer Name:</label>
-                </div>
-                <div class="col-md-8 form-group">
-                    <input type="text" class="form-control" id="" placeholder="" title="Please Enter Customer name" ng-model="Cust_Name"
-                           disabled="disabled">
-                </div>
-                <div class="clearfix"></div>
-                <div class="col-md-4 form-group">
-                    <label class="mandatory" for="">Remarks:</label>
-                </div>
-                <div class="col-md-8 form-group">
-                    <textarea class="form-control" title="Please Enter Remark" ng-model="Won_Remarks" rows="3"
-                              oninvalid="InvalidMsg(this,'Please enter Product name','Please enter Remarks');">
+          </div>
+          <div class="clearfix"></div>
+        </div>
+        <div class="modal-footer">
+          <div class="pull-right">
+            <button type="button" class="btn btn-primary" (click)="Add_InProcess()">Add</button>&nbsp;
+            <button type="button" class="btn btn-default" data-dismiss="modal" (click)="Clear_InProcess()">Cancel</button>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="WonModal" class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Won Details</h4>
+        </div>
+        <div class="modal-body">
+          <div class="col-md-4 form-group">
+            <label class="mandatory" for="">Won Value:</label>
+          </div>
+          <div class="col-md-8 form-group">
+            <input type="text" class="form-control" id="" placeholder="" title="Please Enter Won Value"  
+            formControlName="Won_Value" 
+            onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.keyCode == 8" maxlength="10"
+                   oninvalid="InvalidMsg(this,'Please enter Won Value','Please enter Won Value');">
+            <div *ngIf="submitted && f.Won_Value.errors" class="invalid-feedback">
+              <div *ngIf="f.Won_Value.errors.required">is required</div>
+            </div>
+          </div>
+          <div class="col-md-4 form-group">
+            <label for="">Product Name:</label>
+          </div>
+          <div class="col-md-8 form-group">
+            <textarea input type="text" class="form-control" id="" disabled="disabled" placeholder="" title="Please Enter Product name" [value]="PNAction"></textarea>
+          </div>
+          <div class="col-md-4 form-group">
+            <label for="">Customer Name:</label>
+          </div>
+          <div class="col-md-8 form-group">
+            <input type="text" class="form-control" id="" placeholder="" title="Please Enter Customer name" [value]="CName"
+                   disabled="disabled">
+          </div>
+          <div class="clearfix"></div>
+          <div class="col-md-4 form-group">
+            <label class="mandatory" for="">Remarks:</label>
+          </div>
+          <div class="col-md-8 form-group">
+            <textarea class="form-control" title="Please Enter Remark" formControlName="Won_Remarks" rows="3"
+                      oninvalid="InvalidMsg(this,'Please enter Product name','Please enter Remarks');">
                     </textarea>
-                </div>
-                <div class="clearfix"></div>
+            <div *ngIf="submitted && f.Won_Remarks.errors" class="invalid-feedback">
+              <div *ngIf="f.Won_Remarks.errors.required">is required</div>
             </div>
-            <div class="modal-footer">
-                <div class="pull-right">
-                    <input type="button" class="btn btn-primary" value="Submit" ng-click="Add_Won()" />
-      
-                    
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                </div>
-                <div class="clearfix"></div>
+            <div class="clearfix"></div>
+          </div>
+          <div class="modal-footer">
+            <div class="pull-right">
+              <button type="button" class="btn btn-primary" (click)="Add_Won()">Add</button>&nbsp;
+              <button type="button" class="btn btn-default" data-dismiss="modal" (click)="Clear_Won()">Cancel</button>
             </div>
+            <div class="clearfix"></div>
+          </div>
         </div>
       </div>
-      </div>
-      <!-- Won Modal Ends -->
-      <!-- Lost Modal Starts -->
-      <div id="LostModal" class="modal fade">
-      <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Lost Details</h4>
-            </div>
-            <div class="modal-body">
-                <div class="col-md-4 form-group">
-                    <label class="mandatory" for="">Lost Value:</label>
-                </div>
-                <div class="col-md-8 form-group">
-                    <input type="text" class="form-control" id="" placeholder="" title="Please Enter Lost Value" ng-model="Lost_Value"
-                           oninvalid="InvalidMsg(this,'Please enter Lost Value','Please enter Lost Value');">
-                </div>
-                <div class="col-md-4 form-group">
-                    <label class="mandatory" for="">Product Name:</label>
-      
-                </div>
-                <div class="col-md-8 form-group">
-                    <input type="text" class="form-control" id="" placeholder="" title="Please Enter Product name"
-                           oninvalid="InvalidMsg(this,'Please enter Product name','Please enter Product name');">
-                </div>
-                <div class="col-md-4 form-group">
-                    <label class="mandatory" for="">Customer Name:</label>
-                </div>
-                <div class="col-md-8 form-group">
-                    <input type="text" class="form-control" id="" placeholder="" title="Please Enter Customer name"
-                           ng-model="Cust_Name" disabled="disabled">
-                </div>
-                <div class="clearfix"></div>
-                <div class="col-md-4 form-group">
-                    <label class="mandatory" for="">Competitor Name:</label>
-                </div>
-                <div class="col-md-8 form-group">
-                    <select id="ddlOpporCompetitor" ng-model="ddlOpporCompetitor" class="form-control opt"
-                            title="Please Select Reason" ng-options="item as item.Competitor_Name for item in ddl_Oppor_Competitor track by item.PK_Competitor_Id">
-                        <!-- <option value="" selected>Select</option> -->
-                    </select>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="clearfix"></div>
-                <div class="col-md-4 form-group">
-                    <label for="">Remark:</label>
-                </div>
-                <div class="col-md-8 form-group">
-                    <textarea class="form-control" rows="3" ng-model="Lost_Remarks"></textarea>
-                </div>
-                <div class="clearfix"></div>
-            </div>
-            <div class="modal-footer">
-                <div class="pull-right">
-                    <input type="button" class="btn btn-primary" value="Submit" ng-click="Add_Lost()" />
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
-                <div class="clearfix"></div>
-            </div>
+    </div>
+  </div>
+  <div id="LostModal" class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Lost Details</h4>
+        </div>
+        <div class="modal-body">
+          <div class="col-md-4 form-group">
+            <label class="mandatory" for="">Lost Value:</label>
+          </div>
+          <div class="col-md-8 form-group">
+            <input type="text" class="form-control" id="" placeholder="" title="Please Enter Lost Value" formControlName="Lost_Value"
+            onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.keyCode == 8" maxlength="10"
+                   oninvalid="InvalidMsg(this,'Please enter Lost Value','Please enter Lost Value');">
+          </div>
+          <div class="col-md-4 form-group">
+            <label for="">Product Name:</label>
+          </div>
+          <div class="col-md-8 form-group">
+            <input type="text" class="form-control" id="" [value]="LostPN" title="Please Enter Product name"
+                   oninvalid="InvalidMsg(this,'Please enter Product name','Please enter Product name');">
+          </div>
+          <div class="col-md-4 form-group">
+            <label for="">Customer Name:</label>
+          </div>
+          <div class="col-md-8 form-group">
+            <input type="text" class="form-control" id="" placeholder="" title="Please Enter Customer name"
+                   [value]="customerN" disabled="disabled">
+          </div>
+          <div class="clearfix"></div>
+          <div class="col-md-4 form-group">
+            <label class="mandatory">Competitor Name:</label>
+          </div>
+          <div class="col-md-8 form-group">
+            <select formControlName="Competitor_Name" id="CompetitorName" class="form-control"
+                    title="Please Select Competitor Name">
+              <option value="" disabled>Select</option>
+              <option *ngFor="let item of Clist" value={{item.PK_Competitor_Id}}>
+                {{item.Competitor_Name}}
+              </option>
+            </select>
+            <div class="clearfix"></div>
+          </div>
+          <div class="clearfix"></div>
+          <div class="col-md-4 form-group">
+            <label class="mandatory">Remark:</label>
+          </div>
+          <div class="col-md-8 form-group">
+            <textarea class="form-control" rows="3" formControlName="Lost_Remarks"></textarea>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+        <div class="modal-footer">
+          <div class="pull-right">
+            <button type="button" class="btn btn-primary" (click)="Add_Lost()">Add</button>&nbsp;
+            <button type="button" class="btn btn-default" data-dismiss="modal" (click)="Clear_Lost()">Close</button>
+          </div>
+          <div class="clearfix"></div>
         </div>
       </div>
-      </div>
-      <!-- Lost Modal Ends -->
-      <!-- Stop Starts -->
-      <div id="StopModal" class="modal fade">
-      <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Stopped Details</h4>
-            </div>
-            <div class="modal-body">
-                <div class="col-md-4 form-group">
-                    <label class="mandatory" for="">Reason:</label>
-      
-                </div>
-                <div class="col-md-8 form-group">
-                    <select id="ddlReason" ng-model="ddlReason" class="form-control opt"
-                            title="Please Select Reason" ng-options="item as item.List_Desc for item in ddl_Reason track by item.List_Code">
-                        <!-- <option value="" selected>Select</option> -->
-                    </select>
-                </div>
-                <div class="col-md-4 form-group">
-                    <label class="mandatory" for="">Competitor Name:</label>
-                </div>
-                <div class="col-md-8 form-group">
-                    <select id="ddlOpporCompetitor" ng-model="ddlOpporCompetitor" class="form-control opt"
-                            title="Please Select Reason" ng-options="item as item.Competitor_Name for item in ddl_Oppor_Competitor track by item.PK_Competitor_Id">
-                        <!-- <option value="" selected>Select</option> -->
-                    </select>
-                </div>
-                <div class="clearfix"></div>
-                <div class="col-md-4 form-group">
-                    <label class="mandatory" for="">Remarks:</label>
-                </div>
-                <div class="col-md-8 form-group">
-                    <textarea class="form-control" rows="2" title="Please Enter Remark" ng-model="Stop_Remarks"
-                              oninvalid="InvalidMsg(this,'Please enter Remark','Please enter Remark');">
+    </div>
+  </div>
+
+  <div id="StopModal" class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Stopped Details</h4>
+        </div>
+        <div class="modal-body">
+          <div class="col-md-4 form-group">
+            <label class="mandatory" for="">Reason:</label>
+          </div>
+          <div class="col-md-8 form-group">
+            <select formControlName="Reason" id="Reason" class="form-control"
+                    title="Please Select Reason">
+              <option value="" disabled>Select</option>
+              <option *ngFor="let item of Reasonlist" value={{item.List_Code}}>
+                {{item.List_Desc}}
+              </option>
+            </select>
+          </div>
+          <div class="col-md-4 form-group">
+            <label class="mandatory" for="">Competitor Name:</label>
+          </div>
+          <div class="col-md-8 form-group">
+            <select formControlName="Competitor_Name" id="CompetitorName" class="form-control"
+                    title="Please Select Competitor Name">
+              <option value="" disabled>Select</option>
+              <option *ngFor="let item of Clist" value={{item.PK_Competitor_Id}}>
+                {{item.Competitor_Name}}
+              </option>
+            </select>
+          </div>
+          <div class="clearfix"></div>
+          <div class="col-md-4 form-group">
+            <label class="mandatory" for="">Remarks:</label>
+          </div>
+          <div class="col-md-8 form-group">
+            <textarea class="form-control" rows="2" title="Please Enter Remark" formControlName="Stop_Remarks"
+                      oninvalid="InvalidMsg(this,'Please enter Remark','Please enter Remark');">
                    </textarea>
-                </div>
-                <div class="clearfix"></div>
-            </div>
-            <div class="modal-footer">
-                <div class="pull-right">
-                    <input type="button" class="btn btn-primary" value="Submit" ng-click="Add_Stop()" />
-                    
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
-                <div class="clearfix"></div>
-            </div>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+        <div class="modal-footer">
+          <div class="pull-right">
+            <button type="button" class="btn btn-primary" (click)="Add_Stop()">Add</button>&nbsp;
+            <button type="button" class="btn btn-default" data-dismiss="modal" (click)="Clear_Stopped()">Close</button>
+          </div>
+          <div class="clearfix"></div>
         </div>
       </div>
-      </div>
-      <!-- Close Enquiry Modal Ends -->
-    </form>
+    </div>
+  </div>
+
+</form>

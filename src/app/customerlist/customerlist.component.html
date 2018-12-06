@@ -3,49 +3,87 @@
     <div class="white_box">
       <div class="col-md-12 nopadding">
         <div class="report_outer" id="reportouter">
-          <div class="report_heading col-md-8 nopadding">
+          <div class="report_heading col-md-12 nopadding">
             <div class="pull-left">
                 <h4>Customer list</h4>
             </div>
             <div class=" pull-left" style="margin-left: 20px;">
-                <a [routerLink]="['/addcustomer']" class="btn btn-info btn_addnew">+ Add New Customer</a>              
+                <!-- <a [routerLink]="['/addcustomer']" class="btn btn-info btn_addnew">+ Add New Customer</a> &nbsp;&nbsp;              -->
+                <a href="#AddVisitPopup"  data-toggle="modal" id="MyAddVisitPopup" class="btn btn-info btn_addnew">+ Add Visit</a>              
             </div>
-            <div class="clearfix"></div>
+           
         </div>
         <div class="clearfix"></div>
-        
         <div class="table-responsive">
+                <div class="col-md-12 nopadding">
+                        <div class="opportunity_strip" style="margin: 0; height: auto;">
+                          <h4 class="panel-title">
+                            My Customers
+                            <i class="fa fa-filter pull-right" style="color:white;"></i>
+                            <i class="fa fa-search pull-right" style="color:white;"></i>
+                            <div class="pull-right">
+                                <input class="form-control" type="text" name="search" [(ngModel)]="filter" placeholder="Search here">
+                            </div>
+                          </h4>
+                          <div class="clearfix"></div>
+                        </div>
+                        
+                      </div>
           <table class="table table-bordered report_table">
             <thead>
                 <tr>
-                    <th>SR.No.</th>
-                    <th>Customer Name</th>
-                    <th>GSTN No.</th>
-                    <th>Comp Air App</th>
-                    <th>End Product</th>
-                    <th>Contact</th>
+                    <th (click)="sort('PK_Cust_Id')">SR.No.
+                            <span class="glyphicon sort-icon" *ngIf="key =='PK_Cust_Id'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                    </th>
+                    <th (click)="sort('Cust_Name')">Customer Name
+                         <span class="glyphicon sort-icon" *ngIf="key =='Cust_Name'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                    </th>
+                    <th (click)="sort('Cust_Address_Line1')">Address
+                            <span class="glyphicon sort-icon" *ngIf="key =='Cust_Address_Line1'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+
+                    </th>
+                    <th (click)="sort('Cust_Cmprsd_Air_App')">Comp Air App
+                            <span class="glyphicon sort-icon" *ngIf="key =='Cust_Cmprsd_Air_App'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+
+                    </th>
+                    <th (click)="sort('Cust_End_Product')">End Product
+                            <span class="glyphicon sort-icon" *ngIf="key =='Cust_End_Product'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+
+                    </th>
+                    <th (click)="sort('Cust_CntctPrson_Contact_No')">Contact
+                            <span class="glyphicon sort-icon" *ngIf="key =='Cust_CntctPrson_Contact_No'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                    </th>
                     <th class="text-center">Action</th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let item of customerlistdata | paginate:{ id: 'listing_pagination',
-                itemsPerPage:5,
+                itemsPerPage:8,
                 currentPage:page,
-                totalItems: totalRec }">
+                totalItems: totalRec }| orderBy: key : reverse  | filter:filter; let i = index  ">
                     <td>{{item.PK_Cust_Id}}</td>
                     <td>{{item.Cust_Name}}</td>
                     <td>{{item.Cust_Address_Line1}}</td>
-                    <td class="text-right">{{item.Cust_End_Product}}</td>
+                    <td class="text-right">{{item.Cust_Cmprsd_Air_App}}</td>
                     <td>{{item.Cust_End_Product | uppercase}}</td>
                     <td>{{item.Cust_CntctPrson_Contact_No }}</td>
-                    <td><a class="btn btn-info btnedit" (click)="editPropertyDetails(item)">Edit</a>
-                        <button   class="btn btn-info btnedit" (click)="AddopportunityDetails(item)">Add Opportunity</button>&nbsp;
+                    <td>
+                        <a *ngIf="item.TrackInTime===true" title="Update Customer Details" class="btn btn-info btnedit" (click)="editPropertyDetails(item)"><span class="glyphicon glyphicon-pencil"></span></a>&nbsp;&nbsp;
+                        <a *ngIf="item.TrackInTime==false" title="Start Visit" (click)="inVisit(item)" class="btn btn-info btnedit" >In</a>&nbsp;&nbsp;
+                        <a *ngIf="item.TrackInTime===true" title="Stop Visit" (click)="outVisit(item)" class="btn btn-info btnedit" >Out</a>&nbsp;&nbsp;
+                        <button *ngIf="item.Cust_CntctPrson_Contact_No!=null && item.TrackInTime===true" title="Create New Opportunity"  class="btn btn-info btnedit" (click)="AddopportunityDetails(item)">  <span class=" glyphicon glyphicon-plus-sign"></span></button>&nbsp;
+    
+                        <!-- <a class="btn btn-info btnedit" (click)="editPropertyDetails(item)"><span class="glyphicon glyphicon-pencil"></span></a>&nbsp;&nbsp;
+                        <a *ngIf="item.InFlag===false && IntimeFlag===true" (click)="inVisit(item)" class="btn btn-info btnedit" >In</a>&nbsp;&nbsp;
+                        <a *ngIf="item.InFlag===true && IntimeFlag===false" (click)="outVisit(item)" class="btn btn-info btnedit" >Out</a>&nbsp;&nbsp;
+                     <button *ngIf="item.Cust_CntctPrson_Contact_No!=null && item.InFlag===true"   class="btn btn-info btnedit" (click)="AddopportunityDetails(item)">  <span class=" glyphicon glyphicon-plus-sign"></span></button>&nbsp; -->
+
                     </td>
                 </tr>
             </tbody>
             <tfoot>
                     <tr>
-                        <td colspan="6">
+                        <td colspan="12">
                             <pagination-controls id="listing_pagination" maxSize="5" directionLinks="true"
                             (pageChange)="page = $event"></pagination-controls>
                         </td>
@@ -58,5 +96,32 @@
       </div>
       <div class="clearfix"></div>
     </div>    
+    <div id="AddVisitPopup" class="modal fade">
+        <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                  <h4 class="modal-title">Start Visit</h4>
+              </div>
+              <div class="modal-body">
+                  <div class="col-md-4 form-group">
+                      <label class="mandatory" for="">Customer Name:</label>
+                  </div>
+                  <div class="col-md-8 form-group">
+                      <input type="text" class="form-control" id="" placeholder="" title="Please Enter Customer name" id="Cust_NameVisit" >
+                  </div>
+                  <div class="clearfix"></div>
+                  <div class="clearfix"></div>
+              </div>
+              <div class="modal-footer">
+                  <div class="pull-right">
+                      <input type="button" class="btn btn-primary" value="Start Visit" (click)="onSubmitVisit()" />
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                  </div>
+                  <div class="clearfix"></div>
+              </div>
+          </div>
+        </div>
+        </div>
   </div>
   

@@ -1,96 +1,65 @@
 <app-menubar></app-menubar>
+
 <div class="col-md-12">
-  <div class="white_box">
-    <div class="masters_header">
-        <div class="pull-left">
-            <h4>RangeMapping Master</h4>
-        </div>
-        <div class="pull-right">
-            <ul class="breadcrumb">
-                <li><a href="#">Admin</a></li>
-                <li><a href="#">Master Category</a></li>
-                <li class="active">RangeMapping Master</li>
-            </ul>
-            <button class="btn btn-info btn_addNewForm" (click)="toggle()">
-                <i class="fa {{iconName}}"></i> Add New RangeMapping
-            </button>
-        </div>
-        <div class="clearfix"></div>
-    </div>
-    <div class="add_section_txt box-fade fade-in addMaster_block" *ngIf="show">
-        <div class="add_heading">Add RangeMapping Details</div>
-        <div class="addMaster_block_inner">
-            <div class="col-md-2">
-                <label class="mandatory" for="">Mapping Type</label>
-            </div>
-            <div class="col-md-4">
-                <select id="ddlMappingType" ng-options="s.List_Desc for s in MappingTypeList track by s.W2S_List_Id" ng-model="ddlMappingType"
-                        class="form-control ng-valid ng-dirty dropdown" ng-change="GetResAccToMapping()">
-                    <option value="">--Select Mapping--</option>
-                </select>
-            </div>
-            <div class="col-md-2">
-                <label class="mandatory" for="">Sub Mapping</label>
-            </div>
-            <div class="col-md-4">
-                <select id="ddlSubMapping" ng-options="s.List_Desc for s in SubMappingTypeList track by s.W2S_List_Id" ng-model="ddlSubMapping"
-                        class="form-control ng-valid ng-dirty dropdown" ng-change="GetResAccToMapping()">
-                    <option value="">--Select Range--</option>
-                </select>
-            </div>
+        <div class="white_box">
+          <div class="col-md-12 nopadding">
+            <div class="report_outer" id="reportouter">
+              <div class="report_heading col-md-8 nopadding">
+                <div class="pull-left">
+                    <h4>Range Mapping</h4>
+                </div>
+                <div class=" pull-left" style="margin-left: 20px;">
+                    <a  class="btn btn-info btn_addnew" (click)="navigateToRangeMapping()">+ Add Mapping</a>              
+                </div>
+                <div class="clearfix"></div>
+              </div>
             <div class="clearfix"></div>
-        </div>
-    </div>
-    <div class="master_table_outer">
-        <div class="col-md-12 nopadding table-responsive">
-            <table ng-table="tableParams" class="table table-bordered table-striped report_table">
+            
+            <div class="table-responsive">
+              <table class="table table-bordered report_table">
                 <thead>
                     <tr>
-                        <th class="text-center"><input type="checkbox" id="checkAll" ng-model="checkboxes" ng-click="enableChkBox()" title="Select All" /></th>
-                        <th>SubRange List</th>
-                        <th>Product List</th>
+                        <th>RangeMapping ID</th>
+                        <th>MapType</th>
+                        <th>ProductID</th>
+                        <th>Product Name</th>
+                        <th>Range Code</th>
+                        <th>Sub Range ID</th>
+                        <th>Sub Range Name</th>
+                        
                     </tr>
                 </thead>
-                <tbody ng-repeat="item in $data" class="row100 dnd-moved">
-                    <tr>
-                        <td class="column100 column1 text-center" style="width:250px" data-column="column0" data-title="''" header="'ng-table/headers/checkbox.html'">
-                            <input type="checkbox" id="checkAll" ng-model="checkboxes.items[row.id]" ng-click="enableChkBox()" />
-                        </td>
-                        <td class="text-center" filter="{ SubRange_Name: 'text'}" sortable="'SubRange_Name'" ng-bind="item.SubRange_Name"></td>
-                        <td class="text-center" filter="{ SubRange_Description: 'text'}" sortable="'SubRange_Description'" ng-bind="item.SubRange_Description"></td>
+                <tbody>
+                    <tr *ngFor="let item of rangeMappingDetails | paginate:{ id: 'listing_pagination',
+                                itemsPerPage:5,
+                                currentPage:page,
+                                totalItems: totalRec }">
+                        <td>{{item.PK_RangeMapping_Id}}</td>
+                        <td>{{item.FK_MapType_Id}}</td>
+                        <td>{{item.FK_Prod_Id}}</td>
+                        <td>{{item.ProductName}}</td>
+                        <td>{{item.FK_Range_Id}}</td>
+                        <td>{{item.FK_Sub_Range_Id}}</td>
+                        
+                        <td>{{item.SubRangeName}}</td>
+                        
                     </tr>
-                </tbody>
-            </table>
-            <div class="footer_pagination" ng-show="tableParams.total()>0">
-                <div class="col-sm-3 col-xs-3 full_pagination">
-                    <div class="dataTables_info showing-entries position-fix-ent" id="example_info" role="status" aria-live="polite"> Showing {{startrecord}} to {{endrecord}} of {{tableParams.total()}} entries </div>
-                </div>
-                <div class="col-md-6 text-center">
-                    <ul class="pagination pagination-size">
-                        <li class="pg-back" ng-click="click_nextPage('0')"><a href="#"><i class="fa fa-angle-double-left"></i></a></li>
-                        <li ng-repeat="i in arr" ng-click="changepage(i)" class="pg-page {{i}}"><a href="#">{{i}}</a></li>
-                        <li ng-click="click_nextPage('1')"><a class="pg-next" href="#"><i class="fa fa-angle-double-right"></i></a></li>
-                    </ul>
-                </div>
-                <div class="col-md-3 full_pagination text-right position-fix-page">
-                    <span class="pagination-size">Page size</span>
-                    <select class="pag-size" id="maxRows" title="Please Select Page Size">
-                        <option value="10" selected="selected">15</option>
-                        <option value="20">30</option>
-                        <option value="50">50</option>
-                        <option value="100">100</option>
-                    </select>
-                </div>
+                </tbody> 
+                <tfoot>
+                        <tr>
+                            <td colspan="12">
+                                <pagination-controls id="listing_pagination" maxSize="5" directionLinks="true"
+                                (pageChange)="page = $event"></pagination-controls>
+                            </td>
+                        </tr>
+                </tfoot>
+              </table>
             </div>
-            <div class="col-md-12 master_form_buttons">
-                <input type="submit" value="Add" ng-click="AddSubRange()" ng-show="addShow" class="btn btn-primary SubmitMasters" href="javascript:void(0);" />&nbsp;
-                <input type="submit" value="Update" ng-click="UpdateSubRange()" ng-show="updateShow" class="btn btn-primary SubmitMasters" href="javascript:void(0);" />&nbsp;
-                <input type="button" value="Reset" ng-click="cancel()" class="btn btn-default resetMasters" href="javascript:void(0);" />
+            <div class="clearfix"></div>
             </div>
-        </div>
-    </div>
-    <div class="clearfix"></div>
-  </div>
-  <div class="clearfix"></div>
+          </div>
+          <div class="clearfix"></div>
+        </div>   
 </div>
-<div class="clearfix"></div>
+  
+  

@@ -1,146 +1,153 @@
 <div class="">
-        <header class="main-header">
-            <div>
-                <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
-                    <span class="sr-only">Toggle Navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </a>
-            </div>
-            <nav class="navbar navbar-static-top menu_new_bg">
-                <div class="navbar navbar-default navbar-fixed-top" role="navigation">
-                    <div class="container-fluid">
-                        <div class="navbar-header">
-                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                                <span class="sr-only">Toggle navigation</span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                            </button>
-                            <a class="navbar-brand" [routerLink]="['/']">
-                                <img src="../assets/css/images/atlas_logo.png" alt="" style="height: 45px;">
-                            </a>
-                        </div>
-                        <div class="collapse navbar-collapse">
-                            <ul class="nav navbar-nav navbar-right">
-                                <li class="dropdown">
-                                    <a href="#" data-toggle="dropdown" class="dropdown-toggle">
-                                        <div class="userimg_block">
-                                            <div class="userimg_outer userimg_outer_big pull-left">
-                                                <img src="../assets/css/images/user.png" alt="" class="img-responsive">
-                                            </div>
-                                            <div class="user_shortinfo">
-                                            
-                                                <h4 title="BLM Test">BLM Test</h4>
-                                                <span>BLM</span>
-                                            </div>
-                                            <span class="fa fa-angle-down" style="position: relative; top: 0;"></span>
-                                            <div class="clearfix"></div>
-                                        </div>
-                                        
-                                    </a>
-                                    <ul class="dropdown-menu">
-                                        <li><a [routerLink]="['/']"><i class="fa fa-cog"></i>Change Password</a></li>
-                                        <li><a [routerLink]="['/login']"><i class="fa fa-sign-out"></i>Logout</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>    
-            </nav>
-        </header>
-        <aside class="main-sidebar">
-            <section class="sidebar">
-                <ul class="sidebar-menu" data-widget="tree">                            
-                    <li class="treeview">
-                        <a [routerLink]="['/']"> <i class="fa fa-dashboard"></i> <span class="">Dashboard</span></a>
-                    </li>
-                    <li class="treeview">
-                        <a [routerLink]="['/']"> <i class="fa fa-home"></i> <span class="">Home</span></a>
-                    </li>
-                    <li class="treeview">
-                        <a href="#">
-                            <i class="fa fa-user"></i> <span>Admin</span>
-                            <span class="pull-right-container">
-                                <i class="fa fa-angle-left pull-right"></i>
-                            </span>
-                        </a>
-                        <ul class="treeview-menu">
-                                                <li class="treeview">
-                                <a >
-                                    <i class="fa fa-circle-o round_dis"></i><i class="fa fa-circle round_over"></i>Master Category
-                                    <span class="pull-right-container">
-                                        <i class="fa fa-angle-left pull-right"></i>
-                                    </span>
-                                </a>
-                                <ul class="treeview-menu">
-                                    <li><a [routerLink]="['/masterNavigation']"><i class="fa fa-circle-o round_dis"></i><i class="fa fa-circle round_over"></i>Navigation Master</a></li>
-                                    <li><a [routerLink]="['/masterHoliday']"><i class="fa fa-circle-o round_dis"></i><i class="fa fa-circle round_over"></i>Holiday Master</a></li>
-                                    <li><a [routerLink]="['/masterCompetitor']"><i class="fa fa-circle-o round_dis"></i><i class="fa fa-circle round_over"></i>Competitor Master</a></li>
-                                    <li><a [routerLink]="['/masterEnquirySource']"><i class="fa fa-circle-o round_dis"></i><i class="fa fa-circle round_over"></i>Enquiry Source Master</a></li>
-                                    <li><a [routerLink]="['/masterEnquiryType']"><i class="fa fa-circle-o round_dis"></i><i class="fa fa-circle round_over"></i>Enquiry Type Master</a></li>
-                                    <li><a [routerLink]="['/masterProduct']"><i class="fa fa-circle-o round_dis"></i><i class="fa fa-circle round_over"></i>Product Master</a></li>
-                                    <li><a [routerLink]="['/masterAbsent']"><i class="fa fa-circle-o round_dis"></i><i class="fa fa-circle round_over"></i>Absent Master</a></li>
-                                    <li><a [routerLink]="['/masterIndustry']"><i class="fa fa-circle-o round_dis"></i><i class="fa fa-circle round_over"></i>Industry Master</a></li>
-                                    <li><a [routerLink]="['/masterSubRangeMapping']"><i class="fa fa-circle-o round_dis"></i><i class="fa fa-circle round_over"></i>SubRange Master</a></li>
-                                    <li><a [routerLink]="['/masterRangeMapping']"><i class="fa fa-circle-o round_dis"></i><i class="fa fa-circle round_over"></i>Range Mapping</a></li>
-                                    <li><a [routerLink]="['/masterResource']"><i class="fa fa-circle-o round_dis"></i><i class="fa fa-circle round_over"></i>Resource Master</a></li>
-                                           </ul>
-                            </li>
-                            <li class="treeview">
-                                <a >
-                                    <i class="fa fa-circle-o round_dis"></i><i class="fa fa-circle round_over"></i>Configuration
-                                    <span class="pull-right-container">
-                                        <i class="fa fa-angle-left pull-right"></i>
-                                    </span>
-                                </a>
-                                <ul class="treeview-menu">
-                                    <li><a [routerLink]="['/masterNavigationRoleMappingComponent']"><i class="fa fa-circle-o round_dis"></i><i class="fa fa-circle round_over"></i>Navigation Role Mapping</a></li>
-                                    <li><a [routerLink]="['/masterResourceRoleMappingComponent']"><i class="fa fa-circle-o round_dis"></i><i class="fa fa-circle round_over"></i>Resource Role Mapping</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="treeview">
-                        <a  [routerLink]="['/salescalendar']"> <i class="fa fa-calendar"></i> <span class="">Calender</span></a>
-                    </li>
-                    <li class="treeview">
-                        <a [routerLink]="['/customerlist']"> <i class="fa fa-users"></i> <span class="">Customers</span></a>
-                    </li>
-                    <li class="treeview">
-                        <a [routerLink]="['/opportunitieslist']"> <i class="fa fa-globe"></i> <span class="">Opportunities</span></a>
-                    </li>
-                    <li class="treeview">
-                        <a [routerLink]="['/visitdetails']"> <i class="fa fa-file"></i> <span class="">Visits</span></a>
-                    </li>
-                    <li class="treeview">
-                        <a href="#"> <i class="fa fa-calculator"></i> <span class="">NPS Scores</span><span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span> </a>
-                        <ul class="treeview-menu">
-                            <li><a [routerLink]="['/']"><i class="fa fa-circle-o round_dis"></i><i class="fa fa-circle round_over"></i>Won</a></li>
-                            <li><a [routerLink]="['/']"><i class="fa fa-circle-o round_dis"></i><i class="fa fa-circle round_over"></i>Lost</a></li>
-                        </ul>
-                    </li>
-        
-                    <li class="treeview">
-                        <a [routerLink]="['/']"> <i class="fa fa-bullhorn"></i> <span class="">Updates &amp; Announcements</span></a>
-                    </li>
-                    <li class="treeview">
-                        <a [routerLink]="['/']"> <i class="fa fa-image"></i> <span class="">Pictures</span></a>
-                    </li>
-                </ul>
-            </section>
-        </aside>
-        <div class="" style="margin: 70px 0 0 50px;">
-            <router-outlet></router-outlet>
-        </div>
+  <header class="main-header">
+    <div>
+      <a href="#" class="sidebar-toggle toggleLink" data-toggle="push-menu" role="button">
+        <span class="sr-only">Toggle Navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
     </div>
-    <footer>
-        <p>© Atlas Copco Ltd. All rights reserved.</p>
-    </footer>
-        
-    
-        
+    <nav class="navbar navbar-static-top menu_new_bg">
+      <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" [routerLink]="['/']">
+              <img src="../assets/css/images/atlas_logo.png" alt="" style="height: 45px;">
+            </a>
+          </div>
+          <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown">
+                <a href="#" data-toggle="dropdown" class="dropdown-toggle">
+                  <div class="userimg_block">
+                    <div class="userimg_outer userimg_outer_big pull-left">
+                      <img src="../assets/css/images/user.png" alt="" class="img-responsive">
+                    </div>
+                    <div class="user_shortinfo">
+                      <h4 title="BLM Test">{{UserName}}</h4>
+                      <span>{{Designation}}</span>
+                    </div>
+                    <span class="fa fa-angle-down" style="position: relative; top: 0;"></span>
+                    <div class="clearfix"></div>
+                  </div>
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a [routerLink]="['/Changepassword']"><i class="fa fa-cog"></i>Change Password</a></li>
+                  <li><a [routerLink]="['/login']"><i class="fa fa-sign-out"></i>Logout</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+  <aside class="main-sidebar">
+    <section class="sidebar">
+      <ul class="sidebar-menu" data-widget="tree">
+        <li class="treeview">
+          <a [routerLink]="['/dashboard']"> <i class="fa fa-dashboard"></i> <span class="">Dashboard</span></a>
+        </li>
+        <li class="treeview">
+          <a [routerLink]="['/homepage']"> <i class="fa fa-home"></i> <span class="">Home</span></a>
+        </li>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-user"></i> <span>Admin</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+              <li class="treeview">
+                  <a>
+                    <i class="fa pull-left "></i>Product Master
+                    <span class="pull-left-container">
+                      <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                  </a>
+                  <ul class="treeview-menu ">
+                    <li ><a [routerLink]="['/masterProduct']"><i class="fa fa-circle-o round_dis "></i><i class="fa fa-circle round_over"></i>Product Master</a></li>
+                    <li><a [routerLink]="['/masterSubRangeMapping']"><i class="fa fa-circle-o round_dis"></i><i class="fa fa-circle round_over"></i>Sub Range Master</a></li>
+                    <li><a [routerLink]="['/masterRangeMapping']"><i class="fa fa-circle-o round_dis"></i><i class="fa fa-circle round_over"></i>Range & Product Mapping</a></li>
+                  </ul>
+                </li>
+            <li class="treeview">
+              <a>
+                  <i class="fa pull-left "></i>Category Master
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+                  <li><a [routerLink]="['/masterCompetitor']"><i class="fa fa-circle-o round_dis"></i><i class="fa fa-circle round_over"></i>Competitor Master</a></li>
+                <li><a [routerLink]="['/masterIndustry']"><i class="fa fa-circle-o round_dis"></i><i class="fa fa-circle round_over"></i>Industry Master</a></li>
+              <!--<li><a [routerLink]="['/masterNavigation']"><i class="fa fa-circle-o round_dis"></i><i class="fa fa-circle round_over"></i>Navigation Master</a></li>
+                <li><a [routerLink]="['/masterHoliday']"><i class="fa fa-circle-o round_dis"></i><i class="fa fa-circle round_over"></i>Holiday Master</a></li>
+                <li><a [routerLink]="['/masterEnquirySource']"><i class="fa fa-circle-o round_dis"></i><i class="fa fa-circle round_over"></i>Enquiry Source Master</a></li>
+                <li><a [routerLink]="['/masterEnquiryType']"><i class="fa fa-circle-o round_dis"></i><i class="fa fa-circle round_over"></i>Enquiry Type Master</a></li>
+                <li><a [routerLink]="['/masterAbsent']"><i class="fa fa-circle-o round_dis"></i><i class="fa fa-circle round_over"></i>Absent Master</a></li> -->
+              </ul>
+            </li>
+            <li class="treeview">
+              <a>
+                  <i class="fa pull-left "></i>User Master
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+                <li><a [routerLink]="['/masterResource']"><i class="fa fa-circle-o round_dis"></i><i class="fa fa-circle round_over"></i>Resource Master</a></li>
+                <li><a [routerLink]="['/masterResourceRoleMappingComponent']"><i class="fa fa-circle-o round_dis"></i><i class="fa fa-circle round_over"></i>Resource Role Mapping</a></li>
+                <li><a [routerLink]="['/masterNavigationRoleMappingComponent']"><i class="fa fa-circle-o round_dis"></i><i class="fa fa-circle round_over"></i>Navigation Role Mapping</a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li class="treeview">
+          <a [routerLink]="['/calendar']"> <i class="fa fa-calendar"></i> <span class="">Calender</span></a>
+        </li>
+        <li class="treeview">
+          <a [routerLink]="['/customerlist']"> <i class="fa fa-users"></i> <span class="">Customers</span></a>
+        </li>
+        <li class="treeview">
+          <a [routerLink]="['/opportunitieslist']"> <i class="fa fa-globe"></i> <span class="">Opportunities</span></a>
+        </li>
+        <li class="treeview">
+          <a [routerLink]="['/visits']"> <i class="fa fa-file"></i> <span class="">Visits</span></a>
+        </li>
+        <li class="treeview">
+          <a href="#"> <i class="fa fa-calculator"></i> <span class="">NPS Scores</span><span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span> </a>
+          <ul class="treeview-menu">
+            <li><a [routerLink]="['/']"><i class="fa fa-circle-o round_dis"></i><i class="fa fa-circle round_over"></i>Won</a></li>
+            <li><a [routerLink]="['/']"><i class="fa fa-circle-o round_dis"></i><i class="fa fa-circle round_over"></i>Lost</a></li>
+          </ul>
+        </li>
 
-    
+        <li class="treeview">
+          <a [routerLink]="['/']"> <i class="fa fa-bullhorn"></i> <span class="">Updates &amp; Announcements</span></a>
+        </li>
+        <li class="treeview">
+          <a [routerLink]="['/']"> <i class="fa fa-image"></i> <span class="">Pictures</span></a>
+        </li>
+      </ul>
+    </section>
+  </aside>
+  <div class="">
+    <router-outlet></router-outlet>
+  </div>
+</div>
+<footer>
+  <p>© Atlas Copco Ltd. All rights reserved.</p>
+</footer>
+
+
+
+
