@@ -10,3 +10,6 @@ export * from './subRangeMapping.service';
 export * from './common.service';
 export * from './resource.service';
 export * from './master.service';
+export * from './competitor.service';
+export * from './npsscores.service';
+export * from './userRole.Service';

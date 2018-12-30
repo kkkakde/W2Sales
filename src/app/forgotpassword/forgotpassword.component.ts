@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '../_services';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
+import { $ } from 'protractor';
 @Component({
   selector: 'app-forgotpassword',
   templateUrl: './forgotpassword.component.html',
@@ -11,6 +12,7 @@ export class ForgotpasswordComponent implements OnInit {
   forgotpasswordForm: FormGroup;
   submitted = false;
   loading = false;
+  ResultMsg = '';
   constructor(private authenticationService: AuthenticationService,
               private formBuilder: FormBuilder,
               private route: ActivatedRoute,
@@ -18,6 +20,7 @@ export class ForgotpasswordComponent implements OnInit {
 
   ngOnInit() {
     this.forgotpasswordForm = this.formBuilder.group({
+
       EmailID: new FormControl('', Validators.compose([
         Validators.required,
         Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
@@ -29,23 +32,23 @@ export class ForgotpasswordComponent implements OnInit {
     this.loading = true;
     this.submitted = true;
     if (this.forgotpasswordForm.invalid) {
-      this.loading = true;
+      this.loading = false;
       return;
     }
     this.authenticationService.ForgotPassword(this.f.EmailID.value)
     .subscribe(
     data => {
       if (data === 'true') {
-        alert('Password send your register mail id');
+        this.ResultMsg = 'Password send your register mail id';
         this.loading = false;
         this.router.navigate(['/login']);
       } else {
-        alert('Invalid Mail ID');
+        this.ResultMsg = 'Invalid Mail ID';
         this.loading = false;
       }
     },
     error => {
-      alert('Invalid User');
+      this.ResultMsg = 'Invalid User';
       this.loading = false;
       this.router.navigate(['/forgotpassword']);
     });

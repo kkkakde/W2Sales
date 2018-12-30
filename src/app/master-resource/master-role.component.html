@@ -1,0 +1,58 @@
+<app-menubar></app-menubar>
+<div class="col-md-12">
+    <div class="white_box">
+      <div class="col-md-12 nopadding">
+        <div class="report_outer" id="reportouter">
+          <div class="report_heading col-md-8 nopadding">
+            <div class="pull-left">
+                <h4>Role list</h4>
+            </div>
+            <div class=" pull-left" style="margin-left: 20px;">
+                <a  class="btn btn-info btn_addnew" (click)="navigateToAddRole()">+ Add New Role</a>              
+            </div>
+            <div class="clearfix"></div>
+          </div>
+        <div class="clearfix"></div>
+        
+        <div class="table-responsive">
+          <table class="table table-bordered report_table">
+            <thead>
+                <tr>
+                    <th>Role ID</th>
+                    <th>Role Name</th>
+                    <th>Description</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let role of userRoleDetails | paginate:{ id: 'listing_pagination',
+                            itemsPerPage:5,
+                            currentPage:page,
+                            totalItems: totalRec }">
+                    <td>{{role.PK_Role_Id}}</td>
+                    <td>{{role.Name}}</td>
+                    <td>{{role.Description}}</td>
+                      <td>
+                          <a class="btn" (click)="editRoleDetails(role)">
+                           <i class="fa fa-pencil-square-o"></i>
+                          </a>
+                      </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                    <tr>
+                        <td colspan="12">
+                            <pagination-controls id="listing_pagination" maxSize="5" directionLinks="true"
+                            (pageChange)="page = $event"></pagination-controls>
+                        </td>
+                    </tr>
+            </tfoot>
+          </table>
+        </div>
+        <div class="clearfix"></div>
+        </div>
+      </div>
+      <div class="clearfix"></div>
+    </div>    
+  </div>
+  

@@ -33,10 +33,10 @@ export class AddIndustryComponent implements OnInit {
           this.masterservice.IndustryList(params['Industry_Id'])
           .subscribe(data => {
            this.IList = data;
-           this.IndustryId = this.IList[0].Industry_Id;
-           this.f.Industry_Name.setValue(this.IList[0].Industry_Name);
-           this.f.Industry_Desc.setValue(this.IList[0].Industry_Desc);
-           this.f.IsActive.setValue(this.IList[0].IsActive === 1 ? true : false);
+           this.IndustryId = this.IList.Response[0].Industry_Id;
+           this.f.Industry_Name.setValue(this.IList.Response[0].Industry_Name);
+           this.f.Industry_Desc.setValue(this.IList.Response[0].Industry_Desc);
+           this.f.IsActive.setValue(this.IList.Responsess[0].IsActive === 1 ? true : false);
          });
         }
          });

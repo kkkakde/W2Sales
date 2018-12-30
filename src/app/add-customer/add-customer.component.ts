@@ -7,6 +7,7 @@ import { Alert } from 'selenium-webdriver';
 import { forEach } from '@angular/router/src/utils/collection';
 import { environment } from '../../environments/environment';
 import { error } from '@angular/compiler/src/util';
+import { IfStmt } from '@angular/compiler';
 declare var jquery: any;
 declare var $: any;
 
@@ -39,6 +40,7 @@ export class AddCustomerComponent implements OnInit {
   public attchment: File;
   public attachmenName: any;
   public updatelistdata: any;
+  public makeFlag: boolean;
   constructor(
     private authenticationservice: Customer,
     private formBuilder: FormBuilder,
@@ -46,6 +48,8 @@ export class AddCustomerComponent implements OnInit {
     private route: ActivatedRoute,
   ) { }
   ngOnInit() {
+ 
+    this.makeFlag = false;
     $('#langOpt').multiselect({
       columns: 1,
       placeholder: 'Select Industry Type',
@@ -63,17 +67,24 @@ export class AddCustomerComponent implements OnInit {
     this.addcustomerForm = this.formBuilder.group({
       Cust_Name: ['', Validators.required],
       Cust_Address_Line1: ['', Validators.required],
-      Cust_Address_Line2: ['', Validators.required],
+      Cust_Address_Line2: ['', ''],
+      Cust_LandlineNo: ['' , ''],
+      Cust_VisitType: ['', ''],
       Cust_PK_Zone_Id: ['', Validators.required],
       Cust_PK_State_Id: ['', Validators.required],
       Cust_PK_City_Id: ['', Validators.required],
-      Cust_GSTN_No: ['', Validators.required],
+      Cust_GSTN_No: ['', ''],
       Cust_Cmprsd_Air_App: ['', Validators.required],
       Cust_Industry_Id: ['', ''],
-      Cust_End_Product: ['', Validators.required],
+      Cust_End_Product: ['', ''],
       Cust_File: ['', ''],
+      uploadfile : ['', ''],
       // });
       // this.addcustomerRoomForm = this.formBuilder.group({
+      Running_Hours: ['', ''],
+      Remark: ['', ''],
+      Cust_Make: ['', ''],
+      Cust_MakeOther: ['', ''],
       Cust_Cmprsor_Model: ['', ''],
       Cust_Cmprsor_RoomDetails: ['', ''],
       Cust_Cmprsor_Mfg_Year: ['', ''],
@@ -125,11 +136,14 @@ export class AddCustomerComponent implements OnInit {
           }
           $('#langOpt').html(res);
           $('#langOpt').multiselect('reload');
+          // alert(this.updatelistdata.VisitType);
           this.CompressorRoomDetailsList = this.updatelistdata.Cust_CompressorRoom_List;
           this.ContactDetailsList = this.updatelistdata.Cust_Contact_Person_List;
           this.f.Cust_Name.setValue(this.updatelistdata.Cust_Name);
           this.f.Cust_Address_Line1.setValue(this.updatelistdata.Cust_Address_Line1);
-          this.f.Cust_Address_Line2.setValue(this.updatelistdata.Cust_Address_Line1);
+          this.f.Cust_Address_Line2.setValue(this.updatelistdata.Cust_Address_Line2);
+          this.f.Cust_LandlineNo.setValue(this.updatelistdata.LandlineNo);
+          this.f.Cust_VisitType.setValue(this.updatelistdata.VisitType);
           this.f.Cust_PK_Zone_Id.setValue(this.updatelistdata.FK_Zone_Id.PK_Zone_Id);
           this.f.Cust_PK_City_Id.setValue(this.updatelistdata.FK_City_Id.PK_City_Id);
           this.f.Cust_PK_State_Id.setValue(this.updatelistdata.FK_State_Id.PK_State_Id);
@@ -137,6 +151,8 @@ export class AddCustomerComponent implements OnInit {
           this.f.Cust_Cmprsd_Air_App.setValue(this.updatelistdata.Cust_Cmprsd_Air_App);
           //   this.f.Cust_Industry_Id.setValue(this.updatelistdata.Cust_Industry_Id);
           this.f.Cust_End_Product.setValue(this.updatelistdata.Cust_End_Product);
+          $('#spanid').html(this.updatelistdata.VisitingCardPath);
+          this.attachmenName = this.updatelistdata.Url;
         });
     });
   }
@@ -170,7 +186,7 @@ export class AddCustomerComponent implements OnInit {
       .pipe(first())
       .subscribe(data => {
         this.IndustryIdList = data;
-        //  alert(JSON.stringify( this.IndustryIdList ));
+         // alert(JSON.stringify( this.IndustryIdList ));
         var res;
         for (var i = 0; i < this.IndustryIdList.length; i++) {
           if (this.IndustryIdList[i].IsSelected === 1) {
@@ -224,6 +240,8 @@ export class AddCustomerComponent implements OnInit {
       Cust_Name: this.f.Cust_Name.value,
       Cust_Address_Line1: this.f.Cust_Address_Line1.value,
       Cust_Address_Line2: this.f.Cust_Address_Line2.value,
+      LandlineNo : this.f.Cust_LandlineNo.value,
+      VisitType: this.f.Cust_VisitType.value,
       FK_Zone_Id: this.f.Cust_PK_Zone_Id.value,
       FK_State_Id: this.f.Cust_PK_State_Id.value,
       FK_City_Id: this.f.Cust_PK_City_Id.value,
@@ -256,6 +274,14 @@ export class AddCustomerComponent implements OnInit {
         this.CompressorRoomDetailsList = data;
       });
   }
+  onChangeMake(val: any) {
+    if ( val.target.value === 'Other' ) {
+    this.makeFlag = true;
+    }
+    else {
+      this.makeFlag = false;
+    }
+  }
   onSubmitRoom(f) {
     if (this.CustID === 0) {
       alert('Add customer details first. ');
@@ -273,14 +299,25 @@ export class AddCustomerComponent implements OnInit {
       alert('Select Cmprsor Status. ');
       return false;
     }
+   var make = '';
+   if ( this.f.Cust_Make.value === 'Other' ) {
+        make = this.f.Cust_MakeOther.value;
+   }
+   else
+    {
+         make = this.f.Cust_Make.value;
+    }
     let body = {
       PK_Cust_Id: this.CustID,
+      Cust_Make: make,
       Cust_Cmprsor_Model: this.f.Cust_Cmprsor_Model.value,
       Cust_Cmprsor_RoomDetails: this.f.Cust_Cmprsor_RoomDetails.value,
       Cust_Cmprsor_Mfg_Year: $('#Cust_Cmprsor_Mfg_Year').val(), // this.f.Cust_Cmprsor_Mfg_Year.value,
       Cust_Cmprsor_Commissioning_Year: $('#Cust_Cmprsor_Commissioning_Year').val(), // this.f.Cust_Cmprsor_Commissioning_Year.value,
       Cust_Cmprsor_Status: this.f.Cust_Cmprsor_Status.value,
-      Created_By: this.session.session.PK_Resource_Id
+      Created_By: this.session.session.PK_Resource_Id,
+      Running_Hours : this.f.Running_Hours.value,
+      Remark: this.f.Remark.value
     };
     this.authenticationservice.SubmitRoomDetails(body)
       .pipe(first())
@@ -290,6 +327,10 @@ export class AddCustomerComponent implements OnInit {
         this.addcustomerForm.get('Cust_Cmprsor_RoomDetails').setValue('');
         this.addcustomerForm.get('Cust_Cmprsor_Mfg_Year').setValue('');
         this.addcustomerForm.get('Cust_Cmprsor_Commissioning_Year').setValue('');
+        this.addcustomerForm.get('Cust_Cmprsor_Status').setValue('');
+        this.addcustomerForm.get('Running_Hours').setValue('');
+        this.addcustomerForm.get('Remark').setValue('');
+        this.addcustomerForm.get('Cust_Make').setValue('');
         this.GetCompressorRoomDetailsList();
       },
       error => {
@@ -357,7 +398,7 @@ export class AddCustomerComponent implements OnInit {
       .pipe(first())
       .subscribe(data => {
         this.data = data;
-        alert(JSON.stringify(this.data.Response));
+       // alert(JSON.stringify(this.data.Response));
         this.GetCompressorRoomDetailsList();
       });
   }
@@ -369,7 +410,7 @@ export class AddCustomerComponent implements OnInit {
       .pipe(first())
       .subscribe(data => {
         this.data = data;
-        alert(JSON.stringify(this.data.Response));
+       // alert(JSON.stringify(this.data.Response));
         this.GetContactDetailsList();
       });
   }
@@ -389,6 +430,11 @@ export class AddCustomerComponent implements OnInit {
   }
   onSelectAttachment(val: any) {
     console.log(val);
+    if (val.target.files[0].size > 200000) {
+     alert('file size limit is maximum 2MB');
+     $('#upload').val('');
+     return false;
+    }
     this.attchment = val.target.files[0];
   }
   uploadVisitCard() {
@@ -396,6 +442,7 @@ export class AddCustomerComponent implements OnInit {
      .subscribe(data => {
           this.attachmenName = data ;
           alert('File Uploaded Successfully');
+          $('#spanid').html('');
           console.log(data);
      },
      error => {

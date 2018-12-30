@@ -9,7 +9,7 @@
             </div>
             <div class=" pull-left" style="margin-left: 20px;">
                 <!-- <a [routerLink]="['/addcustomer']" class="btn btn-info btn_addnew">+ Add New Customer</a> &nbsp;&nbsp;              -->
-                <a href="#AddVisitPopup"  data-toggle="modal" id="MyAddVisitPopup" class="btn btn-info btn_addnew">+ Add Visit</a>              
+                <a  data-toggle="modal" id="MyAddVisitPopup" class="btn btn-info btn_addnew" (click)="OpenVisit()">+ Add Visit</a>              
             </div>
            
         </div>
@@ -38,6 +38,9 @@
                     <th (click)="sort('Cust_Name')">Customer Name
                          <span class="glyphicon sort-icon" *ngIf="key =='Cust_Name'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
                     </th>
+                    <th (click)="sort('VisitType')">Visit Type
+                            <span class="glyphicon sort-icon" *ngIf="key =='VisitType'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                       </th>
                     <th (click)="sort('Cust_Address_Line1')">Address
                             <span class="glyphicon sort-icon" *ngIf="key =='Cust_Address_Line1'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
 
@@ -63,13 +66,14 @@
                 totalItems: totalRec }| orderBy: key : reverse  | filter:filter; let i = index  ">
                     <td>{{item.PK_Cust_Id}}</td>
                     <td>{{item.Cust_Name}}</td>
+                    <td>{{item.VisitType}}</td>
                     <td>{{item.Cust_Address_Line1}}</td>
-                    <td class="text-right">{{item.Cust_Cmprsd_Air_App}}</td>
+                    <td>{{item.Cust_Cmprsd_Air_App}}</td>
                     <td>{{item.Cust_End_Product | uppercase}}</td>
                     <td>{{item.Cust_CntctPrson_Contact_No }}</td>
                     <td>
                         <a *ngIf="item.TrackInTime===true" title="Update Customer Details" class="btn btn-info btnedit" (click)="editPropertyDetails(item)"><span class="glyphicon glyphicon-pencil"></span></a>&nbsp;&nbsp;
-                        <a *ngIf="item.TrackInTime==false" title="Start Visit" (click)="inVisit(item)" class="btn btn-info btnedit" >In</a>&nbsp;&nbsp;
+                        <a *ngIf="item.TrackInTime==false" title="Start Visit" (click)="inVisit(item)" class="btn btn-info btnedit">In</a>&nbsp;&nbsp;
                         <a *ngIf="item.TrackInTime===true" title="Stop Visit" (click)="outVisit(item)" class="btn btn-info btnedit" >Out</a>&nbsp;&nbsp;
                         <button *ngIf="item.Cust_CntctPrson_Contact_No!=null && item.TrackInTime===true" title="Create New Opportunity"  class="btn btn-info btnedit" (click)="AddopportunityDetails(item)">  <span class=" glyphicon glyphicon-plus-sign"></span></button>&nbsp;
     
@@ -105,23 +109,40 @@
               </div>
               <div class="modal-body">
                   <div class="col-md-4 form-group">
-                      <label class="mandatory" for="">Customer Name:</label>
+                      <label class="mandatory" for=""> Customer Name:</label>
                   </div>
                   <div class="col-md-8 form-group">
                       <input type="text" class="form-control" id="" placeholder="" title="Please Enter Customer name" id="Cust_NameVisit" >
                   </div>
+                  <div class="col-md-4 form-group">
+                    <label class="mandatory" for=""> Visit Type:</label>
+                </div>
+                <div class="col-md-8 form-group">
+                    <select class="form-control" id="Cust_VisitType">
+                        <option value="" selected disabled> Select </option>
+                        <option value="Customer Visit"> Customer Visit</option>
+                        <option value="Itrak Measurement"> Itrak Measurement</option>
+                        <option value="O-box  measurement"> O-box  measurement</option>
+                        <option value="AC Support"> AC Support</option>
+                        <option value="Payment Followup"> Payment Followup</option>
+                        <option value="Customer Complaint"> Customer Complaint</option>
+                        <option value="Other"> Other</option>
+                    </select>
+                </div>
+                  <div class="col-md-8 form-group"> 
+                       <label id="Msg">{{Msg}}</label></div>
                   <div class="clearfix"></div>
-                  <div class="clearfix"></div>
+                 
               </div>
               <div class="modal-footer">
                   <div class="pull-right">
-                      <input type="button" class="btn btn-primary" value="Start Visit" (click)="onSubmitVisit()" />
+                      <input type="button" class="btn btn-primary" value="Start Visit" (click)="onSubmitVisit()" />&nbsp;
                       <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                   </div>
                   <div class="clearfix"></div>
               </div>
           </div>
         </div>
-        </div>
+    </div>
   </div>
   

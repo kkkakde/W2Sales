@@ -9,8 +9,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent implements OnInit {
+  public  title: string = '';
+  public  lat: number = 19.8762;
+  public  lng: number = 75.3433;
+  public  lat1: number = 18.5204;
+  public  lng2: number = 73.8567;
+  public  type1 = 'bar2d';
     // first
-    type1 = 'bar2d';
+ 
     dataFormat1 = 'json';
     dataSource1 = {
         "chart": {

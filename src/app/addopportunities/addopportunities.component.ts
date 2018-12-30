@@ -39,68 +39,27 @@ export class AddopportunitiesComponent implements OnInit {
       Expected_Value: ['', Validators.required],
       List_Code: ['', Validators.required],
       List_CodeSales: ['', Validators.required],
-      List_CodeStatus: ['', ''],
-      Startdate: ['', ''],
-      closeddate: ['', ''],
+      ExpectedOrderDate: ['', ''],
       Forecast: ['', ''],
       Customer_Contact_No: ['', ''],
-      Opportunity_Name: ['', ''],
+      Opportunity_Name: ['', Validators.required],
       CustomerId: ['', '']
     });
-
     this.getOpportunitySourceList();
     this.getOpportunityTypeList();
     this.getChanceofSuccessList();
     this.getSalesPhaseList();
-    this.getStatusList();
-
-    this.sub = this.route.queryParams.subscribe(params => {
+      this.sub = this.route.queryParams.subscribe(params => {
       this.f.CustomerId.setValue(params['Id']);
       this.f.Cust_Name.setValue(params['CustName']);
       this.f.Customer_Contact_No.setValue(params['contact']);
       this.f.Opportunity_Name.setValue(params['Opportunity_Name']);
       this.f.Expected_Value.setValue(params['Expected_Value']);
     });
-
-    $('#Startdate').datepicker({
-      showAnim: "fadeIn",
+    $('#ExpectedDate').datepicker({
+      startDate: new Date(),
       format: "dd-M-yyyy",
-      startDate: '+1d',
-      setDate: new Date(),
-      // endDate: '+' + $("#maxdate").val() + 'd',
-      // endDate: '+30d',
       defaultDate: new Date(), autoclose: true
-    }).on('changeDate', function (ev) {
-      (ev.viewMode == 'days') ? $(this).datepicker('hide') : '';
-      var dateData = $(this).val();
-      $(this).value = dateData;
-      $('#Visit_End_Date').val('').removeAttr('disabled');
-      $('#Visit_End_Date').datepicker('remove');
-      $('#Visit_End_Date').datepicker({ showAnim: "fadeIn", format: "dd-M-yyyy", startDate: $('#Visit_Start_Date').val(), clearBtn: true, autoclose: true });
-    });
-    $('#closeddate').datepicker({
-      showAnim: "fadeIn",
-      format: "dd-M-yyyy",
-      startDate: '+1d',
-      setDate: new Date(),
-      //  endDate: '+' + $("#maxdate").val() + 'd',
-      // endDate: '+30d',
-      defaultDate: new Date(), autoclose: true
-    });
-    $('.datepicker1').datepicker({
-      format: 'dd-M-yyyy',
-      // startDate1: new Date(),
-      startDate: '+1d',
-      //  minDate: new Date(),
-      setDate: new Date(),
-      endDate: '+' + 2 + 'y',
-      autoclose: true, todayHighlight: true,
-      allowInputToggle: true,
-      clearBtn: true
-    }).on('changeDate', function (ev) {
-      (ev.viewMode == 'days') ? $(this).datepicker('hide') : '';
-      var dateData = $(this).val();
-      $(this).value = dateData;
     });
   }
   get f() { return this.addOpportunitiesForm.controls; }
@@ -133,21 +92,11 @@ export class AddopportunitiesComponent implements OnInit {
         this.SalesPhaseList = data;
       });
   }
-  getStatusList() {
-    this.authenticationservice.getStatusList()
-      .pipe(first())
-      .subscribe(data => {
-        this.StatusList = data;
-      });
-  }
 
   onSubmit() {
     this.submitted = true;
     if (this.addOpportunitiesForm.invalid) {
       return;
-    }
-    if ($('#Startdate').val() === '' || $('#closeddate').val() === '') {
-      alert('Select Start Date and End Date');
     }
     let body = {
       FK_Customer_Id: this.f.CustomerId.value,
@@ -158,10 +107,8 @@ export class AddopportunitiesComponent implements OnInit {
       Expected_Value: this.f.Expected_Value.value,
       Chance_Of_Success: this.f.List_Code.value,
       Sales_Phase: this.f.List_CodeSales.value,
-      FK_Status: this.f.List_CodeStatus.value,
-      Start_Date: $('#Startdate').val(),
-      Closed_Date: $('#closeddate').val(),
-      Forecast: this.f.Forecast.value,
+      Closed_Date: $('#ExpectedDate').val(),
+      Forecast: this.f.Forecast.value === true ? 1 : 0,
       Created_By: this.session.session.PK_Resource_Id
     };
     this.authenticationservice.AddOpportunity(body)
@@ -171,7 +118,7 @@ export class AddopportunitiesComponent implements OnInit {
         this.router.navigate(['/opportunitieslist']);
       },
       error => {
-        console.log(JSON.stringify(error))
+        console.log(JSON.stringify(error));
         alert('Error');
       });
   }

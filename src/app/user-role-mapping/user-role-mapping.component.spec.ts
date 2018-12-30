@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MasterHolidayComponent } from './master-holiday.component';
+import { UserRoleMappingComponent } from './user-role-mapping.component';
 
-describe('MasterHolidayComponent', () => {
-  let component: MasterHolidayComponent;
-  let fixture: ComponentFixture<MasterHolidayComponent>;
+describe('UserRoleMappingComponent', () => {
+  let component: UserRoleMappingComponent;
+  let fixture: ComponentFixture<UserRoleMappingComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MasterHolidayComponent ]
+      declarations: [ UserRoleMappingComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MasterHolidayComponent);
+    fixture = TestBed.createComponent(UserRoleMappingComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

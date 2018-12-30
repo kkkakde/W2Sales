@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MasterNavigationComponent } from './master-navigation.component';
+import { MasterResourceComponent } from './master-resource.component';
 
-describe('MasterNavigationComponent', () => {
-  let component: MasterNavigationComponent;
-  let fixture: ComponentFixture<MasterNavigationComponent>;
+describe('MasterResourceComponent', () => {
+  let component: MasterResourceComponent;
+  let fixture: ComponentFixture<MasterResourceComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MasterNavigationComponent ]
+      declarations: [ MasterResourceComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MasterNavigationComponent);
+    fixture = TestBed.createComponent(MasterResourceComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

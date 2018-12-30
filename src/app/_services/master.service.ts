@@ -14,7 +14,24 @@ export class Master {
     return this.http.post(`${environment.apiUrl}Api_Master/AddIndustry`, body);
   }
   IndustryList(Industry_Id) {
-    alert(Industry_Id);
     return this.http.post(`${environment.apiUrl}Api_Master/IndustryList?Industry_Id=` + Industry_Id, {});
+  }
+  EnquirySourceList() {
+    return this.http.post(`${environment.apiUrl}Api_Master/EnquirySourceList`, {});
+  }
+  AddEnquirySource(body) {
+    return this.http.post(`${environment.apiUrl}Api_Master/AddEnquirySource`, body);
+  }
+  EditEnquirySource(Enquiry_Source_Id) {
+    return this.http.post(`${environment.apiUrl}Api_Master/EditEnquirySource?Enquiry_Source_Id=` + Enquiry_Source_Id, {});
+  }
+  EnquirytypeList() {
+    return this.http.post(`${environment.apiUrl}Api_Master/EnquirytypeList`, {});
+  }
+  AddEnquirytypeList(body) {
+    return this.http.post(`${environment.apiUrl}Api_Master/AddEnquirytypeList`, body);
+  }
+  EditEnquiryType(Enquiry_Type_Id) {
+    return this.http.post(`${environment.apiUrl}Api_Master/EditEnquiryType?Enquiry_Type_Id=` + Enquiry_Type_Id, {});
   }
 }

@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MasterAbsentComponent } from './master-absent.component';
+import { NPSLostScoreComponent } from './npslost-score.component';
 
-describe('MasterAbsentComponent', () => {
-  let component: MasterAbsentComponent;
-  let fixture: ComponentFixture<MasterAbsentComponent>;
+describe('NPSLostScoreComponent', () => {
+  let component: NPSLostScoreComponent;
+  let fixture: ComponentFixture<NPSLostScoreComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MasterAbsentComponent ]
+      declarations: [ NPSLostScoreComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MasterAbsentComponent);
+    fixture = TestBed.createComponent(NPSLostScoreComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

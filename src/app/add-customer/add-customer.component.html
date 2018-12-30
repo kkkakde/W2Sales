@@ -4,7 +4,7 @@
     <div class="white_box opportunity_modal" style="margin: 10px 0 0 0;">
       <ul class="nav nav-tabs">
         <li class="active">
-          <a href="#tabone" data-toggle="tab">Customer Basic Details</a>
+          <a href="#tabone" data-toggle="tab">Account Basic Details</a>
         </li>
         <li>
           <a href="#tabthree" data-toggle="tab">Contact Person Details</a>
@@ -13,7 +13,7 @@
           <a href="#tabtwo" data-toggle="tab">Compressor Room Details</a>
         </li>
         <li class="pull-right">
-          <a [routerLink]="['/customerlist']" title="Back to Customer List">
+          <a [routerLink]="['/customerlist']" title="Back to Account List">
             <i class="fa fa-reply"></i>
           </a>
         </li>
@@ -21,19 +21,31 @@
       <div class="tab-content">
         <div class="tab-pane fade in active" id="tabone">
           <div class="col-md-2 form-group">
-            <label for="" class="mandatory">Customer Name</label>
+            <label for="" class="mandatory">Account Name</label>
           </div>
           <div class="col-md-2 form-group">
-            <input type="text" formControlName="Cust_Name" class="form-control" placeholder="Enter Customer Name" title="Enter Customer Name">
+            <input type="text" formControlName="Cust_Name" class="form-control" placeholder="Enter Account Name" title="Enter Account Name">
             <div *ngIf="submitted && f.Cust_Name.errors" class="invalid-feedback">
               <div *ngIf="f.Cust_Name.errors.required">is required</div>
             </div>
           </div>
           <div class="col-md-2 form-group">
+              <label for="" class="mandatory">Visit Type</label>
+            </div>
+            <div class="col-md-2 form-group">
+              <input type="text" formControlName="Cust_VisitType" disabled class="form-control" placeholder="Enter Visit Type" title="Enter Account Name">
+            </div>
+            <div class="col-md-2 form-group">
+                <label for="" >Landline No</label>
+              </div>
+              <div class="col-md-2 form-group">
+                <input type="text" formControlName="Cust_LandlineNo" maxlength="12" class="form-control" placeholder="Enter Landline No"  title="Enter Landline No" onkeypress="return isNumber(event)">
+              </div>
+          <div class="col-md-2 form-group">
             <label for="" class="mandatory">Address Line1</label>
           </div>
           <div class="col-md-2 form-group">
-            <input type="text" formControlName="Cust_Address_Line1" class="form-control" placeholder="Enter Customer Address" title="Enter Customer Address">
+            <input type="text" formControlName="Cust_Address_Line1" class="form-control" placeholder="Enter Account Address" title="Enter Account Address">
             <div *ngIf="submitted && f.Cust_Address_Line1.errors" class="invalid-feedback">
               <div *ngIf="f.Cust_Address_Line1.errors.required">is required</div>
             </div>
@@ -42,7 +54,7 @@
             <label for="">Address Line2</label>
           </div>
           <div class="col-md-2 form-group">
-            <input type="text" formControlName="Cust_Address_Line2" class="form-control" placeholder="Enter Customer Address" title="Enter Customer Address">
+            <input type="text" formControlName="Cust_Address_Line2" class="form-control" placeholder="Enter Account Address" title="Enter Account Address">
           </div>
           <div class="col-md-2 form-group">
             <label for="" class="mandatory">Zone</label>
@@ -90,13 +102,13 @@
             </div>
           </div>
           <div class="col-md-2 form-group">
-            <label for="" class="mandatory">GSTN No.</label>
+            <label for="" >GSTN No.</label>
           </div>
           <div class="col-md-2 form-group">
-            <input type="text" formControlName="Cust_GSTN_No" class="form-control" placeholder="Enter Customer GSTN No" title="Enter Customer GSTN No" maxlength="15">
-            <div *ngIf="submitted && f.Cust_GSTN_No.errors" class="invalid-feedback">
+            <input type="text" formControlName="Cust_GSTN_No" class="form-control" placeholder="Enter Account GSTN No" title="Enter Account GSTN No" maxlength="15">
+            <!-- <div *ngIf="submitted && f.Cust_GSTN_No.errors" class="invalid-feedback">
               <div *ngIf="f.Cust_GSTN_No.errors.required">is required</div>
-            </div>
+            </div> -->
           </div>
           <div class="col-md-2 form-group">
             <label for="" class="mandatory">Compressor Air Application</label>
@@ -125,13 +137,13 @@
           </div>
           <div class="clearfix"></div>
           <div class="col-md-2 form-group">
-            <label for="" class="mandatory">End Product</label>
+            <label for="" >End Product</label>
           </div>
           <div class="col-md-2 form-group">
-            <input type="text" formControlName="Cust_End_Product" class="form-control" placeholder="Enter End Product" title="Enter End Product">
-            <div *ngIf="submitted && f.Cust_End_Product.errors" class="invalid-feedback">
+            <input type="text" maxlength="50" formControlName="Cust_End_Product" class="form-control" placeholder="Enter End Product" title="Enter End Product">
+            <!-- <div *ngIf="submitted && f.Cust_End_Product.errors" class="invalid-feedback">
               <div *ngIf="f.Cust_End_Product.errors.required">is required</div>
-            </div>
+            </div> -->
           </div>
           <div class="col-md-2 form-group">
             <label for="" class="">Visiting Card Picture</label>
@@ -140,7 +152,8 @@
           </div>
           <div class="col-md-2 form-group">
             <div class="">
-              <input type="file" id="upload" (change)="onSelectAttachment($event)" name="File" class="form-control" style="float:left" />
+              <input type="file" id="upload" (change)="onSelectAttachment($event)" name="File" class="form-control" accept="image/x-png,image/gif,image/jpeg" title="Select png,jpg,pdf file" style="float:left" />
+              <a href="{{attachmenName}}" id="spanid" target="_blank"></a>
               <div *ngIf="submitted && f.Cust_File.errors" class="invalid-feedback">
                 <div *ngIf="f.Cust_File.errors.required">is required</div>
               </div>
@@ -167,8 +180,17 @@
                       <input type="text" formControlName="Cust_Cmprsor_Model" class="form-control" title="Enter Model Details" placeholder="Enter Model Details">
                     </td>
                     <td>
+                        <select class="form-control" formControlName="Cust_Make" (change)="onChangeMake($event)"
+                                title="Please Make">
+                          <option value="" disabled>Select Make</option>
+                          <option value="Make1"> Make1</option>
+                          <option value="Other"> Other</option>
+                        </select>
+                      <input type="text" *ngIf="makeFlag" formControlName="Cust_MakeOther" class="form-control" title="Enter Other Make" placeholder="Enter Other Make">
+                      </td>
+                    <td>
                       <select class="form-control" formControlName="Cust_Cmprsor_RoomDetails"
-                              title="Please Select Zone">
+                              title="Please Select Compressor">
                         <option value="" disabled>Select Compressor Room Detail</option>
                         <option *ngFor="let room of DesignationIdList" value={{room.W2S_List_Id}}>
                           {{room.List_Desc}}
@@ -190,6 +212,17 @@
                         </option>
                       </select>
                     </td>
+                    <td>
+                      <input type="text" formControlName="Running_Hours" maxlength="20" onkeypress='return (event.charCode >= 48 && event.charCode <= 57)|| event.keyCode == 190 || event.keyCode == 8' class="form-control" title="Enter Running Hours " id="Running_Hours" placeholder="Enter Running Hours">
+                    </td>
+                    <td>
+                      <select class="form-control" formControlName="Remark" 
+                              title="Remark">
+                        <option value="" disabled>Select Remark</option>
+                        <option value="abc">abc</option>
+                        <option value="xyz">xyz</option>
+                      </select>
+                    </td>
                     <td class="text-center">
                       <a (click)="onSubmitRoom($event)" class="btn btn-info btnedit">Add</a>
                     </td>
@@ -202,20 +235,24 @@
                   <thead>
                     <tr>
                       <th>Model</th>
+                      <th>Make</th>
                       <th>Compressor Room Details</th>
                       <th>Year of Manufacturing</th>
                       <th>Year of Comissioning</th>
-                      <!-- <th>Working Status</th> -->
+                      <th>Running_Hours</th>
+                      <th>Remark</th>
                       <th class="text-center">Action</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr *ngFor="let item of CompressorRoomDetailsList">
                       <td>{{item.Cust_Cmprsor_Model}}</td>
+                      <td>{{item.Cust_Make}}</td>
                       <td>{{item.Cust_Cmprsor_RoomDetailsName}}</td>
                       <td>{{item.Cust_Cmprsor_Mfg_Year}}</td>
                       <td>{{item.Cust_Cmprsor_Commissioning_Year}}</td>
-                      <!-- <td>{{item.Cust_Cmprsor_Status}}</td> -->
+                      <td>{{item.Running_Hours}}</td>
+                      <td>{{item.Remark}}</td>
                       <td><a class="btn btn-info btnedit" (click)="DeleteCompressorRoom(item)">Delete</a></td>
                     </tr>
                   </tbody>
@@ -258,7 +295,7 @@
                     <th>Name</th>
                     <th>Contact No.</th>
                     <th>Company Email</th>
-                    <!-- <th>Designation</th> -->
+                   <th>Status</th>
                     <th class="text-center">Action</th>
                   </tr>
                 </thead>
@@ -272,8 +309,17 @@
                     <td>{{item.Cust_CntctPrson_Name}}</td>
                     <td>{{item.Cust_CntctPrson_Contact_No}}</td>
                     <td>{{item.Cust_CntctPrson_Email_Id}}</td>
-                    <!-- <td>{{item.FK_Cust_CntctPrson_Dsgntn_Id}}</td> -->
-                    <td><a class="btn btn-info btnedit" (click)="DeleteContactDetails(item)">Delete</a></td>
+                    <td>
+                        <span *ngIf="item.IsActive===0" >InActive</span>
+                        <span *ngIf="item.IsActive===1" >Active</span>
+                      
+                    </td>
+                    <td>
+                       
+                      <a *ngIf="item.IsActive===0" class="btn btn-info btnedit" (click)="DeleteContactDetails(item)">Active</a>
+                      <a *ngIf="item.IsActive===1" class="btn btn-info btnedit" (click)="DeleteContactDetails(item)">InActive</a>
+                    
+                    </td>
                   </tr>
                 </tbody>
               </table>

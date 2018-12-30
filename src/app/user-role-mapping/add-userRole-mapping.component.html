@@ -1,0 +1,105 @@
+<app-menubar></app-menubar>
+<form [formGroup]="addUserRoleMappingForm" (ngSubmit)="onSubmit()">
+    <div class="col-md-12">
+        <div class="white_box opportunity_modal" style="margin: 10px 0 0 0;">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="#tabone" data-toggle="tab">User Role Mapping Details</a>
+                </li>
+                <li class="pull-right">
+                    <a [routerLink]="['/userRoleMapping']" title="Back to User Role Details">
+                    <i class="fa fa-reply"></i>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="tab-content">
+                <div class="tab-pane fade in active" id="tabone">      
+                   
+                    <div class="col-md-2 form-group">
+                        <label for="" class="mandatory">User Name</label>
+                    </div>
+                    <div class="col-md-2 form-group">
+                        <select  class="form-control"  formControlName="User_Name" 
+                                title="Please Select User Name">
+                                <option value="" disabled>Select</option>
+                                <option *ngFor="let user of userList" value={{user.PK_Resource_Id}}>
+                                        {{user.Resource_Name}} 
+                                </option>
+                        </select>
+                        <div *ngIf="submitted && f.User_Name.errors" class="invalid-feedback">
+                                <div *ngIf="f.User_Name.errors.required">is required</div>
+                            </div>
+                    </div>
+
+                    <div class="col-md-2 form-group">
+                            <label for="" class="mandatory">Role Type</label>
+                    </div>
+                    <div class="col-md-2 form-group">
+                        <select  class="form-control"  formControlName="Role_Type" 
+                                title="Please Select Role">
+                                <option value="" disabled>Select</option>
+                                <option *ngFor="let role of roleList" value={{role.PK_Role_Id}}>
+                                         {{role.Name}} 
+                                </option>
+                        </select>
+                        <div *ngIf="submitted && f.Role_Type.errors" class="invalid-feedback">
+                                <div *ngIf="f.Role_Type.errors.required">is required</div>
+                            </div>
+                    </div>
+                    
+
+                    <div class="col-md-2 form-group">
+                            <label for="" class="mandatory">Zone</label>
+                    </div>
+                    <div class="col-md-2 form-group">
+                        <select  class="form-control"  formControlName="Zone_Name" (change)="getStateList($event)"
+                                title="Please Select Zone">
+                                <option value="" disabled>Select</option>
+                                <option *ngFor="let zone of zoneList" value={{zone.PK_Zone_Id}}>
+                                        {{zone.Zone_Desc}}  
+                                </option>
+                        </select>
+                        <div *ngIf="submitted && f.Zone_Name.errors" class="invalid-feedback">
+                                <div *ngIf="f.Zone_Name.errors.required">is required</div>
+                            </div>
+                    </div>
+
+                    <div class="col-md-2 form-group">
+                            <label for="" class="mandatory">State</label>
+                    </div>
+                    <div class="col-md-2 form-group">
+                        <select  class="form-control"  formControlName="State_Name" 
+                                title="Please Select State">
+                                <option value="" disabled>Select</option>
+                                <option *ngFor="let state of stateList" value={{state.PK_State_Id}}>
+                                        {{state.State_Desc}} 
+                                </option>
+                        </select>
+                        <div *ngIf="submitted && f.State_Name.errors" class="invalid-feedback">
+                                <div *ngIf="f.State_Name.errors.required">is required</div>
+                            </div>
+                    </div>
+                  
+                    <div class="col-md-2 form-group">
+                       <label for="">IsActive</label>
+                    </div>
+                    <div class="col-md-2 form-group">
+                            <input class="chek" id="IsActive" formControlName="IsActive" type="checkbox" style="vertical-align: middle; margin: 0 5px 0 0;">
+                    </div>
+                                  
+                    <div class="ActionArea">
+                        <div class="dropdown pull-right">
+                            <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+                            <button [disabled]="loading" class="btn btn_login" >Submit</button>
+                            <!-- <button [disabled]="loading" class="btn btn_login" *ngIf="disabledAddUpdate">Update</button>&nbsp; -->
+                            <!-- <a [routerLink]="['/masterRole']" class="btn btn-default">Cancel</a> -->
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+        
+        </div>
+    </div>
+</form>

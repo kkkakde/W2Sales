@@ -13,7 +13,8 @@ import { AuthGuard } from './_guards';
 import { JwtInterceptor, ErrorInterceptor,  } from './_helpers';
 import { SegmentType, MappingType, SubRangeDetails, ProductDetails} from './_models';
 import { AlertService, AuthenticationService, UserService, Customer, Opportunities, visit,
-    Competitor, CommonService, ProductService , SubRangeMappingService, Resource, Master } from './_services/';
+    Competitor, CommonService, ProductService , SubRangeMappingService, Resource, Master, NPSScores,
+UserRoleService } from './_services/';
 import { HomeComponent } from './home';
 import { LoginComponent } from './login';
 import { RegisterComponent } from './register';
@@ -51,15 +52,25 @@ import { MasterProductComponent } from './master-product/master-product.componen
 import { MasterRangeMappingComponent} from './master-range-mapping/master-range-mapping.component';
 import { MasterResourceComponent} from './master-resource/master-resource.component';
 import { AddResourceComponent} from './master-resource/add-resource.component';
-import { MasterResourceRoleMappingComponent } from './master-resource-role-mapping/master-resource-role-mapping.component';
 import { MasterSubRangeMappingComponent} from './master-sub-range-mapping/master-sub-range-mapping.component';
 import { AddIndustryComponent } from './master-industry/add-industry.component';
 import { MasterIndustryComponent } from './master-industry/master-industry.component';
 import { AddProductComponent} from './master-product/add-product.component';
 import { AddSubRangeComponent } from './master-sub-range-mapping/add-subrange.component';
 import { AddRangeMappingComponent } from './master-range-mapping/add-range-mapping.component';
+import { MasterEnquirySourceComponent} from './master-enquiry-source/master-enquiry-source.component';
+import { AddEnquirySourceComponent } from './master-enquiry-source/add-enquiry-source.component';
+import { AddCompetitorComponent} from './master-competitor/add-competitor.component';
+import { MasterEnquiryTypeComponent} from './master-enquiry-type/master-enquiry-type.component';
+import { AddEnquiryTypeComponent} from './master-enquiry-type/add-enquiry-type.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
-
+import { NPSWonScoreComponent } from './npswon-score/npswon-score.component';
+import { NPSLostScoreComponent } from './npslost-score/npslost-score.component';
+import { UserRoleMappingComponent } from './user-role-mapping/user-role-mapping.component';
+import { MasterRoleComponent } from './master-resource/master-role.component';
+import { AddMasterRoleComponent } from './master-resource/add-role-component';
+import { AddUserRoleMappingComponent } from './user-role-mapping/add-userRole-mapping.component';
+import { AgmCoreModule } from '@agm/core';
 // Use fcRoot function to inject FusionCharts library, and the modules you want to use
 FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme, FintTheme);
 
@@ -77,6 +88,9 @@ FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme, FintTheme);
         Ng2SearchPipeModule , // including into imports
         FusionChartsModule,
         NgxSpinnerModule,
+        AgmCoreModule.forRoot({
+            apiKey: 'AIzaSyAYv74bRujxn0wTupVthJtm4eJxVbsfYdo'
+          }),
         CalendarModule.forRoot({
             provide: DateAdapter,
             useFactory: adapterFactory
@@ -104,14 +118,23 @@ FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme, FintTheme);
         MasterRangeMappingComponent,
         MasterResourceComponent,
         AddResourceComponent,
-        MasterResourceRoleMappingComponent,
         MasterSubRangeMappingComponent,
         AddProductComponent,
         AddSubRangeComponent,
         AddRangeMappingComponent,
         AddIndustryComponent,
-        MasterIndustryComponent
-
+        MasterIndustryComponent,
+        MasterEnquirySourceComponent,
+        AddEnquirySourceComponent,
+        AddCompetitorComponent,
+        MasterEnquiryTypeComponent,
+        AddEnquiryTypeComponent,
+        NPSWonScoreComponent,
+        NPSLostScoreComponent,
+        UserRoleMappingComponent,
+        MasterRoleComponent,
+        AddMasterRoleComponent,
+        AddUserRoleMappingComponent
     ],
     providers: [
         AuthGuard,
@@ -131,6 +154,8 @@ FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme, FintTheme);
         Resource,
         Master,
         SubRangeMappingService,
+        NPSScores,
+        UserRoleService,
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
 

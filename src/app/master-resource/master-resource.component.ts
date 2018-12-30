@@ -10,7 +10,12 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class MasterResourceComponent implements OnInit {
   public ResourceList: any;
   public navigationExtras: any;
-
+  key: string = 'name'; // set default
+  reverse: boolean = false;
+  sort(key) {
+    this.key = key;
+    this.reverse = !this.reverse;
+  }
   constructor(private resourceservice: Resource,
     private router: Router,
     ) { }

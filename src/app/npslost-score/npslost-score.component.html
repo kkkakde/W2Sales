@@ -1,0 +1,52 @@
+<app-menubar></app-menubar>
+<div class="col-md-12">
+  <div class="pull-left">
+    <h4>Lost List</h4>
+  </div>
+  <div class="clearfix"></div>
+  <div class="table-responsive">
+    <div class="col-md-12 nopadding">
+      <div class="opportunity_strip" style="margin: 0; height: auto;">
+        <h4 class="panel-title">
+          My Lost
+          <i class="fa fa-filter pull-right" style="color:white;"></i>
+          <i class="fa fa-search pull-right" style="color:white;"></i>
+          <div class="pull-right">
+              <input class="form-control" type="text" name="search" [(ngModel)]="filter" placeholder="Search here">
+          </div>
+        </h4>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+    <table id="monthly_table" class="table table-bordered report_table">
+      <thead>
+        <tr>
+          <th>Customer Name</th>
+          <th>Opportunity Name</th>
+          <th>Lost Value</th>
+          <th>Lost Remark</th>
+          <!-- <th class="text-center">Action</th> -->
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of Lostlist?.Response | paginate:{ id: 'listing_pagination',itemsPerPage:5,currentPage:page,totalItems: totalRec}| orderBy: key : reverse | filter:filter; let i = index">
+          <td>{{item.CustomerName}}</td>
+          <td>{{item.OpportunityName}}</td>
+          <td>{{item.Lost_Value}}</td>
+          <td>{{item.Lost_Remarks}}</td>
+          <!-- <td class="text-center"><button class="fa fa-trash" title="Delete" style="cursor: pointer" (click)="DeleteWon(item)"></button> </td> -->
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="6">
+            <pagination-controls id="listing_pagination" maxSize="5" directionLinks="true"
+                                 (pageChange)="page = $event"></pagination-controls>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>
+
+

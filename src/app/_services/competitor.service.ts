@@ -15,5 +15,8 @@ export class Competitor {
   AddCompetitor(body) {
     return this.http.post(`${environment.apiUrl}Api_MasterCompetitor/AddCompetitor`, body);
   }
+  editCompetitor(PK_Competitor_Id) {
+    return this.http.post(`${environment.apiUrl}Api_MasterCompetitor/EditCompetitor?PK_Competitor_Id=` + PK_Competitor_Id, {});
+  }
 }
 

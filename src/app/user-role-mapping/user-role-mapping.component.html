@@ -1,0 +1,62 @@
+<app-menubar></app-menubar>
+<div class="col-md-12">
+    <div class="white_box">
+      <div class="col-md-12 nopadding">
+        <div class="report_outer" id="reportouter">
+          <div class="report_heading col-md-8 nopadding">
+            <div class="pull-left">
+                <h4>User Role Details</h4>
+            </div>
+            <div class=" pull-left" style="margin-left: 20px;">
+                <a  class="btn btn-info btn_addnew" (click)="navigateToAddUserRole()">+ Add New User Role</a>              
+            </div>
+            <div class="clearfix"></div>
+          </div>
+        <div class="clearfix"></div>
+        
+        <div class="table-responsive">
+          <table class="table table-bordered report_table">
+            <thead>
+                <tr>
+                    <th>User Role ID</th>
+                    <th>User Name</th>
+                    <th>Role Description</th>
+                    <th>Zone</th>
+                    <th>State</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let userRole of userRoleMapping | paginate:{ id: 'listing_pagination',
+                            itemsPerPage:5,
+                            currentPage:page,
+                            totalItems: totalRec }">
+                    <td>{{userRole.PK_UserRole_Id}}</td>
+                    <td>{{userRole.ResourceName}}</td>
+                    <td>{{userRole.RoleName}}</td>
+                    <td>{{userRole.StateName}}</td>
+                    <td>{{userRole.ZoneName}}</td>
+                      <td>
+                          <a class="btn" (click)="editUserRoleDetails(userRole)">
+                           <i class="fa fa-pencil-square-o"></i>
+                          </a>
+                      </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                    <tr>
+                        <td colspan="12">
+                            <pagination-controls id="listing_pagination" maxSize="5" directionLinks="true"
+                            (pageChange)="page = $event"></pagination-controls>
+                        </td>
+                    </tr>
+            </tfoot>
+          </table>
+        </div>
+        <div class="clearfix"></div>
+        </div>
+      </div>
+      <div class="clearfix"></div>
+    </div>    
+  </div>
+  

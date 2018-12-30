@@ -1,3 +1,58 @@
 thead>tr>th {
     cursor: pointer;
 }
+
+
+.Clearboth
+{
+    clear: both;
+}
+
+.divright
+{
+float:right;
+}
+
+.divleft
+{
+float:left;
+}
+
+.opp_dropdown li a{
+    color: #fff;
+}
+
+
+.questionsBlock p{
+    font-size: 14px;
+}
+.questionsBlock p span{
+    font-size: 16px;
+    color: #08b;
+}
+.questionsBlock label{
+    display: block;
+    margin-left: 30px;
+    cursor: pointer;
+}
+.questionsBlock label input[type=radio]{
+    margin-right: 10px !important;
+    vertical-align: middle;
+}
+.questionsBlock textarea{
+    width: 100%;
+    padding: 10px;
+}
+.qans{
+    display: none;
+}
+
+
+.StatusButtons{
+    position: absolute;
+    left: 40%;
+}
+
+#VisitModel .modal-dialog{
+    width: 80%;
+}

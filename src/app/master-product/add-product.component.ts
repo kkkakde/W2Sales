@@ -38,12 +38,12 @@ export class AddProductComponent implements OnInit {
         IsActive:['','']
     });
     this.queryParamData = this.route.queryParams.subscribe(params => {
-      this.productlist ={
+      this.productlist = {
        'Product_Id' : params['Product_Id'],
        'Product_Name' : params['Product_Name'],
        'Product_Desc' : params['Product_Desc'],
        'IsActive' : params['IsActive']
-      } 
+      }
     });
     this.disabledAddUpdate = this.productlist.Product_Id;
     this.f.Prod_Name.setValue(this.productlist.Product_Name);
@@ -72,10 +72,11 @@ export class AddProductComponent implements OnInit {
         };
         this.ProductService.updateProductDetails(param).subscribe(result => {
           this.productlist = result;
+          alert('Product added successfully ');
           this.Router.navigate(['/masterProduct']);
           this.loading = false;
         });
-      }else{
+      } else {
          param = {
             Product_Id:  this.Product.Product_Id = 0,
             Product_Name: this.f.Prod_Name.value,
@@ -85,6 +86,7 @@ export class AddProductComponent implements OnInit {
         };
         this.ProductService.addProductDetails(param).subscribe(result => {
               this.productlist = result;
+              alert('Product added successfully ');
               this.Router.navigate(['/masterProduct']);
               this.loading = false;
         });

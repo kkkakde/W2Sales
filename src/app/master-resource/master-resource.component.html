@@ -15,14 +15,28 @@
         <div class="clearfix"></div>
         
         <div class="table-responsive">
+            <div class="col-md-12 nopadding">
+                <div class="opportunity_strip" style="margin: 0; height: auto;">
+                  <h4 class="panel-title">
+                    My Resource
+                    <i class="fa fa-filter pull-right" style="color:white;"></i>
+                    <i class="fa fa-search pull-right" style="color:white;"></i>
+                    <div class="pull-right">
+                        <input class="form-control" type="text" name="search" [(ngModel)]="filter" placeholder="Search here">
+                    </div>
+                  </h4>
+                  <div class="clearfix"></div>
+                </div>
+                
+              </div>
           <table class="table table-bordered report_table">
             <thead>
               <tr>
-                <th>Resource Name</th>
-                <th>Login Id</th>
-                <th>Mobile No</th>
-                <th>Email Id</th>
-                <th>Designation</th>
+                <th (click)="sort('Resource_Name')">Resource Name<span class="glyphicon sort-icon" *ngIf="key =='Resource_Name'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span></th>
+                <th (click)="sort('Resource_Login_Id')">Login Id <span class="glyphicon sort-icon" *ngIf="key =='Resource_Login_Id'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span></th>
+                <th (click)="sort('Resource_Mobile_No')">Mobile No<span class="glyphicon sort-icon" *ngIf="key =='Resource_Mobile_No'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span></th>
+                <th (click)="sort('Resource_Email_Id')">Email Id<span class="glyphicon sort-icon" *ngIf="key =='Resource_Email_Id'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span></th>
+                <th (click)="sort('Designation_Desc')">Designation<span class="glyphicon sort-icon" *ngIf="key =='Designation_Desc'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span></th>
                 <th>Status</th>
                 <th class="text-center">Action</th>
               </tr>
@@ -30,7 +44,7 @@
             <tbody>
               <tr *ngFor="let data of ResourceList | paginate:{ id: 'listing_pagination',itemsPerPage:8,
                     currentPage:page,
-                    totalItems: totalRec}">
+                    totalItems: totalRec}| orderBy: key : reverse  | filter:filter; let i = index  ">
                 <td>{{data.Resource_Name}}</td>
                 <td>{{data.Resource_Login_Id}}</td>
                 <td>{{data.Resource_Mobile_No}}</td>

@@ -1,12 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { Opportunities } from '../_services';
 import { Router, ActivatedRoute } from '@angular/router';
-import { first } from 'rxjs/operators';
+import { first, isEmpty } from 'rxjs/operators';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { environment } from '../../environments/environment';
 import { Alert } from 'selenium-webdriver';
+import { and } from '@angular/router/src/utils/collection';
+import { empty } from 'rxjs';
 declare var jquery: any;
 declare var $: any;
+
 @Component({
   selector: 'app-opportunitieslist',
   templateUrl: './opportunitieslist.component.html',
@@ -15,6 +18,17 @@ declare var $: any;
 export class OpportunitieslistComponent implements OnInit {
   addCompetitorForm: FormGroup;
   submitted = false;
+  public filename: any;
+  public wonbody: {
+      Value: any,
+      Remarks: any,
+      PK_Opportunity_Id: number,
+      Ordervalue: any,
+      Reason: any,
+      BetterOrder: any,
+      Competitor_Id: number,
+      filename: any;
+  };
   public opportunitieslistdata: any;
   public Customerlist: any;
   public ContactPersonlist: any;
@@ -22,8 +36,8 @@ export class OpportunitieslistComponent implements OnInit {
   public navigationExtras: any;
   public Clist: any;
   public Quotationlistdata: any;
-  public visitlist : any;
-  public CompetitorTypelist : any;
+  public visitlist: any;
+  public CompetitorTypelist: any;
   public Cust_Name;
   public Customer_Contact_No;
   public Enquiry_Source_Name;
@@ -61,6 +75,12 @@ export class OpportunitieslistComponent implements OnInit {
   public PK_Opp_Id;
   public IntimeFlag: boolean;
   public attchment: File;
+  public DataList: any;
+  loading = false;
+  public radflag;
+  public ResultMsg = false;
+  public attchmentWon: File;
+  public UFileName: any;
   constructor(
     private authenticationservice: Opportunities,
     private router: Router,
@@ -70,8 +90,10 @@ export class OpportunitieslistComponent implements OnInit {
     sort(key) {
       this.key = key;
       this.reverse = !this.reverse;
-    };
+    }
   ngOnInit() {
+
+
     this.IntimeFlag = true;
     localStorage.setItem('Quotationducument', '');
     this.session = {
@@ -97,19 +119,21 @@ export class OpportunitieslistComponent implements OnInit {
       ProductName: ['', ''],
       Won_Value: ['', ''],
       Won_Remarks: ['', ''],
-      // Product_Name: ['', ''],
-      // Cust_Name: ['', ''],
       Lost_Remarks: ['', ''],
       Competitor_Name: ['', ''],
       Lost_Value: ['', ''],
-      // PName: ['', ''],
       Reason: ['', ''],
       Stop_Remarks: ['', ''],
-      InProcess_Remarks: ['', '']
+      ordervalue: ['', ''],
+      questionTest1: ['', ''],
+      ReasonWon: ['', ''],
+      betterorderwon: ['', ''],
+      ReasonLost: ['', ''],
+      BetterLost: ['', ''],
+      LostFeedback: ['', ''],
+      ModelNo: ['', ''],
+      SerialNo: ['', ''],
     });
-    this.CompetitorTypeDetails();
-    this.Get_Visit_Type_List();
-    this.Get_Range_List();
     $('#Visit_Start_Date').datepicker({
       showAnim: 'fadeIn',
       format: 'dd-M-yyyy',
@@ -158,6 +182,71 @@ export class OpportunitieslistComponent implements OnInit {
     input2.clockpicker({
       autoclose: true
     });
+
+    $('#subrange1').hide();
+    $('#btnstatus').hide();
+    $('#btnMoveLeftTab').hide();
+
+    $('#btnMoveRightTab').click(function() {
+    $('.nav-tabs > .active').next('li').find('a').trigger('click');
+    });
+
+    $('#btnMoveLeftTab').click(function() {
+    $('.nav-tabs > .active').prev('li').find('a').trigger('click');
+    });
+
+    $('#btnMoveRightTab').click(function() {
+      var tid = $('.nav-tabs > .active a').attr('id');
+      if (tid === 'Quotation1') {
+        $('#btnstatus').show();
+        $(this).hide();
+        $('#btnMoveLeftTab').show();
+      }
+      $('#btnMoveLeftTab').show();
+    });
+    
+    $('#btnMoveLeftTab').click(function() {
+      $('#btnMoveRightTab').show();
+      $('#btnstatus').hide();
+      var tid = $('.nav-tabs > .active a').attr('id');
+      if (tid === 'Overviewid') {
+        $('#btnMoveLeftTab').hide();
+      }
+    });
+
+
+    $(document).ready(function() {
+      var text_max = 1000;
+      $('.yes textarea').attr('maxlength','1000');
+      $('.yes textarea').keyup(function() {
+          var text_length = $('.yes textarea').val().length;
+          var text_remaining = text_max - text_length;
+          $('.yes textarea + span').html(text_remaining + ' characters remaining');
+      });
+
+      $('.no textarea').attr('maxlength','1000');
+      $('.no textarea').keyup(function() {
+          var text_length = $('.no textarea').val().length;
+          var text_remaining = text_max - text_length;
+  
+          $('.no textarea + span').html(text_remaining + ' characters remaining');
+      });
+
+      $('.lostans textarea').attr('maxlength','1000');
+      $('.lostans textarea').keyup(function() {
+          var text_length = $('.lostans textarea').val().length;
+          var text_remaining = text_max - text_length;
+  
+          $('.lostans textarea + span').html(text_remaining + ' characters remaining');
+      });
+
+      $('.WonQuestions input[type="radio"]').click(function(){
+        var inputValue = $(this).attr("value");
+        var targetBox = $("." + inputValue);
+        $(".qans").not(targetBox).hide();
+        $(targetBox).show();
+    });
+  });
   }
   get f() { return this.addCompetitorForm.controls; }
   onpopupload() {
@@ -182,71 +271,79 @@ export class OpportunitieslistComponent implements OnInit {
 
   }
   Get_Opportunity_Details(item) {
-    this.PK_Opp_Id= item.PK_Opportunity_Id;
     $('#OpenOpporModal').modal({backdrop: false, keyboard: false, show: true});
     this.authenticationservice.UpdateopportunityDetails(item.PK_Opportunity_Id)
       .subscribe(data => {
-        this.Customerlist = data;
-        this.Cust_Name = this.Customerlist[0].Cust_Name,
+        this.DataList = data;
+          this.Customerlist = this.DataList.overView;
+          this.ContactPersonlist = this.DataList.ContactPerson;
+          this.Clist = this.DataList.Competitor;
+          this.productlist = this.DataList.Product;
+          this.Quotationlistdata = this.DataList.Quotation;
+          this.Cust_Name = this.Customerlist[0].Cust_Name,
           this.Customer_Contact_No = this.Customerlist[0].Customer_Contact_No,
           this.Enquiry_Source_Name = this.Customerlist[0].Enquiry_Source_Name,
           this.Enquiry_Type_Name = this.Customerlist[0].Enquiry_Type_Name,
           this.Opportunity_Name = this.Customerlist[0].Opportunity_Name,
-          this.Start_Date = this.Customerlist[0].Start_Date,
+          // this.Start_Date = this.Customerlist[0].Start_Date,
           this.Expected_Value = this.Customerlist[0].Expected_Value,
           this.Chance_Of_Success = this.Customerlist[0].Chance_Of_Success,
           this.Sales_Phase = this.Customerlist[0].Sales_Phase,
           this.Closed_Date = this.Customerlist[0].Closed_Date,
-          this.Status = this.Customerlist[0].Status,
+          // this.Status = this.Customerlist[0].Status,
           this.Forecast = this.Customerlist[0].Forecast,
           this.custId = this.Customerlist[0].PK_Cust_Id;
-        this.OpportunityId = this.Customerlist[0].PK_Opportunity_Id;
+          this.OpportunityId = this.Customerlist[0].PK_Opportunity_Id;
       });
+     // Competitor Type Dropdown
+        // this.authenticationservice.Get_Competitor_Type_List()
+        // .pipe(first())
+        //  .subscribe(data => {
+        //   this.CompetitorTypelist = data; });
+      // Competitor Dropdown
+        this.authenticationservice.Get_Competitor_List('GBL')
+        .pipe(first())
+        .subscribe(data => {
+          this.Complist = data; });
+    // Visit Type Dropdown
+        this.authenticationservice.Get_Visit_Type_List()
+        .pipe(first())
+        .subscribe(data => {
+          this.visitTypelist = data;  });
+    // Range Dropdown
+        this.authenticationservice.Get_Range_List()
+          .pipe(first())
+          .subscribe(data => {
+          this.Rangelist = data; });
   }
+  // Competitor
   Get_ContactPerson_Details() {
     this.authenticationservice.Get_ContactPerson_Details(this.custId)
       .subscribe(data => {
         this.ContactPersonlist = data;
       });
   }
-  // Competitor
-  CompetitorTypeDetails() {
-    this.authenticationservice.Get_Competitor_Type_List()
-      .pipe(first())
-      .subscribe(data => {
-        this.CompetitorTypelist = data;
-      });
-  }
-  Get_Competitor_List(e) {
-    this.authenticationservice.Get_Competitor_List(e.target.value)
-      .pipe(first())
-      .subscribe(data => {
-        this.Complist = data;
-      });
-  }
   Get_OpportunityCompetitorDetails() {
     this.authenticationservice.Get_OpportunityCompetitorDetails(this.OpportunityId)
       .subscribe(data => {
-        this.customerN = this.Cust_Name;
         this.Clist = data;
         this.addCompetitorForm.get('Lost_Value').setValue('');
         this.addCompetitorForm.get('Competitor_Name').setValue('');
         this.addCompetitorForm.get('Lost_Remarks').setValue('');
+        this.addCompetitorForm.get('BetterLost').setValue('');
+        this.onpopupload();
       });
   }
   AddCompetitor() {
-    if (this.f.CompetitorTypeId.value === '') {
-      return;
-    }
     if (this.f.CompetitorId.value === '') {
       return;
     }
     if (this.f.CompProduct.value === '') {
       return;
     }
-
+    this.loading = true;
     let body = {
-      FK_Competitor_Type_Id: this.f.CompetitorTypeId.value,
+      FK_Competitor_Type_Id: 'GBL',
       FK_Competitor_Id: this.f.CompetitorId.value,
       Is_Main: this.f.IsMain.value,
       Comp_Product: this.f.CompProduct.value,
@@ -257,15 +354,16 @@ export class OpportunitieslistComponent implements OnInit {
       .subscribe(data => {
         alert('Competitor save successfully');
         this.Get_OpportunityCompetitorDetails();
-        this.addCompetitorForm.get('CompetitorTypeId').setValue('');
         this.addCompetitorForm.get('CompetitorId').setValue('');
         this.addCompetitorForm.get('IsMain').setValue('');
         this.addCompetitorForm.get('CompProduct').setValue('');
         this.addCompetitorForm.get('CompPrice').setValue('');
+        this.loading = false;
       },
       error => {
         console.log(JSON.stringify(error));
         alert('Error');
+        this.loading = false;
       });
   }
   Delete_Competitor(item) {
@@ -288,6 +386,12 @@ export class OpportunitieslistComponent implements OnInit {
     this.attchment = val.target.files[0];
   }
   Add_Quotation() {
+    this.loading = true;
+    if (this.attchment === null || this.attchment === undefined) {
+      alert ('please attach a file');
+      this.loading = false;
+      return false;
+      }
     var body = {
       file: this.attchment,
       OpportunityId: this.OpportunityId
@@ -295,10 +399,12 @@ export class OpportunitieslistComponent implements OnInit {
     this.authenticationservice.UploadQuotation(body)
       .subscribe(data => {
        this.Get_Quotation_List();
+       this.loading = false;
       },
       error => {
         console.log(JSON.stringify(error));
         alert(error);
+        this.loading = false;
       });
   }
   Delete_Quotation(item) {
@@ -312,13 +418,6 @@ export class OpportunitieslistComponent implements OnInit {
     this.authenticationservice.Get_OpportunityVisitDetails(this.OpportunityId)
       .subscribe(data => {
         this.visitlist = data;
-      });
-  }
-  Get_Visit_Type_List() {
-    this.authenticationservice.Get_Visit_Type_List()
-      .pipe(first())
-      .subscribe(data => {
-        this.visitTypelist = data;
       });
   }
   AddVisits() {
@@ -355,6 +454,9 @@ export class OpportunitieslistComponent implements OnInit {
         this.addCompetitorForm.get('Visit_Start_Time').setValue('');
         this.addCompetitorForm.get('Visit_End_Date').setValue('');
         this.addCompetitorForm.get('Visit_End_Time').setValue('');
+        $('#VisitModel').modal('hide');
+        $('#OpenOpporModal').modal('hide');
+        this.router.navigate(['/opportunitieslist']);
       },
       error => {
         console.log(JSON.stringify(error));
@@ -380,23 +482,15 @@ export class OpportunitieslistComponent implements OnInit {
           x = x + this.productlist[i].Product_Name;
         }
         this.PNAction = x;
-        this.addCompetitorForm.get('InProcess_Remarks').setValue('');
+        this.LostPN = x;
         this.ProductDetailslist = null;
         this.SubRange = null;
         this.Range = null;
         this.addCompetitorForm.get('Range').setValue('');
         this.addCompetitorForm.get('SubRange').setValue('');
         this.CName = this.Cust_Name;
-        this.addCompetitorForm.get('Won_Value').setValue('');
-        this.addCompetitorForm.get('Won_Remarks').setValue('');
-
-      });
-  }
-  Get_Range_List() {
-    this.authenticationservice.Get_Range_List()
-      .pipe(first())
-      .subscribe(data => {
-        this.Rangelist = data;
+        this.f.ReasonWon.setValue('');
+        this.ResultMsg = null;
       });
   }
   Get_Sub_Range_List(e) {
@@ -422,9 +516,16 @@ export class OpportunitieslistComponent implements OnInit {
     if ($('#SubRange').val() === null) {
       return;
     }
+    this.loading = true;
     let selected = [];
     for (let i in this.ProductDetailslist) {
       if ($('#' + this.ProductDetailslist[i].Product_Id).is(':checked') === true) {
+        if ( $('#' + this.ProductDetailslist[i].Product_Id + 'QR').val() === '' ||
+         $('#' + this.ProductDetailslist[i].Product_Id + 'PR').val() === '') {
+          alert('Enter Quantity & Price');
+          this.loading = false;
+          return false;
+        }
         let data = {
           Product_Id: this.ProductDetailslist[i].Product_Id,
           Quantity: $('#' + this.ProductDetailslist[i].Product_Id + 'QR').val(),
@@ -436,6 +537,7 @@ export class OpportunitieslistComponent implements OnInit {
     }
     if (selected.length < 1) {
       alert('Please check atleast one record');
+      this.loading = false;
       return false;
     }
     let body = {
@@ -454,97 +556,213 @@ export class OpportunitieslistComponent implements OnInit {
         this.addCompetitorForm.get('QT').setValue('');
         this.addCompetitorForm.get('PT').setValue('');
         this.addCompetitorForm.get('chk_prod').setValue('');
+        this.loading = false;
       },
       error => {
         console.log(JSON.stringify(error));
         alert('Error');
+        this.loading = false;
       });
   }
-  Add_InProcess() {
-    this.submitted = true;
-    if (this.f.InProcess_Remarks.value === '') {
-      return;
-    }
-    let body = {
-      InProcess_Remarks: this.f.InProcess_Remarks.value,
-      PK_Opportunity_Id: this.OpportunityId
-    };
-    this.authenticationservice.Add_InProc(body)
-      .subscribe(data => {
-        alert('save successfully');
-        this.addCompetitorForm.get('InProcess_Remarks').setValue('');
-        this.onpopupload();
-        $('#InProcessModel').modal('hide');
-      },
-      error => {
-        console.log(JSON.stringify(error));
-        alert('Error');
-      });
+  onSelectAttachmentWon(val: any) {
+    this.attchmentWon = val.target.files[0];
   }
-  Clear_InProcess() {
-    this.addCompetitorForm.get('InProcess_Remarks').setValue('');
+  Add_attachmentWon() {
+    if (this.attchmentWon === null || this.attchmentWon === undefined) {
+      alert ('please attach a file');
+      this.loading = false;
+      return false;
+      }
+     let body = {
+        OpportunityId: this.OpportunityId,
+        file:  this.attchmentWon
+        };
+        this.authenticationservice.Add_attachmentwon(body)
+        .subscribe(data => {
+          alert('Uploaded Successfully');
+          this.filename = data;
+          this.UFileName = this.filename.Response;
+        });
+  }
+  BtnNextWon() {
+     if ($('#PNAction').val() === '') {
+      alert('Add product'); return;
+     }
+     if (this.f.Won_Value.value === '') {
+       alert('Enter Won Value');
+       return;
+     }
+     if (this.f.ordervalue.value === '') {
+       alert('Enter Order Value');
+       return;
+     }
+     if (this.f.ReasonWon.value === '') {
+       alert('Enter Reason for Won');
+       return;
+     }
+       this.wonbody = {
+         PK_Opportunity_Id: this.OpportunityId,
+         Value: this.f.Won_Value.value,
+         Competitor_Id: null,
+         Remarks: this.f.Won_Remarks.value,
+         Reason: this.f.ReasonWon.value,
+         BetterOrder: this.f.betterorderwon.value,
+         Ordervalue: this.f.ordervalue.value,
+         filename: this.UFileName
+     };
+     $('#npsWon').modal('show');
   }
   Add_Won() {
-    this.submitted = true;
-    if (this.f.Won_Value.value === '' || this.f.Won_Remarks.value === '') {
-    alert('Enter value.')
-      return;
-    }
-    let body = {
-      Won_Value: this.f.Won_Value.value,
-      Won_Remarks: this.f.Won_Remarks.value,
-      PK_Opportunity_Id: this.OpportunityId
-    };
-    this.authenticationservice.Add_Won(body)
-      .subscribe(data => {
-        alert('save successfully');
-        // this.onCloseActionload();
-        this.onpopupload();
-        this.addCompetitorForm.get('Won_Value').setValue('');
-        this.addCompetitorForm.get('Won_Remarks').setValue('');
-        $('#WonModal').modal('hide');
-      },
-      error => {
-        console.log(JSON.stringify(error));
-        alert('Error');
-      });
+     if (this.f.questionTest1.value === '') {
+       alert('Enter Text'); return;
+     }
+     let body = {
+       PK_Opportunity_Id: this.OpportunityId,
+       Value: this.wonbody.Value,
+       Competitor_Id: null,
+       Remarks: this.wonbody.Remarks,
+       Reason: this.wonbody.Reason,
+       BetterOrder: this.wonbody.BetterOrder,
+       Ordervalue: this.wonbody.Ordervalue,
+       Feedback: this.f.questionTest1.value,
+       filename: this.wonbody.filename
+      };
+       this.authenticationservice.Add_Won(body)
+       .subscribe(data => {
+         alert('Won Save');
+         $('#npsWon').modal('hide');
+         $('#WonModal').modal('hide');
+         $('#OpenOpporModal').modal('hide');
+         this.router.navigate(['/opportunitieslist']);
+         this.addCompetitorForm.get('questionTest1').setValue('');
+         this.GetOpportunityList();
+       },
+       error => {
+         console.log(JSON.stringify(error));
+         alert('Error');
+       });
+  }
+  btnNextLost() {
+       if ($('#LostPN').val() === '') {
+         alert('Add product'); return;
+       }
+       if (this.f.Lost_Value.value === '') {
+         alert('Enter Lost Value'); return;
+       }
+       if (this.f.Lost_Remarks.value === '') {
+         alert('Enter Lost Remarks'); return;
+       }
+       if (this.f.ReasonLost.value === '' || this.f.ReasonLost.value === null) {
+         alert('Select Reason for Lost'); return;
+       }
+       this.wonbody = {
+         Value: this.f.Lost_Value.value,
+         Competitor_Id: null,
+         Remarks: this.f.Lost_Remarks.value,
+         PK_Opportunity_Id: this.OpportunityId,
+         Reason: this.f.ReasonLost.value,
+         BetterOrder: this.f.BetterLost.value,
+         Ordervalue: null,
+         filename: null,
+       };
+       $('#npsLost').modal('show');
+  }
+  Add_Lost() {
+       if (this.f.LostFeedback.value === '') {
+         alert('Enter Lost Feedback'); return;
+       }
+       if ($("input[name='q2ans']:checked").val() === 'yes') {
+         this.radflag = 'Y';
+       } else {
+         this.radflag = 'N';
+       }
+       let body = {
+         Value: this.wonbody.Value,
+         Competitor_Id: this.wonbody.Competitor_Id,
+         Remarks: this.wonbody.Remarks,
+         PK_Opportunity_Id: this.wonbody.PK_Opportunity_Id,
+         Reason: this.wonbody.Reason,
+         BetterOrder: this.wonbody.BetterOrder,
+         Feedback: this.f.LostFeedback.value,
+         NextPurchaseFlag : this.radflag
+       };
+      this.authenticationservice.Add_Lost(body)
+       .subscribe(data => {
+         alert('Lost Save');
+         this.addCompetitorForm.get('Lost_Value').setValue('');
+         this.addCompetitorForm.get('Competitor_Name').setValue('');
+         this.addCompetitorForm.get('Lost_Remarks').setValue('');
+         this.addCompetitorForm.get('ReasonLost').setValue('');
+         this.addCompetitorForm.get('BetterLost').setValue('');
+         $('#npsLost').modal('hide');
+         $('#LostModal').modal('hide');
+         $('#OpenOpporModal').modal('hide');
+         this.router.navigate(['/opportunitieslist']);
+         this.GetOpportunityList();
+       },
+       error => {
+         console.log(JSON.stringify(error));
+         alert('Error');
+       });
+  }
+  Add_Stop() {
+    if (this.Clist.length === 0) {
+       alert('Add competitor'); return;
+   }
+   if (this.f.Reason.value === '') {
+     alert('Select Reason'); return;
+   }
+   if (this.f.Competitor_Name.value === '') {
+     alert('Select Competitor Name'); return;
+   }
+   if (this.f.Stop_Remarks.value === '' ) {
+     alert('Enter Stop Remarks'); return;
+   }
+     let body = {
+       Reason: this.f.Reason.value,
+       Competitor_Id: this.f.Competitor_Name.value,
+       Remarks: this.f.Stop_Remarks.value,
+       PK_Opportunity_Id: this.OpportunityId,
+       ModelNo: this.f.ModelNo.value,
+       SerialNo: this.f.SerialNo.value
+     };
+     this.authenticationservice.Add_Stop(body)
+       .subscribe(data => {
+        alert('Save Stop');
+         this.onpopupload();
+         this.addCompetitorForm.get('Reason').setValue('');
+         this.addCompetitorForm.get('Competitor_Name').setValue('');
+         this.addCompetitorForm.get('Stop_Remarks').setValue('');
+         this.addCompetitorForm.get('ModelNo').setValue('');
+         this.addCompetitorForm.get('SerialNo').setValue('');
+         $('#StopModal').modal('hide');
+         $('#OpenOpporModal').modal('hide');
+         this.router.navigate(['/opportunitieslist']);
+         this.GetOpportunityList();
+       },
+       error => {
+         console.log(JSON.stringify(error));
+         this.ResultMsg = false;
+         alert('Error');
+       });
   }
   Clear_Won() {
     this.addCompetitorForm.get('Won_Value').setValue('');
+    this.addCompetitorForm.get('ordervalue').setValue('');
     this.addCompetitorForm.get('Won_Remarks').setValue('');
-  }
-  Add_Lost() {
-    this.submitted = true;
-    if (this.f.Lost_Value.value === '' || this.f.Competitor_Name.value === '' || this.f.Lost_Remarks.value === '') {
-    alert('Enter Value');
-      return;
-    }
-    let body = {
-      Lost_Value: this.f.Lost_Value.value,
-      FK_Lost_Competitor_Id: this.f.Competitor_Name.value,
-      Lost_Remarks: this.f.Lost_Remarks.value,
-      PK_Opportunity_Id: this.OpportunityId
-    };
-    this.authenticationservice.Add_Lost(body)
-      .subscribe(data => {
-        alert('save successfully');
-        this.onpopupload();
-        this.addCompetitorForm.get('Lost_Value').setValue('');
-        this.addCompetitorForm.get('Competitor_Name').setValue('');
-        this.addCompetitorForm.get('Lost_Remarks').setValue('');
-        $('#LostModal').modal('hide');
-      },
-      error => {
-        console.log(JSON.stringify(error));
-        alert('Error');
-      });
+    this.addCompetitorForm.get('betterorderwon').setValue('');
+    this.addCompetitorForm.get('ReasonWon').setValue('');
+    this.addCompetitorForm.get('questionTest1').setValue('');
   }
   Clear_Lost() {
     this.addCompetitorForm.get('Lost_Value').setValue('');
     this.addCompetitorForm.get('Competitor_Name').setValue('');
     this.addCompetitorForm.get('Lost_Remarks').setValue('');
+    this.addCompetitorForm.get('ReasonLost').setValue('');
+    this.addCompetitorForm.get('BetterLost').setValue('');
   }
   Get_Reason_List() {
+    this.ResultMsg = null;
     this.authenticationservice.Get_Reason_List()
       .subscribe(data => {
         this.Reasonlist = data;
@@ -554,44 +772,15 @@ export class OpportunitieslistComponent implements OnInit {
         this.addCompetitorForm.get('Stop_Remarks').setValue('');
       });
   }
-  Add_Stop() {
-    this.submitted = true;
-    if (this.f.Reason.value === '' || this.f.Competitor_Name.value === ''
-       || this.f.Competitor_Name.value === '' || this.f.Competitor_Name.value === ''
-       || this.f.Stop_Remarks.value === '' ) {
-      alert('Enter value.');
-      return;
-    }
-    let body = {
-      FK_Stop_Reason: this.f.Reason.value,
-      FK_Stop_Competitor_Id: this.f.Competitor_Name.value,
-      Stop_Remarks: this.f.Stop_Remarks.value,
-      PK_Opportunity_Id: this.OpportunityId
-    };
-    this.authenticationservice.Add_Stop(body)
-      .subscribe(data => {
-        alert('save successfully');
-
-        this.onpopupload();
-        this.addCompetitorForm.get('Reason').setValue('');
-        this.addCompetitorForm.get('Competitor_Name').setValue('');
-        this.addCompetitorForm.get('Stop_Remarks').setValue('');
-        $('#StopModal').modal('hide');
-      },
-      error => {
-        console.log(JSON.stringify(error));
-        alert('Error');
-      });
-  }
   Clear_Stopped() {
     this.addCompetitorForm.get('Reason').setValue('');
     this.addCompetitorForm.get('Competitor_Name').setValue('');
     this.addCompetitorForm.get('Stop_Remarks').setValue('');
+    this.ResultMsg = null;
   }
   GetOpportunityList() {
-    var body={
+    var body = {
       Created_By: this.session.session.PK_Resource_Id
-
     };
     this.authenticationservice.GetOpportunitiesList(body)
       .subscribe(
@@ -622,6 +811,7 @@ export class OpportunitieslistComponent implements OnInit {
       });
   }
   inVisit(item) {
+    const result = this.opportunitieslistdata.filter(x => x.TrackInTime === true || x.InFlag === true && x.PK_Cust_Id !== item.PK_Cust_Id);
     this.IntimeFlag = false;
     var body = {
       PK_Cust_Id: item.PK_Cust_Id,
@@ -630,14 +820,42 @@ export class OpportunitieslistComponent implements OnInit {
       Created_By: this.session.session.PK_Resource_Id,
       Visit_Tracking_Id: item.Visit_Tracking_Id,
     };
-    this.authenticationservice.VisitOut(body)
-      .subscribe(
-      data => {
-        this.GetOpportunityList();
-      },
-      error => {
-        alert('Invalid User');
-      });
+    if (result.length > 0 && result !== undefined ) {
+      const r = confirm('are you sure you want to out !');
+      if (r === true) {
+      this.authenticationservice.VisitOut(body)
+        .subscribe(
+        data => {
+          this.GetOpportunityList();
+        },
+        error => {
+          alert('Invalid User');
+        });
+      }
+      } else {
+        this.authenticationservice.VisitOut(body)
+          .subscribe(
+          data => {
+            this.GetOpportunityList();
+          },
+          error => {
+            alert('Invalid User');
+          });
+  }
+  }
+  hideNextButton() {
+    $('#btnstatus').show();
+    $('#btnMoveLeftTab').show();
+    $('#btnMoveRightTab').hide();
+  }
+  hidepreButton() {
+    $('#btnstatus').hide();
+    $('#btnMoveLeftTab').hide();
+    $('#btnMoveRightTab').show();
+  }
+  shownextButton() {
+    $('#btnstatus').hide();
+    $('#btnMoveRightTab').show();
+    $('#btnMoveLeftTab').show();
   }
 }
-

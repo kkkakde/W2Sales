@@ -16,14 +16,15 @@ export class AddResourceComponent implements OnInit {
   addresourceForm: FormGroup;
   loading = false;
   submitted = false;
-  public Designationlist = {};
-  public Zonelist = {};
-  public Statelist = {};
-  public RList = {};
+  public Designationlist: any;
+  public Zonelist: any;
+  public Statelist: any;
+  public RList: any;
   public ZoneShowHideFlag: boolean;
   public stateShowHideFlag: boolean;
   public disabledReset: boolean ;
   public ResourceId;
+  public mobileNum: any;
   ResourceDetail = new ResourceDetails();
   public queryParamData: any;
   constructor(private resourceservice: Resource,
@@ -44,8 +45,10 @@ export class AddResourceComponent implements OnInit {
               this.addresourceForm = this.formBuilder.group({
               Resource_Name : ['', Validators.required],
               LoginID : ['',  Validators.required],
-              Resource_Password : ['',  Validators.required, Validators.minLength(6)],
-              Resource_EmailID : ['', [Validators.required, Validators.email]],
+              Resource_Password : ['',  Validators.required],
+              Resource_EmailID : ['', Validators.required],
+              // Resource_Password : ['',  Validators.required, Validators.minLength(6)],
+              // Resource_EmailID : ['', [Validators.required, Validators.email]],
               Resource_Mobile_No : ['',  Validators.required],
               ddlDesignation : ['',  Validators.required],
               ddlZone : ['',  ''],
@@ -54,21 +57,22 @@ export class AddResourceComponent implements OnInit {
               });
               this.queryParamData = this.route.queryParams.subscribe(params => {
                 if ( params['PK_Resource_Id'] !== undefined) {
-
-               this.resourceservice.ResourceList(params['PK_Resource_Id'])
+                this.resourceservice.ResourceList(params['PK_Resource_Id'])
                .subscribe(data => {
                 this.RList = data;
-                this.disabledReset = false;
                 this.ResourceId = this.RList[0].PK_Resource_Id;
-                this.f.Resource_Name.setValue(this.RList[0].Resource_Name);
-                this.f.LoginID.setValue(this.RList[0].Resource_Login_Id);
-                this.f.Resource_Password.setValue(this.RList[0].Resource_Password);
-                this.f.Resource_EmailID.setValue(this.RList[0].Resource_Email_Id);
-                this.f.Resource_Mobile_No.setValue(this.RList[0].Resource_Mobile_No);
-                this.f.ddlDesignation.setValue(this.RList[0].FK_Designation_Id);
-                this.f.ddlZone.setValue(this.RList[0].FK_Zone_Id);
-                this.f.ddlstate.setValue(this.RList[0].FK_State_Id);
-                this.f.IsActive.setValue(this.RList[0].IsActive === 1 ? true : false);
+                this.addresourceForm.setValue({
+                   Resource_Name: this.RList[0].Resource_Name,
+                   LoginID: this.RList[0].Resource_Login_Id,
+                   Resource_Password: this.RList[0].Resource_Password ,
+                   Resource_EmailID : this.RList[0].Resource_Email_Id,
+                   Resource_Mobile_No: this.RList[0].Resource_Mobile_No,
+                   ddlDesignation: this.RList[0].FK_Designation_Id,
+                   ddlZone: this.RList[0].FK_Zone_Id,
+                   ddlstate: this.RList[0].FK_State_Id,
+                   IsActive: this.RList[0].IsActive === 1 ? true : false
+                });
+                this.disabledReset = false;
                 if (this.RList[0].FK_Designation_Id === 4 || this.RList[0].FK_Designation_Id === 5 ||
                    this.RList[0].FK_Designation_Id === 6 || this.RList[0].FK_Designation_Id === 7) {
                   this.ZoneShowHideFlag = true;
@@ -120,6 +124,10 @@ export class AddResourceComponent implements OnInit {
     if (this.addresourceForm.invalid) {
       return;
     }
+    if (!$('#MobileNo').val().match('[0-9]{10}')) {
+           alert('Please put 10 digit mobile number');
+           return;
+           }
       let body = {
         PK_Resource_Id: this.ResourceId,
         Resource_Name: this.f.Resource_Name.value,
@@ -135,7 +143,7 @@ export class AddResourceComponent implements OnInit {
       };
       this.resourceservice.addResourceDetails(body)
       .subscribe(data => {
-        alert('Resource save successfully');
+        alert('Save successfully');
         this.router.navigate(['/masterResource']);
       });
     }

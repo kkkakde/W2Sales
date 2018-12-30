@@ -3,45 +3,38 @@ import { Http, Response, Headers, RequestOptions, RequestMethod } from '@angular
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs/Observable';
-import { SegmentType, MappingType } from '../_models';
+import { SegmentType, MappingType, Menulist, } from '../_models';
 
 import 'rxjs/add/operator/map';
 @Injectable()
 export class CommonService {
     constructor(private http: HttpClient) { }
-
-    
     getSegmentList() {
         // return this.http.get<Product[]>(`${environment.apiUrl}/users`);
         return this.http.get<SegmentType[]>(`${environment.apiUrl}Api_Common/GetSegmentList`, {});
     }
-
     getMappingTypes() {
         return this.http.get<MappingType[]>(`${environment.apiUrl}Api_Common/GetMappingType`, {});
     }
-    
     getRangeTypes() {
         return this.http.get<MappingType[]>(`${environment.apiUrl}Api_Common/GetRangeType`, {});
     }
-    // getAllProductsDetails() {
-    //     let url = `${environment.apiUrl}Product/GetProductList`
-    //     return this.http
-    //       .get(url)
-    //       .map((result: Response) => result.json());
-    // }
+    GetMenuList(body) {
+        return this.http.post<Menulist[]>(`${environment.apiUrl}MenuMaster/GetMenuList`, body);
+    }
+    getZoneList() {
+        return this.http.post(`${environment.apiUrl}Api_Common/GetZoneAllList`, {});
+    }
 
-    // addProductDetails(param):Observable<any>{
-    //     let url = `${environment.apiUrl}Product/SubmitProductDetails`
-    //     return this.http
-    //       .post(url, param)
-    //       .map((result: Response) => result);
-    // }
+    getStateList(Zone_Id) {
+        return this.http.post(`${environment.apiUrl}Api_Common/GetStateList?Zone_Id=` + Zone_Id, {});
+    }
 
-    // updateProductDetails(param):Observable<any>{
-    //     let url = `${environment.apiUrl}Product/updateProductDetails`
-    //     return this.http
-    //       .post(url, param)
-    //       .map((result: Response) => result);
-    // }
+    getUserDetails() {
+        let url = `${environment.apiUrl}Api_Common/GetUserDetails`
+        return this.http
+          .get(url)
+          .map((result: Response) => result);
+    }
 
 }

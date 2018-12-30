@@ -49,7 +49,7 @@
                     <label class="mandatory" for="">Email ID</label>
                   </div>
                   <div class="col-md-2 form-group ">
-                      <input class="form-control" formControlName="Resource_EmailID" [ngClass]="{ 'is-invalid': submitted && f.Resource_EmailID.errors }" placeholder="Email ID" title="Please Enter Email ID" type="text">
+                      <input class="form-control" type="email" id="Resource_EmailID" formControlName="Resource_EmailID" [ngClass]="{ 'is-invalid': submitted && f.Resource_EmailID.errors }" placeholder="Email ID" title="Please Enter Email ID" type="text">
                       <div *ngIf="submitted && f.Resource_EmailID.errors" class="invalid-feedback">
                           <div *ngIf="f.Resource_EmailID.errors.required">Email is required</div>
                           <div *ngIf="f.Resource_EmailID.errors.email">Email must be a valid email address</div>
@@ -60,7 +60,7 @@
                     <label class="mandatory" for="">Mobile No</label>
                   </div>
                   <div class="col-md-2 form-group ">
-                    <input formControlName="Resource_Mobile_No" class="form-control" placeholder="Mobile No" title="Please Enter Resource Mobile No" type="text"
+                    <input formControlName="Resource_Mobile_No" class="form-control" id="MobileNo" placeholder="Mobile No" title="Please Enter Resource Mobile No" type="text" 
                     onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.keyCode == 8" maxlength="10">
                       <div *ngIf="submitted && f.Resource_Mobile_No.errors" class="invalid-feedback">
                         <div *ngIf="f.Resource_Mobile_No.errors.required">is required</div>
@@ -123,7 +123,7 @@
                  <div class="clearfix"></div>
                  <div class="col-md-2">
                     <button class="btn btn-primary">Submit</button>&nbsp;
-                    <button class="btn btn-primary" *ngIf="disabledReset" (click)="Reset()">Cancel</button>&nbsp;
+                    <button class="btn btn-primary" *ngIf="disabledReset" (click)="Reset()">Reset</button>&nbsp;
                 </div>
                   <div class="clearfix"></div>
             </div>

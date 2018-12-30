@@ -1266,7 +1266,6 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     background-color: #0088bb;
     border: none;
     border-radius: 5px 5px 0 0;
-    overflow: hidden;
 }
 .opportunity_modal .nav > li > a {
     color: #fff;

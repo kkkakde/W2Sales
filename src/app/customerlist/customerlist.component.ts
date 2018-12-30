@@ -19,6 +19,9 @@ export class CustomerlistComponent implements OnInit {
   public session: any;
   public Cust_NameVisit;
   public IntimeFlag: boolean;
+  public Msg = '';
+
+  public difficult_tasks = [];
   key: string = 'name'; // set default
   reverse:boolean = false;
   sort(key) {
@@ -36,6 +39,11 @@ export class CustomerlistComponent implements OnInit {
     };
     this.IntimeFlag = true  ;
     this.getCustomerlist();
+  }
+  OpenVisit() {
+    $('#Cust_NameVisit').val('');
+    this.Msg = '';
+    $('#AddVisitPopup').modal({backdrop: false, keyboard: false, show: true});
   }
   editPropertyDetails(item) {
     this.navigationExtras = {
@@ -56,9 +64,8 @@ export class CustomerlistComponent implements OnInit {
     this.router.navigate(['/addopportunities'], this.navigationExtras);
   }
   getCustomerlist() {
-    var body={
+    let body = {
       Created_By: this.session.session.PK_Resource_Id
-
     };
     this.authenticationService.getCustomerList(body)
       .subscribe(
@@ -71,13 +78,20 @@ export class CustomerlistComponent implements OnInit {
   }
   onSubmitVisit() {
     if ($('#Cust_NameVisit').val() === undefined || $('#Cust_NameVisit').val() === '') {
-      return false;
+      this.Msg = 'Customer name is required';
+      return;
     }
-    var body = {
+    if ($('#Cust_VisitType').val() === undefined || $('#Cust_VisitType').val() === '' || $('#Cust_VisitType').val() === null) {
+      this.Msg = 'Customer visit type is required';
+      return;
+    }
+    let body = {
       Cust_Name: $('#Cust_NameVisit').val(),
       PK_Cust_Id: 0,
       Cust_Address_Line1: '',
       Cust_Address_Line2: '',
+      LandlineNo: '',
+      VisitType: $('#Cust_VisitType').val(),
       FK_Zone_Id: 0,
       FK_State_Id: 0,
       FK_City_Id: 0,
@@ -92,9 +106,9 @@ export class CustomerlistComponent implements OnInit {
     this.authenticationService.SubmitCustomerDetails(body)
       .pipe(first())
       .subscribe(data => {
-        alert('Visit added successfully.');
-        $('#AddVisitPopup').modal('hide');
         $('#Cust_NameVisit').val('');
+        this.Msg = '';
+        $('#AddVisitPopup').modal('hide');
         this.getCustomerlist();
       },
       error => {
@@ -120,14 +134,28 @@ export class CustomerlistComponent implements OnInit {
       });
   }
   inVisit(item) {
+    const result = this.customerlistdata.filter( x => x.TrackInTime === true );
     this.IntimeFlag = false;
-    var body = {
+    let body = {
       PK_Cust_Id: item.PK_Cust_Id,
       Action: 'In',
       Created_By: this.session.session.PK_Resource_Id,
       Visit_Tracking_Id: item.Visit_Tracking_Id,
     };
-    this.authenticationService.VisitOut(body)
+    if (result !== undefined && result.length > 0) {
+      const r = confirm('are you sure you want to out !');
+      if (r === true) {
+        this.authenticationService.VisitOut(body)
+          .subscribe(
+          data => {
+            this.getCustomerlist();
+          },
+          error => {
+            alert('Invalid User');
+          });
+      }
+    } else {
+      this.authenticationService.VisitOut(body)
       .subscribe(
       data => {
         this.getCustomerlist();
@@ -135,5 +163,6 @@ export class CustomerlistComponent implements OnInit {
       error => {
         alert('Invalid User');
       });
+    }
   }
 }

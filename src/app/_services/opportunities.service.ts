@@ -118,6 +118,13 @@ export class Opportunities {
   SetAsInProc(PK_Opportunity_Id) {
     return this.http.post(`${environment.apiUrl}Api_Opportunity/SetAsInProc?PK_Opportunity_Id=` + PK_Opportunity_Id, {});
   }
+  Add_attachmentwon(body) {
+    const fd1 = new FormData();
+    fd1.append('file', body.file);
+    return this.http.post(`${environment.apiUrl}Uploading/wonducument?FK_Opportunity_Id=` + body.OpportunityId,
+    fd1,
+    );
+  }
   Add_Won(body) {
     return this.http.post(`${environment.apiUrl}Api_Opportunity/Add_Won`, body);
   }

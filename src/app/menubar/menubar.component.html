@@ -51,92 +51,111 @@
   </header>
   <aside class="main-sidebar">
     <section class="sidebar">
-      <ul class="sidebar-menu" data-widget="tree">
-        <li class="treeview">
+      <ul class="sidebar-menu" data-widget="tree" *ngFor="let item of MenuList?.Response">
+        <li class="treeview" *ngIf="item.Navigation_Menu_Name=='Dashboard'">
           <a [routerLink]="['/dashboard']"> <i class="fa fa-dashboard"></i> <span class="">Dashboard</span></a>
         </li>
-        <li class="treeview">
+        <li class="treeview" *ngIf="item.Navigation_Menu_Name=='Home'">
           <a [routerLink]="['/homepage']"> <i class="fa fa-home"></i> <span class="">Home</span></a>
         </li>
-        <li class="treeview">
-          <a href="#">
-            <i class="fa fa-user"></i> <span>Admin</span>
+        <li class="treeview" *ngIf="item.Navigation_Menu_Name=='Admin'">
+          <a>
+            <i class="fa fa-user"></i> <span>Admin Configuration</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
               <li class="treeview">
-                  <a>
-                    <i class="fa pull-left "></i>Product Master
+                  <a [routerLink]="['/masterProduct']"> 
+                    <i class="fa pull-left"></i>Add Product
                     <span class="pull-left-container">
-                      <i class="fa fa-angle-left pull-right"></i>
+                      <i class="fa fa-circle  pull-left"></i>
                     </span>
                   </a>
-                  <ul class="treeview-menu ">
-                    <li ><a [routerLink]="['/masterProduct']"><i class="fa fa-circle-o round_dis "></i><i class="fa fa-circle round_over"></i>Product Master</a></li>
-                    <li><a [routerLink]="['/masterSubRangeMapping']"><i class="fa fa-circle-o round_dis"></i><i class="fa fa-circle round_over"></i>Sub Range Master</a></li>
-                    <li><a [routerLink]="['/masterRangeMapping']"><i class="fa fa-circle-o round_dis"></i><i class="fa fa-circle round_over"></i>Range & Product Mapping</a></li>
-                  </ul>
+                  <a [routerLink]="['/masterSubRangeMapping']">
+                    <i class="fa pull-left"></i>Add Sub Range
+                    <span class="pull-left-container">
+                      <i class="fa fa-circle pull-left"></i>
+                    </span>
+                  </a>
+                  <a [routerLink]="['/masterRangeMapping']">
+                    <i class="fa pull-left"></i>Range Mapping
+                    <span class="pull-left-container">
+                      <i class="fa fa-circle pull-left"></i>
+                    </span>
+                  </a>
+                  <a [routerLink]="['/masterCompetitor']">
+                    <i class="fa pull-left"></i>Add Competitor
+                    <span class="pull-left-container">
+                      <i class="fa fa-circle pull-left"></i>
+                    </span>
+                  </a>
+                  <a [routerLink]="['/masterIndustry']">
+                    <i class="fa pull-left"></i>Add Industry 
+                    <span class="pull-left-container">
+                      <i class="fa fa-circle pull-left"></i>
+                    </span>
+                  </a>
+                  <a [routerLink]="['/masterEnquirySource']">
+                    <i class="fa pull-left"></i>Add Enquiry
+                    <span class="pull-left-container">
+                      <i class="fa  fa-circle pull-left"></i>
+                    </span>
+                  </a>
+                  <a  [routerLink]="['/masterEnquiryType']">
+                    <i class="fa pull-left"></i>Add Enquiry Type
+                    <span class="pull-left-container">
+                      <i class="fa fa-circle  pull-left"></i>
+                    </span>
+                  </a>
+                  <a  [routerLink]="['/masterResource']">
+                    <i class="fa pull-left"></i>Add User Master
+                    <span class="pull-left-container">
+                      <i class="fa fa-circle pull-left"></i>
+                    </span>
+                  </a>
+                  <a  [routerLink]="['/masterRole']">
+                    <i class="fa pull-left"></i>Add Role Master
+                    <span class="pull-left-container">
+                      <i class="fa fa-circle pull-left"></i>
+                    </span>
+                  </a>
+                  <a  [routerLink]="['/userRoleMapping']">
+                    <i class="fa pull-left"></i>User Role Mapping
+                    <span class="pull-left-container">
+                      <i class="fa fa-circle pull-left"></i>
+                    </span>
+                  </a>
                 </li>
-            <li class="treeview">
-              <a>
-                  <i class="fa pull-left "></i>Category Master
-                <span class="pull-right-container">
-                  <i class="fa fa-angle-left pull-right"></i>
-                </span>
-              </a>
-              <ul class="treeview-menu">
-                  <li><a [routerLink]="['/masterCompetitor']"><i class="fa fa-circle-o round_dis"></i><i class="fa fa-circle round_over"></i>Competitor Master</a></li>
-                <li><a [routerLink]="['/masterIndustry']"><i class="fa fa-circle-o round_dis"></i><i class="fa fa-circle round_over"></i>Industry Master</a></li>
-              <!--<li><a [routerLink]="['/masterNavigation']"><i class="fa fa-circle-o round_dis"></i><i class="fa fa-circle round_over"></i>Navigation Master</a></li>
-                <li><a [routerLink]="['/masterHoliday']"><i class="fa fa-circle-o round_dis"></i><i class="fa fa-circle round_over"></i>Holiday Master</a></li>
-                <li><a [routerLink]="['/masterEnquirySource']"><i class="fa fa-circle-o round_dis"></i><i class="fa fa-circle round_over"></i>Enquiry Source Master</a></li>
-                <li><a [routerLink]="['/masterEnquiryType']"><i class="fa fa-circle-o round_dis"></i><i class="fa fa-circle round_over"></i>Enquiry Type Master</a></li>
-                <li><a [routerLink]="['/masterAbsent']"><i class="fa fa-circle-o round_dis"></i><i class="fa fa-circle round_over"></i>Absent Master</a></li> -->
-              </ul>
-            </li>
-            <li class="treeview">
-              <a>
-                  <i class="fa pull-left "></i>User Master
-                <span class="pull-right-container">
-                  <i class="fa fa-angle-left pull-right"></i>
-                </span>
-              </a>
-              <ul class="treeview-menu">
-                <li><a [routerLink]="['/masterResource']"><i class="fa fa-circle-o round_dis"></i><i class="fa fa-circle round_over"></i>Resource Master</a></li>
-                <li><a [routerLink]="['/masterResourceRoleMappingComponent']"><i class="fa fa-circle-o round_dis"></i><i class="fa fa-circle round_over"></i>Resource Role Mapping</a></li>
-                <li><a [routerLink]="['/masterNavigationRoleMappingComponent']"><i class="fa fa-circle-o round_dis"></i><i class="fa fa-circle round_over"></i>Navigation Role Mapping</a></li>
-              </ul>
-            </li>
           </ul>
         </li>
-        <li class="treeview">
+        <li class="treeview" *ngIf="item.Navigation_Menu_Name=='Calender'">
           <a [routerLink]="['/calendar']"> <i class="fa fa-calendar"></i> <span class="">Calender</span></a>
         </li>
-        <li class="treeview">
+        <li class="treeview" *ngIf="item.Navigation_Menu_Name=='Customer'">
           <a [routerLink]="['/customerlist']"> <i class="fa fa-users"></i> <span class="">Customers</span></a>
         </li>
-        <li class="treeview">
+        <li class="treeview" *ngIf="item.Navigation_Menu_Name=='Opportunity'">
           <a [routerLink]="['/opportunitieslist']"> <i class="fa fa-globe"></i> <span class="">Opportunities</span></a>
         </li>
-        <li class="treeview">
+        <li class="treeview"  *ngIf="item.Navigation_Menu_Name=='Visit'">
           <a [routerLink]="['/visits']"> <i class="fa fa-file"></i> <span class="">Visits</span></a>
         </li>
-        <li class="treeview">
-          <a href="#"> <i class="fa fa-calculator"></i> <span class="">NPS Scores</span><span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span> </a>
+        <li class="treeview" *ngIf="item.Navigation_Menu_Name=='NPS Score'">
+          <a> <i class="fa fa-calculator"></i> <span class="">NPS Scores</span><span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span> </a>
           <ul class="treeview-menu">
-            <li><a [routerLink]="['/']"><i class="fa fa-circle-o round_dis"></i><i class="fa fa-circle round_over"></i>Won</a></li>
-            <li><a [routerLink]="['/']"><i class="fa fa-circle-o round_dis"></i><i class="fa fa-circle round_over"></i>Lost</a></li>
+            <li><a [routerLink]="['/npsWonScores']"><i class="fa fa-circle-o round_dis"></i><i class="fa fa-circle round_over"></i>Won</a></li>
+            <li><a [routerLink]="['/npsLostScores']"><i class="fa fa-circle-o round_dis"></i><i class="fa fa-circle round_over"></i>Lost</a></li>
           </ul>
         </li>
 
-        <li class="treeview">
+        <!-- <li class="treeview">
           <a [routerLink]="['/']"> <i class="fa fa-bullhorn"></i> <span class="">Updates &amp; Announcements</span></a>
         </li>
         <li class="treeview">
           <a [routerLink]="['/']"> <i class="fa fa-image"></i> <span class="">Pictures</span></a>
-        </li>
+        </li> -->
       </ul>
     </section>
   </aside>

@@ -36,7 +36,7 @@
                   <th (click)="sort('Opportunity_Name')">Name
                       <span class="glyphicon sort-icon" *ngIf="key =='Opportunity_Name'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
                   </th>
-                  <th (click)="sort('Closed_Date')">Closed Date
+                  <th (click)="sort('Closed_Date')">Expected Order Date
                       <span class="glyphicon sort-icon" *ngIf="key =='Closed_Date'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
                   </th>
                   <th (click)="sort('Sales_Phase')">Sales Phase
@@ -45,15 +45,15 @@
                   <th (click)="sort('Resource_Name')">Owner
                       <span class="glyphicon sort-icon" *ngIf="key =='Resource_Name'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
                   </th>
-                  <th (click)="sort('Status')">Status
-                      <span class="glyphicon sort-icon" *ngIf="key =='Status'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-                  </th>
                   <th (click)="sort('Added_Date')">Created On
                       <span class="glyphicon sort-icon" *ngIf="key =='Added_Date'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
                   </th>
                   <th (click)="sort('Expected_Value')">Expected Value
                       <span class="glyphicon sort-icon" *ngIf="key =='Expected_Value'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
                   </th>
+                  <th >Status
+                    <span class="glyphicon sort-icon" *ngIf="key =='Expected_Value'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                </th>
                   <th class="text-center">Action</th>
                 </tr>
               </thead>
@@ -67,16 +67,16 @@
                   <td>{{data.Closed_Date}}</td>
                   <td>{{data.Sales_Phase}}</td>
                   <td>{{data.Resource_Name }}</td>
-                  <td>{{data.Status}}</td>
                   <td>{{data.Added_Date }}</td>
                   <td>{{data.Expected_Value }}</td>
+                  <td>{{data.Status }}</td>
                   <td>
                      <!-- *ngIf="data.TrackInTime ==='00:00' || data.TrackOutTime !=='00:00'" -->
                     <a *ngIf="data.TrackInTime===false"  (click)="inVisit(data)" class="btn btn-info btnedit">In</a>&nbsp;&nbsp;
                     <!-- *ngIf="data.TrackOutTime ==='00:00' && data.TrackInTime !=='00:00'" -->
                     <a title="Stop Visit" *ngIf="data.TrackInTime===true" (click)="outVisit(data)" class="btn btn-info btnedit">Out</a>&nbsp;&nbsp;
-                    <!-- *ngIf="data.TrackOutTime ==='00:00' && data.TrackInTime !=='00:00'" -->
-                    <button title="Action On Opportunity" *ngIf="data.TrackInTime===true" class="btn btn-info btnedit" (click)="Get_Opportunity_Details(data)" ><span class=" glyphicon glyphicon-plus-sign"></span></button>
+                    <!-- *ngIf="data.TrackOutTime ==='00:00' && data.TrackInTime !=='00:00'"  data.FK_Status !=='W' &&  -->
+                    <button title="Action On Opportunity" *ngIf="data.FK_Status !=='W' && data.FK_Status !=='L' && data.FK_Status !=='S' && data.TrackInTime===true" class="btn btn-info btnedit" (click)="Get_Opportunity_Details(data)" ><span class=" glyphicon glyphicon-plus-sign"></span></button>
                   </td>
                 </tr>
               </tbody>
@@ -84,7 +84,7 @@
                 <tr>
                   <td colspan="12">
                     <pagination-controls id="listing_pagination" maxSize="5" directionLinks="true"
-                                         (pageChange)="page = $event"></pagination-controls>
+                    (pageChange)="page = $event"></pagination-controls>
                   </td>
                 </tr>
               </tfoot>
@@ -97,31 +97,24 @@
     </div>
   </div>
   <div class="clearfix"></div>
-  <form [formGroup]="addCompetitorForm">
-  <!-- My Open opportunities Modal Starts -->
+  <form [formGroup]="addCompetitorForm" >
   <div id="OpenOpporModal" class="modal fade">
     <div class="white_box opportunity_modal">
-      <ul class="nav nav-tabs">
+      <ul class="nav nav-tabs" style="position: relative;">
         <li class="active">
-          <a href="#Overview" data-toggle="tab" (click)="Get_Opportunity_Details()">Overview</a>
+          <a href="#Overview"  data-toggle="tab" id="Overviewid" (click)="hidepreButton()">Overview</a>
         </li>
         <li>
-          <a href="#CNTPER" data-toggle="tab" (click)="Get_ContactPerson_Details()">Contact Person Details</a>
-        </li>
-        <!-- <li>
-            <a href="#Document" data-toggle="tab" (click)="Get_Document_List()">Documents</a>
-        </li> -->
-        <li>
-          <a href="#Competitor" data-toggle="tab" (click)="Get_OpportunityCompetitorDetails()">Competitor</a>
+          <a href="#CNTPER" data-toggle="tab" (click)="shownextButton()">Contact Person Details</a>
         </li>
         <li>
-          <a href="#ProductTab" data-toggle="tab" (click)="Get_Oppor_Prod()">Product</a>
+          <a href="#Competitor" data-toggle="tab" (click)="shownextButton()">Competitor</a>
         </li>
         <li>
-          <a href="#Quotation" data-toggle="tab" (click)="Get_Quotation_List()" id="Quotation1">Quotation</a>
+          <a href="#ProductTab" data-toggle="tab" id='Product1' (click)="shownextButton()">Product</a>
         </li>
         <li>
-          <a href="#Visit" data-toggle="tab" (click)="Get_OpportunityVisitDetails()" id="">Schedule Next Visit</a>
+          <a href="#Quotation" data-toggle="tab" id="Quotation1" (click)="hideNextButton()">Quotation</a>
         </li>
         <li class="pull-right">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="padding-right: 10px;">&times;</button>
@@ -151,7 +144,7 @@
               <input type="text" [value]="Enquiry_Source_Name" class="form-control" disabled="disabled">
             </div>
             <div class="col-md-2 form-group">
-              <label class="mandatory" for="">Opportunity Type</label>
+              <label class="mandatory" for="">Related to</label>
             </div>
             <div class="col-md-2 form-group">
               <input type="text" [value]="Enquiry_Type_Name" class="form-control" disabled="disabled" />
@@ -161,12 +154,6 @@
             </div>
             <div class="col-md-2 form-group">
               <input type="text" [value]="Opportunity_Name" class="form-control" disabled="disabled">
-            </div>
-            <div class="col-md-2 form-group">
-              <label class="mandatory" for="">Start Date</label>
-            </div>
-            <div class="col-md-2 form-group">
-              <input type="text" [value]="Start_Date" class="form-control" disabled="disabled">
             </div>
             <div class="col-md-2 form-group">
               <label class="mandatory" for="">Expected Value</label>
@@ -187,18 +174,11 @@
               <input type="text" [value]="Sales_Phase" class="form-control" disabled="disabled">
             </div>
             <div class="col-md-2 form-group">
-              <label class="mandatory" for="">Closed Date</label>
+              <label class="mandatory" for="">Expected Order Date</label>
             </div>
             <div class="col-md-2 form-group">
               <input type="text" [value]="Closed_Date" class="form-control" disabled="disabled">
             </div>
-            <div class="col-md-2 form-group">
-              <label class="mandatory" for="">Status</label>
-            </div>
-            <div class="col-md-2 form-group">
-              <input type="text" [value]="Status" class="form-control" disabled="disabled">
-            </div>
-
             <div class="col-md-4">
               <span *ngIf="Forecast==true">
                 <input type="checkbox" class="" checked id="Forecast" placeholder="" disabled="disabled">
@@ -239,57 +219,21 @@
           </div>
           <div class="clearfix"></div>
         </div>
-        <div class="tab-pane fade" id="Document">
-          <div>
-            <div id="">
-              <div class="col-md-2 form-group">
-                <label class="mandatory" for="">Attachment</label>
-              </div>
-              <div class="col-md-4 form-group">
-                <!-- <input file-model="Documentphoto" id="Documentphoto" onchange="angular.element(this).scope().file_changed(this)" type="file" class="pull-left"> -->
-                <!-- <input type="file" id="upload" name="File" class="form-control" style="float:left" />
-                <input type="submit" name="" value="Upload" class="btn btn-primary btn_upload pull-right" (click)="Add_Document()">
-                <div class="clearfix"></div> -->
-                <div id="Documentlist" style="display:none"></div>
-              </div>
-              <div class="col-md-12">
-                <table id="monthly_table" class="table table-bordered report_table">
-                  <thead>
-                    <tr>
-                      <!-- <th>Sr. No.</th> -->
-                      <th>File</th>
-                      <th class="text-center">Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr *ngFor="let item of Documentlist">
-                      <!-- <td>{{"$index+1"}}</td>  -->
-                      <td><a href="~/Attachment/Document/{{item.FK_Opportunity_Id}}/{{item.File_Name}} " target="_blank">{{item.File_Name}}</a></td>
-                      <td class="text-center"><button class="fa fa-trash" title="Delete" style="cursor: pointer" (click)="Delete_Document(item)"></button> </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <div class="clearfix"></div>
-            </div>
-          </div>
-          <div class="clearfix"></div>
-        </div>
         <div class="tab-pane fade" id="Competitor">
           <div>
             <div id="">
-              <div class="col-md-2 form-group">
-                <label class="mandatory" for="">Competitor Type</label>
-              </div>
-              <div class="col-md-2 form-group">
-                <select formControlName="CompetitorTypeId" class="form-control" (change)="Get_Competitor_List($event)"
-                        title="Please Select Competitor type">
-                  <option value="" disabled>Select</option>
-                  <option *ngFor="let CompetitorType of CompetitorTypelist" value={{CompetitorType.List_Code}}>
-                    {{CompetitorType.List_Desc}}
-                  </option>
-                </select>
-              </div>
+                <!-- <div class="col-md-2 form-group">
+                    <label class="mandatory" for="">Competitor Type</label>
+                  </div>
+                  <div class="col-md-2 form-group">
+                    <select formControlName="CompetitorTypeId" class="form-control" (change)="Get_Competitor_List($event)"
+                            title="Please Select Competitor type">
+                      <option value="" disabled>Select</option>
+                      <option *ngFor="let CompetitorType of CompetitorTypelist" value={{CompetitorType.List_Code}}>
+                        {{CompetitorType.List_Desc}}
+                      </option>
+                    </select>
+                  </div> -->
               <div class="col-md-2 form-group">
                 <label class="mandatory" for="">Competitor</label>
               </div>
@@ -302,17 +246,13 @@
                   </option>
                 </select>
               </div>
-              <div class="col-md-4">
-                <input class="chek" id="Is_Main" formControlName="IsMain" type="checkbox" style="vertical-align: middle; margin: 0;">
-                <label class="Forecast" for="Is_Main">Is Main</label>
-              </div>
-              <div class="clearfix"></div>
               <div class="col-md-2 form-group">
                 <label class="mandatory" for="">Products</label>
               </div>
               <div class="col-md-2 form-group ">
                 <textarea class="form-control rema_chara" id="Comp_Product" formControlName="CompProduct" placeholder="Please Enter Products" title="Please Enter Products " maxlength="250"></textarea>
               </div>
+              <div class="clearfix"></div>
               <div class="col-md-2 form-group">
                 <label for="">Price</label>
               </div>
@@ -320,15 +260,20 @@
                 <input type="text" formControlName="CompPrice" class="form-control" placeholder="Enter Price " title="Enter Price " maxlength="10"
                        onkeypress='return (event.charCode >= 48 && event.charCode <= 57) || event.keyCode == 8'>
               </div>
+              <div class="col-md-4">
+                  <input class="chek" id="Is_Main" formControlName="IsMain" type="checkbox" style="vertical-align: middle; margin: 0;">
+                  <label class="Forecast" for="Is_Main">Is Main</label>
+                </div>
               <div class="col-md-2">
-                <button class="btn btn_login" (click)="AddCompetitor()">Add</button>&nbsp;
+                <button class="btn btn_login" [disabled]="loading" (click)="AddCompetitor()">Add</button>&nbsp;
+                <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
               </div>
               <div class="col-md-12">
                 <table id="monthly_table" class="table table-bordered report_table">
                   <thead>
                     <tr>
                       <th>Sr. No.</th>
-                      <th>Competitor Type</th>
+                      <!-- <th>Competitor Type</th> -->
                       <th>Competitor</th>
                       <th>Is Main</th>
                       <th>Product</th>
@@ -339,7 +284,7 @@
                   <tbody>
                     <tr *ngFor="let item of Clist;let i = index">
                       <td>{{i+1}}</td>
-                      <td>{{item.List_Competitor_type}}</td>
+                      <!-- <td>{{item.List_Competitor_type}}</td> -->
                       <td>{{item.Competitor_Name}}</td>
                       <td>{{item.Is_Main}}</td>
                       <td>{{item.Comp_Product}}</td>
@@ -362,9 +307,9 @@
                 <label class="mandatory" for="">Attachment</label>
               </div>
               <div class="col-md-4 form-group">
-                <input type="file" id="upload" name="File" (change)="onSelectAttachment($event)" class="form-control" style="float:left" />
-                <input type="submit" name="" value="Upload" class="btn btn-primary btn_upload pull-right" (click)="Add_Quotation()">
-   
+                <input type="file" id="upload" title="Select jpg,png,doc file" name="File" (change)="onSelectAttachment($event)" class="form-control" style="float:left" />
+                <input type="submit" name="" value="Upload" class="btn btn-primary btn_upload pull-right" [disabled]="loading" (click)="Add_Quotation()">
+                <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
                 <div class="clearfix"></div>
                 <div id="list" style="display:none"></div>
               </div>
@@ -387,84 +332,6 @@
                 </table>
               </div>
               <div class="clearfix"></div>
-            </div>
-          </div>
-          <div class="clearfix"></div>
-        </div>
-        <div class="tab-pane fade" id="Visit">
-          <div>
-            <div id="">
-              <div class="col-md-2 form-group">
-                <label class="mandatory" for="">Visit Type</label>
-              </div>
-              <div class="col-md-2 form-group">
-                <select formControlName="VisitType" class="form-control"
-                        title="Please Select Visit type">
-                  <option value="" disabled>Select</option>
-                  <option *ngFor="let Vtype of visitTypelist" value={{Vtype.List_Code}}>
-                    {{Vtype.List_Desc}}
-                  </option>
-                </select>
-              </div>
-              <div class="col-md-2 form-group">
-                <label class="mandatory" for="">Start Date</label>
-              </div>
-              <div class="col-md-2 form-group ">
-                <input type="text" class="form-control " id="Visit_Start_Date" formControlName="Visit_Start_Date" placeholder="dd-mmm-yyyy" title="Please Enter Start Date" onkeypress="return false; event.charCode >= 48 && event.charCode <= 57" onkeydown="return false" autocomplete="off">
-              </div>
-              <div class="col-md-2 form-group">
-                <label class="mandatory" for="">Start Time</label>
-              </div>
-              <div class=" col-md-2  clockpicker " data-placement="top" data-align="top" data-autoclose="true" style="position: relative;">
-                <input type="text" id="Visit_Start_Time" formControlName="Visit_Start_Time" class="form-control" placeholder="Enter Start Time" title="Enter Start Time">
-                <span class="input-group-addon clock-icon clockpickicon"> <i class="fa fa-clock-o clock-icon" aria-hidden="true"></i> </span>
-              </div>
-              <div class="clearfix"></div>
-              <div class="col-md-2 form-group">
-                <label class="mandatory" for="">End Date</label>
-              </div>
-              <div class="col-md-2 form-group ">
-                <input type="text" class="form-control " id="Visit_End_Date" formControlName="Visit_End_Date" placeholder="dd-mmm-yyyy" title="Please Enter End Date" onkeypress="return false; event.charCode >= 48 && event.charCode <= 57" onkeydown="return false" autocomplete="off">
-              </div>
-              <div class="col-md-2 form-group">
-                <label class="mandatory" for="">End Time</label>
-              </div>
-              <div class=" col-md-2   clockpicker " data-placement="top" data-align="top" data-autoclose="true" style="position: relative;">
-                <input type="text" id="Visit_End_Time" formControlName="Visit_End_Time" class="form-control" placeholder="Enter End Time" title="Enter End Time">
-                <span class="input-group-addon clock-icon clockpickicon"> <i class="fa fa-clock-o clock-icon" aria-hidden="true"></i> </span>
-              </div>
-              <div class="col-md-2">
-                <button class="btn btn_login" *ngIf="Status=='In Process'" (click)="AddVisits()">Add</button>&nbsp;
-              </div>
-              <div class="col-md-12">
-                <table id="monthly_table" class="table table-bordered report_table">
-                  <thead>
-                    <tr>
-                      <th>Sr. No.</th>
-                      <th>Visit Type</th>
-                      <th>Start Date</th>
-                      <th>Start Time</th>
-                      <th>End Date</th>
-                      <th>End Time</th>
-                      <th class="text-center">Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr *ngFor="let item of visitlist;let i=index">
-                      <td>{{i+1}}</td>
-                      <td style="display: none">{{item.PK_Visit}}</td>
-                      <td>{{item.List_Visit_type}}</td>
-                      <td>{{item.List_Visit_Start_Date}}</td>
-                      <td>{{item.List_Visit_Start_Time}}</td>
-                      <td>{{item.List_Visit_End_Date}}</td>
-                      <td>{{item.List_Visit_End_Time}}</td>
-                      <td class="text-center"><button class="fa fa-trash" title="Delete" style="cursor: pointer" (click)="DeleteVisits(item)"></button> </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <div class="clearfix"></div>
-
             </div>
           </div>
           <div class="clearfix"></div>
@@ -500,18 +367,21 @@
               
               <div class="panel-group entry_accordion" id="accordion">
                 <label id="subrange1"><i class="fa fa-plus-square-o"></i> {{SubRange}}: ( {{Range}} )</label>
-                <table>
+                <div class="tbl_productlistBlockOuter">
+                <table class="tbl_productlistBlock">
                   <tr *ngFor="let tRow1 of ProductDetailslist">
                     <td>
                       <input class="text-center chk" formControlName="chk_prod" type="checkbox" id="{{tRow1.Product_Id}}" style="text-align:center!important;" />
                       <label> {{tRow1.Product_Name}}:</label>
                     </td>
-                    <td>Quantity: <input type="text" formControlName="QT" class="form-control" id="{{tRow1.Product_Id +'QR'}}" value="{{tRow1.Quantity}}" /></td>
-                    <td> Price:<input type="text" formControlName="PT" class="form-control" id="{{tRow1.Product_Id +'PR'}}" value="{{tRow1.Price}}" /></td>
+                    <td>Quantity: <input type="text" onkeypress='return (event.charCode >= 48 && event.charCode <= 57) || event.keyCode == 8' maxlength="10" formControlName="QT" class="form-control" id="{{tRow1.Product_Id +'QR'}}" value="{{tRow1.Quantity}}" /></td>
+                    <td> Price:<input type="text" onkeypress='return (event.charCode >= 48 && event.charCode <= 57) || event.keyCode == 8' maxlength="10" formControlName="PT" class="form-control" id="{{tRow1.Product_Id +'PR'}}" value="{{tRow1.Price}}" /></td>
                   </tr>
                 </table>
+              </div>
                 <div class="col-md-12" style="padding-left:248px;margin-top:10px">
-                    <button class="btn btn_login" (click)="Add_opporProduct()">Add</button>
+                    <button class="btn btn_login" [disabled]="loading" (click)="Add_opporProduct()">Add</button>
+                    <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
                   </div>
               </div>
             </div>
@@ -545,68 +415,125 @@
           </div>
           <div class="clearfix"></div>
         </div>
+        
         <div class="clearfix"></div>
       </div>
       <div class="ActionArea">
-        <div class="dropdown pull-right">
-          <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
-            Action
-          </button>
-          <ul class="dropdown-menu">
-            <li><a href="#InProcessModel" data-toggle="modal" id="aInProcessModel" style="color:white" (click)="Get_Oppor_Prod()">Set as in Process &nbsp; &nbsp;</a></li>
-            <li><a href="#WonModal" data-toggle="modal" id="myWonPopup" style="color:white" (click)="Get_Oppor_Prod()">Set as Won &nbsp; &nbsp;</a></li>
-            <li><a href="#LostModal" data-toggle="modal" id="myLostModalPopup" style="color:white" (click)="Get_OpportunityCompetitorDetails()">Set as Lost &nbsp; &nbsp;</a></li>
-            <li><a href="#StopModal" data-toggle="modal" id="myStopPopup" style="color:white" (click)="Get_Reason_List()">Set as Stopped &nbsp; &nbsp;</a> </li>
-            <li><a href="#CopyModal" data-toggle="modal" id="myCopyModalPopup" style="color:white">Copy &nbsp; &nbsp;</a></li>
-          </ul>
+        <div class="Footer">
+            <div class="divleft">
+                <button id="btnMoveLeftTab" class="btn btn-primary" type="button" text="Previous">Previous</button>
+            </div>
+            <div class="divright">
+                  <div class="dropdown pull-left">
+                      <button data-toggle="dropdown" id="btnstatus" class="btn btn-primary"  type="button">
+                        Status
+                      </button>&nbsp;&nbsp;
+                      <ul class="dropdown-menu opp_dropdown">
+                          <li><a data-toggle="modal" data-backdrop="static" href="#VisitModel" (click)="Get_OpportunityVisitDetails()">Next Visit</a></li>
+                          <li><a data-toggle="modal" data-backdrop="static" href="#WonModal" (click)="Get_Oppor_Prod()">Won</a></li>
+                          <li><a data-toggle="modal" data-backdrop="static" href="#LostModal" (click)="Get_Oppor_Prod()">Lost</a></li>
+                          <li><a data-toggle="modal" data-backdrop="static" href="#StopModal"  (click)="Get_Reason_List()">Stopped</a></li>
+                      </ul>
+                    </div>
+                    <button id="btnMoveRightTab" class="btn btn-primary pull-left" type="button"  text="Next">Next </button>
+            </div>
         </div>
         <div class="clearfix"></div>
       </div>
     </div>
     <div class="clearfix"></div>
   </div>
-  <!-- In Process -->
-  <div id="InProcessModel" class="modal fade">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title">InProcess Details</h4>
-        </div>
-        <div class="modal-body">
-          <div class="col-md-4 form-group">
-            <label for="">Customer Name:</label>
-          </div>
-          <div class="col-md-8 form-group">
-            <input type="text" class="form-control" id="" placeholder="" title="Please Enter Customer name" [value]="CName"
-                   disabled="disabled">
-          </div>
-          <div class="clearfix"></div>
-          <div class="col-md-4 form-group">
-            <label class="mandatory" for="">Remarks:</label>
-          </div>
-          <div class="col-md-8 form-group">
-            <textarea class="form-control" title="Please Enter Remark" [value]="InProcess_Remarks" formControlName="InProcess_Remarks" rows="3"
-                      oninvalid="InvalidMsg(this,'Please enter Remarks','Please enter Remarks');">
-                      </textarea>
-            <div *ngIf="submitted && f.InProcess_Remarks.errors" class="invalid-feedback">
-              <div *ngIf="f.InProcess_Remarks.errors.required">is required</div>
+  <div id="VisitModel" class="modal fade">
+      <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h4 class="modal-title">Visit</h4>
+            </div>
+            <div class="modal-body">
+              <div class="col-md-7 nopadding">
+                <div class="col-md-2 form-group">
+                    <label class="mandatory" for="">Visit Type</label>
+                  </div>
+                  <div class="col-md-4 form-group">
+                    <select formControlName="VisitType" class="form-control"
+                            title="Please Select Visit type">
+                      <option value="" disabled>Select</option>
+                      <option *ngFor="let Vtype of visitTypelist" value={{Vtype.List_Code}}>
+                        {{Vtype.List_Desc}}
+                      </option>
+                    </select>
+                  </div>
+                  
+                  <div class="col-md-2 form-group">
+                    <label class="mandatory" for="">Start Date</label>
+                  </div>
+                  <div class="col-md-4 form-group ">
+                    <input type="text" class="form-control " id="Visit_Start_Date" formControlName="Visit_Start_Date" placeholder="dd-mmm-yyyy" title="Please Enter Start Date" onkeypress="return false; event.charCode >= 48 && event.charCode <= 57" onkeydown="return false" autocomplete="off">
+                  </div>
+                  <div class="clearfix"></div>
+                  <div class="col-md-2 form-group">
+                    <label class="mandatory" for="">Start Time</label>
+                  </div>
+                  <div class=" col-md-4  clockpicker " data-placement="top" data-align="top" data-autoclose="true" style="position: relative;">
+                    <input type="text" id="Visit_Start_Time" formControlName="Visit_Start_Time" class="form-control" placeholder="Enter Start Time" title="Enter Start Time">
+                    <span class="input-group-addon clock-icon clockpickicon"> <i class="fa fa-clock-o clock-icon" aria-hidden="true"></i> </span>
+                  </div>
+                  
+                  <div class="col-md-2 form-group">
+                    <label class="mandatory" for="">End Date</label>
+                  </div>
+                  <div class="col-md-4 form-group ">
+                    <input type="text" class="form-control " id="Visit_End_Date" formControlName="Visit_End_Date" placeholder="dd-mmm-yyyy" title="Please Enter End Date" onkeypress="return false; event.charCode >= 48 && event.charCode <= 57" onkeydown="return false" autocomplete="off">
+                  </div>
+                  <div class="clearfix"></div>
+                  <div class="col-md-2 form-group">
+                    <label class="mandatory" for="">End Time</label>
+                  </div>
+                  <div class=" col-md-4   clockpicker " data-placement="top" data-align="top" data-autoclose="true" style="position: relative;">
+                    <input type="text" id="Visit_End_Time" formControlName="Visit_End_Time" class="form-control" placeholder="Enter End Time" title="Enter End Time">
+                    <span class="input-group-addon clock-icon clockpickicon"> <i class="fa fa-clock-o clock-icon" aria-hidden="true"></i> </span>
+                  </div>
+                  
+                  <div class="col-md-2">
+                    <button class="btn btn_login" (click)="AddVisits()">Add</button>&nbsp;
+                  </div>
+                </div>
+                <div class="clearfix"></div>
+                  <div class="col-md-12">
+                      <table id="monthly_table" class="table table-bordered report_table">
+                        <thead>
+                          <tr>
+                            <th>Sr. No.</th>
+                            <th>Visit Type</th>
+                            <th>Start Date</th>
+                            <th>Start Time</th>
+                            <th>End Date</th>
+                            <th>End Time</th>
+                            <th class="text-center">Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let item of visitlist;let i=index">
+                            <td>{{i+1}}</td>
+                            <td style="display: none">{{item.PK_Visit}}</td>
+                            <td>{{item.List_Visit_type}}</td>
+                            <td>{{item.List_Visit_Start_Date}}</td>
+                            <td>{{item.List_Visit_Start_Time}}</td>
+                            <td>{{item.List_Visit_End_Date}}</td>
+                            <td>{{item.List_Visit_End_Time}}</td>
+                            <td class="text-center"><button class="fa fa-trash" title="Delete" style="cursor: pointer" (click)="DeleteVisits(item)"></button> </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                 </div>
+                    <div class="clearfix"></div>
             </div>
           </div>
-          <div class="clearfix"></div>
-        </div>
-        <div class="modal-footer">
-          <div class="pull-right">
-            <button type="button" class="btn btn-primary" (click)="Add_InProcess()">Add</button>&nbsp;
-            <button type="button" class="btn btn-default" data-dismiss="modal" (click)="Clear_InProcess()">Cancel</button>
-          </div>
-          <div class="clearfix"></div>
-        </div>
       </div>
-    </div>
   </div>
   <div id="WonModal" class="modal fade">
-    <div class="modal-dialog">
+  <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -614,25 +541,22 @@
         </div>
         <div class="modal-body">
           <div class="col-md-4 form-group">
-            <label class="mandatory" for="">Won Value:</label>
+            <label class="mandatory" for="">Won Value</label>
           </div>
           <div class="col-md-8 form-group">
-            <input type="text" class="form-control" id="" placeholder="" title="Please Enter Won Value"  
-            formControlName="Won_Value" 
+            <input type="text" class="form-control" id="Enter Won Value" placeholder="Enter Won Value" title="Please Enter Won Value"  
+            formControlName="Won_Value" ngModel
             onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.keyCode == 8" maxlength="10"
                    oninvalid="InvalidMsg(this,'Please enter Won Value','Please enter Won Value');">
-            <div *ngIf="submitted && f.Won_Value.errors" class="invalid-feedback">
-              <div *ngIf="f.Won_Value.errors.required">is required</div>
-            </div>
           </div>
           <div class="col-md-4 form-group">
-            <label for="">Product Name:</label>
+            <label for="">Product Name</label>
           </div>
           <div class="col-md-8 form-group">
-            <textarea input type="text" class="form-control" id="" disabled="disabled" placeholder="" title="Please Enter Product name" [value]="PNAction"></textarea>
+            <textarea input type="text" class="form-control" id="PNAction" disabled="disabled" placeholder="" title="Please Enter Product name" [value]="PNAction"></textarea>
           </div>
           <div class="col-md-4 form-group">
-            <label for="">Customer Name:</label>
+            <label for="">Customer Name</label>
           </div>
           <div class="col-md-8 form-group">
             <input type="text" class="form-control" id="" placeholder="" title="Please Enter Customer name" [value]="CName"
@@ -640,27 +564,61 @@
           </div>
           <div class="clearfix"></div>
           <div class="col-md-4 form-group">
-            <label class="mandatory" for="">Remarks:</label>
+              <label class="mandatory" for="">Order Value</label>
+         </div>
+         <div class="col-md-8 form-group">
+            <input type="text" class="form-control" formControlName="ordervalue" placeholder="Enter Order Value" title="Please Enter Order Value ">
+          </div>
+          <div class="clearfix"></div>
+          <div class="col-md-4 form-group">
+            <label for="">Remarks</label>
           </div>
           <div class="col-md-8 form-group">
-            <textarea class="form-control" title="Please Enter Remark" formControlName="Won_Remarks" rows="3"
-                      oninvalid="InvalidMsg(this,'Please enter Product name','Please enter Remarks');">
+            <textarea class="form-control" title="Please Enter Remarks" placeholder="Enter Remarks" formControlName="Won_Remarks" rows="3"
+                      oninvalid="InvalidMsg(this,'Please enter Remarks','Please enter Remarks');">
                     </textarea>
-            <div *ngIf="submitted && f.Won_Remarks.errors" class="invalid-feedback">
-              <div *ngIf="f.Won_Remarks.errors.required">is required</div>
-            </div>
             <div class="clearfix"></div>
           </div>
+          <div class="clearfix"></div>
+          <div class="col-md-4 form-group">
+            <label class="mandatory" for="">Reason for Won</label>
+          </div>
+          <div class="col-md-8 form-group">
+            <select formControlName="ReasonWon" class="form-control">
+              <option value="" disabled>Select</option>
+              <option value="Brand Preference">Brand Preference</option>
+              <option value="Sales Engineer">Sales Engineer</option>
+              <option value="Service Support">Service Support</option>
+              <option value="Product">Product</option>
+            </select>
+          </div>
+          <div class="clearfix"></div>
+          <div class="col-md-4 form-group">
+            <label for="">What we have done for better for this order</label>
+          </div>
+          <div class="col-md-8 form-group">
+            <textarea formControlName="betterorderwon" class="form-control" style="height: auto !important;"></textarea>
+          </div>
+          <div class="clearfix"></div>
+          <div class="col-md-4 form-group">
+            <label for="">PO copy</label>
+          </div>
+          <div class="col-md-8 form-group">
+              <input type="file" id="uploadPO" title="Select pdf file" name="File" (change)="onSelectAttachmentWon($event)" class="form-control" style="float:left" />
+              <input type="submit" name="" value="Upload" class="btn btn-primary btn_upload pull-right" [disabled]="loading" (click)="Add_attachmentWon()">
+              <div class="clearfix"></div>
+              <div id="list" style="display:none"></div>
+            </div><div class="clearfix"></div>
           <div class="modal-footer">
             <div class="pull-right">
-              <button type="button" class="btn btn-primary" (click)="Add_Won()">Add</button>&nbsp;
+              <button type="button" class="btn btn-primary" (click)="BtnNextWon()">Next</button>&nbsp;
               <button type="button" class="btn btn-default" data-dismiss="modal" (click)="Clear_Won()">Cancel</button>
             </div>
             <div class="clearfix"></div>
           </div>
         </div>
       </div>
-    </div>
+  </div>
   </div>
   <div id="LostModal" class="modal fade">
     <div class="modal-dialog">
@@ -674,7 +632,7 @@
             <label class="mandatory" for="">Lost Value:</label>
           </div>
           <div class="col-md-8 form-group">
-            <input type="text" class="form-control" id="" placeholder="" title="Please Enter Lost Value" formControlName="Lost_Value"
+            <input type="text" class="form-control" id="" placeholder="Enter Lost Value" title="Please Enter Lost Value" formControlName="Lost_Value"
             onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.keyCode == 8" maxlength="10"
                    oninvalid="InvalidMsg(this,'Please enter Lost Value','Please enter Lost Value');">
           </div>
@@ -682,18 +640,18 @@
             <label for="">Product Name:</label>
           </div>
           <div class="col-md-8 form-group">
-            <input type="text" class="form-control" id="" [value]="LostPN" title="Please Enter Product name"
+            <input type="text" class="form-control" disabled id="LostPN" [value]="PNAction" title="Please Enter Product name"
                    oninvalid="InvalidMsg(this,'Please enter Product name','Please enter Product name');">
           </div>
           <div class="col-md-4 form-group">
             <label for="">Customer Name:</label>
           </div>
           <div class="col-md-8 form-group">
-            <input type="text" class="form-control" id="" placeholder="" title="Please Enter Customer name"
-                   [value]="customerN" disabled="disabled">
+            <input type="text" class="form-control" id="" placeholder="" title="Customer name"
+                   [value]="CName" disabled>
           </div>
           <div class="clearfix"></div>
-          <div class="col-md-4 form-group">
+          <!-- <div class="col-md-4 form-group">
             <label class="mandatory">Competitor Name:</label>
           </div>
           <div class="col-md-8 form-group">
@@ -705,27 +663,47 @@
               </option>
             </select>
             <div class="clearfix"></div>
-          </div>
-          <div class="clearfix"></div>
+          </div> -->
+          <!-- <div class="clearfix"></div> -->
           <div class="col-md-4 form-group">
             <label class="mandatory">Remark:</label>
           </div>
           <div class="col-md-8 form-group">
-            <textarea class="form-control" rows="3" formControlName="Lost_Remarks"></textarea>
+            <textarea class="form-control" placeholder="Enter Lost Remark" rows="3" formControlName="Lost_Remarks"></textarea>
+          </div>
+          <div class="clearfix"></div>
+          <div class="col-md-4 form-group">
+            <label class="mandatory" for="">Reason for Lost</label>
+          </div>
+          <div class="col-md-8 form-group">
+            <select formControlName="ReasonLost" class="form-control">
+                <option value="" disabled>Select</option>
+              <option value="Sales support">Sales support</option>
+              <option value="Service support">Service support</option>
+              <option value="Price">Price</option>
+              <option value="Terms & Conditions">Terms & Conditions</option>
+            </select>
+          </div>
+          <div class="clearfix"></div>
+          <div class="col-md-4 form-group">
+            <label for="">What could have been done better</label>
+          </div>
+          <div class="col-md-8 form-group">
+            <textarea formControlName="BetterLost" class="form-control" style="height: auto !important;"></textarea>
           </div>
           <div class="clearfix"></div>
         </div>
         <div class="modal-footer">
           <div class="pull-right">
-            <button type="button" class="btn btn-primary" (click)="Add_Lost()">Add</button>&nbsp;
-            <button type="button" class="btn btn-default" data-dismiss="modal" (click)="Clear_Lost()">Close</button>
+            <button type="button" class="btn btn-primary" (click)="btnNextLost()">Next</button>&nbsp;
+            <button type="button" class="btn btn-default" data-dismiss="modal" (click)="Clear_Lost()">Cancel</button>
           </div>
+          <span *ngIf="ResultMsg">Record save successfully</span>
           <div class="clearfix"></div>
         </div>
       </div>
     </div>
   </div>
-
   <div id="StopModal" class="modal fade">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -763,21 +741,99 @@
             <label class="mandatory" for="">Remarks:</label>
           </div>
           <div class="col-md-8 form-group">
-            <textarea class="form-control" rows="2" title="Please Enter Remark" formControlName="Stop_Remarks"
+            <textarea class="form-control" rows="2" placeholder="Enter Remark" title="Please Enter Remark" formControlName="Stop_Remarks"
                       oninvalid="InvalidMsg(this,'Please enter Remark','Please enter Remark');">
                    </textarea>
+          </div>
+          <div class="clearfix"></div>
+          <div class="col-md-4 form-group">
+            <label for="">Machine Model No.</label>
+          </div>
+          <div class="col-md-8 form-group">
+            <input type="text" formControlName="ModelNo" class="form-control">
+          </div>
+          <div class="clearfix"></div>
+          <div class="col-md-4 form-group">
+            <label for="">Machine Serial No.</label>
+          </div>
+          <div class="col-md-8 form-group">
+            <input type="text" formControlName="SerialNo" class="form-control">
           </div>
           <div class="clearfix"></div>
         </div>
         <div class="modal-footer">
           <div class="pull-right">
-            <button type="button" class="btn btn-primary" (click)="Add_Stop()">Add</button>&nbsp;
-            <button type="button" class="btn btn-default" data-dismiss="modal" (click)="Clear_Stopped()">Close</button>
+            <button type="button" class="btn btn-primary" (click)="Add_Stop()">Submit</button>&nbsp;
+            <button type="button" class="btn btn-default" data-dismiss="modal" (click)="Clear_Stopped()">Cancel</button>
           </div>
+          <span *ngIf="ResultMsg">Record save successfully</span>
           <div class="clearfix"></div>
         </div>
       </div>
     </div>
   </div>
 
-</form>
+<!-- npsWon -->
+<div  data-backdrop="static" id="npsWon" class="modal fade">
+    <div class="modal-dialog feedbackModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">NPS Survey (Won)</h4>
+            </div>
+            <div class="modal-body">
+                <div class="questionsBlock WonQuestions">
+                    <p><span>Q: </span>Would you prefer Atlas Copco products for next purchase ?</p>
+                    <div>
+                        <label><input type="radio" name="q1ans" value="yes" checked >Yes</label>
+                        <label><input type="radio" name="q1ans" value="no">No</label>
+                    </div>
+                    <div class="yes qans" style="display: block;">
+                        <p>Why would you prefer Atlas Copco products ?</p>
+                    </div>
+                    <div class="no qans">
+                        <p>Why you would not prefer Atlas Copco products ?</p>
+                    </div>
+                    <textarea rows="3" formControlName="questionTest1"></textarea>
+                    <span>1000 characters remaining</span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" (click)="Add_Won()">Submit</button> &nbsp;
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- npsLost -->
+<div data-backdrop="static" id="npsLost" class="modal fade">
+    <div class="modal-dialog feedbackModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">NPS Survey (Lost)</h4>
+            </div>
+            <div class="modal-body">
+                <div class="questionsBlock">
+                    <p><span>Q1: </span>Would you prefer Atlas Copco products for next purchase ?</p>
+                    <div>
+                        <label><input type="radio" class="rad" name="q2ans" value="yes">Yes</label>
+                        <label><input type="radio" class="rad" name="q2ans" value="no">No</label>
+                    </div>
+                </div>
+                <div class="questionsBlock">
+                    <p><span>Q2: </span>What would have been done better for this order ?</p>
+                    <div class="lostans">
+                        <textarea formControlName="LostFeedback" rows="3"></textarea>
+                        <span>1000 characters remaining</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" (click)="Add_Lost()">Submit</button> &nbsp;
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+  </form>

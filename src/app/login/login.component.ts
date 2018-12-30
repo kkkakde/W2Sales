@@ -14,6 +14,7 @@ export class LoginComponent implements OnInit {
   loading = false;
   submitted = false;
   returnUrl: string;
+  public ResultMsg = false;
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
@@ -47,11 +48,12 @@ export class LoginComponent implements OnInit {
       data => {
         console.log(JSON.stringify(data));
         localStorage.setItem('currentUser', JSON.stringify(data));
-        this.router.navigate(['/customerlist']);
+        this.router.navigate(['/dashboard']);
       },
       error => {
-        alert('Invalid User');
-        this.alertService.error('Invalid User');
+        this.ResultMsg = true;
+        this.loginForm.get('username').setValue('');
+        this.loginForm.get('password').setValue('');
         this.loading = false;
       });
   }

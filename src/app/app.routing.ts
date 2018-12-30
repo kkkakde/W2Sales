@@ -22,7 +22,6 @@ import {MasterCompetitorComponent} from './master-competitor/master-competitor.c
 import { MasterProductComponent } from './master-product/master-product.component';
 import { MasterRangeMappingComponent} from './master-range-mapping/master-range-mapping.component';
 import { MasterResourceComponent} from './master-resource/master-resource.component';
-import { MasterResourceRoleMappingComponent } from './master-resource-role-mapping/master-resource-role-mapping.component';
 import { MasterSubRangeMappingComponent} from './master-sub-range-mapping/master-sub-range-mapping.component';
 import { AddResourceComponent} from './master-resource/add-resource.component';
 import { AddProductComponent} from './master-product/add-product.component';
@@ -30,8 +29,19 @@ import { AddSubRangeComponent } from './master-sub-range-mapping/add-subrange.co
 import { AddRangeMappingComponent } from './master-range-mapping/add-range-mapping.component';
 import { AddIndustryComponent } from './master-industry/add-industry.component';
 import { MasterIndustryComponent } from './master-industry/master-industry.component';
+import { MasterEnquirySourceComponent } from './master-enquiry-source/master-enquiry-source.component';
+import { AddEnquirySourceComponent } from './master-enquiry-source/add-enquiry-source.component';
+import { AddCompetitorComponent } from './master-competitor/add-competitor.component';
+import { MasterEnquiryTypeComponent } from './master-enquiry-type/master-enquiry-type.component';
+import {  AddEnquiryTypeComponent} from './master-enquiry-type/add-enquiry-type.component';
+import { MasterRoleComponent } from './master-resource/master-role.component';
+import { AddMasterRoleComponent } from './master-resource/add-role-component';
+import { UserRoleMappingComponent } from './user-role-mapping/user-role-mapping.component'
+import { AddUserRoleMappingComponent } from './user-role-mapping/add-userRole-mapping.component';
 
 import { from } from 'rxjs';
+import { NPSLostScoreComponent } from './npslost-score/npslost-score.component';
+import { NPSWonScoreComponent } from './npswon-score/npswon-score.component';
 
 
 const appRoutes: Routes = [
@@ -46,13 +56,13 @@ const appRoutes: Routes = [
     { path: 'calendar', component: CalendarComponent  , canActivate: [AuthGuard]},
     { path: 'dashboard', component: DashboardComponent  , canActivate: [AuthGuard]},
     { path: 'homepage', component: HomePageComponent  , canActivate: [AuthGuard] },
-    { path: 'forgotpassword', component: ForgotpasswordComponent  , canActivate: [AuthGuard]},
+    { path: 'forgotpassword', component: ForgotpasswordComponent },
     { path: 'Changepassword', component: ChangepasswordComponent , canActivate: [AuthGuard] } ,
     { path: 'masterCompetitor', component: MasterCompetitorComponent , canActivate: [AuthGuard]},
     { path: 'masterProduct', component: MasterProductComponent , canActivate: [AuthGuard]},
     { path: 'masterRangeMapping' , component: MasterRangeMappingComponent , canActivate: [AuthGuard] },
     { path: 'masterResource' , component: MasterResourceComponent , canActivate: [AuthGuard]},
-    { path: 'masterResourceRoleMapping' , component: MasterResourceRoleMappingComponent , canActivate: [AuthGuard]},
+   // { path: 'masterResourceRoleMapping' , component: MasterResourceRoleMappingComponent , canActivate: [AuthGuard]},
     { path: 'masterSubRangeMapping' , component: MasterSubRangeMappingComponent , canActivate: [AuthGuard]},
     { path: 'addProduct' , component: AddProductComponent , canActivate: [AuthGuard]},
     { path: 'addResource', component: AddResourceComponent , canActivate: [AuthGuard]},
@@ -60,6 +70,17 @@ const appRoutes: Routes = [
     { path: 'addRangeMapping' , component: AddRangeMappingComponent , canActivate: [AuthGuard]},
     { path: 'addIndustry', component: AddIndustryComponent,  canActivate: [AuthGuard]},
     { path: 'masterIndustry', component: MasterIndustryComponent, canActivate: [AuthGuard]},
+    { path: 'masterEnquirySource', component: MasterEnquirySourceComponent , canActivate: [AuthGuard]},
+    { path: 'addEnquirySource', component: AddEnquirySourceComponent , canActivate: [AuthGuard]},
+    { path: 'addCompetitor', component: AddCompetitorComponent , canActivate: [AuthGuard]},
+    { path: 'masterEnquiryType', component: MasterEnquiryTypeComponent , canActivate: [AuthGuard]},
+    { path: 'addEnquiryType', component: AddEnquiryTypeComponent , canActivate: [AuthGuard]},
+    { path: 'npsLostScores', component: NPSLostScoreComponent , canActivate: [AuthGuard]},
+    { path: 'npsWonScores', component: NPSWonScoreComponent , canActivate: [AuthGuard]},
+    { path: 'masterRole' , component: MasterRoleComponent , canActivate: [AuthGuard]},
+    { path: 'addMasterRole' , component: AddMasterRoleComponent , canActivate: [AuthGuard]},
+    { path: 'userRoleMapping' , component: UserRoleMappingComponent , canActivate: [AuthGuard]},
+    { path: 'addUserRoleMapping' , component: AddUserRoleMappingComponent , canActivate: [AuthGuard]},
     { path: '**', redirectTo: '' }
 ];
 export const routing = RouterModule.forRoot(appRoutes, { useHash: true} ) ;
