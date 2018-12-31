@@ -73,9 +73,11 @@ export class AddResourceComponent implements OnInit {
                    IsActive: this.RList[0].IsActive === 1 ? true : false
                 });
                 this.disabledReset = false;
-                if (this.RList[0].FK_Designation_Id === 4 || this.RList[0].FK_Designation_Id === 5 ||
-                   this.RList[0].FK_Designation_Id === 6 || this.RList[0].FK_Designation_Id === 7) {
-                  this.ZoneShowHideFlag = true;
+                if (this.RList[0].FK_Designation_Id === 2 ||
+                    this.RList[0].FK_Designation_Id === 3 ||
+                    this.RList[0].FK_Designation_Id === 5 ||
+                    this.RList[0].FK_Designation_Id === 4) {
+                   this.ZoneShowHideFlag = true;
                   this.resourceservice.GetStateList(this.RList[0].FK_Zone_Id)
                   .subscribe(data1 => {
                     this.Statelist = data1;
@@ -83,7 +85,9 @@ export class AddResourceComponent implements OnInit {
                 } else {
                   this.ZoneShowHideFlag = false;
                 }
-                if (this.RList[0].FK_Designation_Id === 6 || this.RList[0].FK_Designation_Id === 7) {
+                if (this.RList[0].FK_Designation_Id === 3 ||
+                  this.RList[0].FK_Designation_Id === 4 ||
+                  this.RList[0].FK_Designation_Id === 5) {
                   this.stateShowHideFlag = true;
                 } else {  this.stateShowHideFlag = false ; }
               });
@@ -104,12 +108,17 @@ export class AddResourceComponent implements OnInit {
         });
     }
     onChangeSelectDesignation(val: any) {
-          if (val.target.value === '4' || val.target.value === '5' || val.target.value === '6' || val.target.value === '7') {
+          if (val.target.value === '2' ||
+              val.target.value === '3' ||
+              val.target.value === '4' ||
+              val.target.value === '5') {
               this.ZoneShowHideFlag = true;
             } else {
               this.ZoneShowHideFlag = false;
             }
-            if (val.target.value === '6' || val.target.value === '7') {
+            if (val.target.value === '3' ||
+                val.target.value === '4' ||
+                val.target.value === '5') {
               this.stateShowHideFlag = true;
             } else {  this.stateShowHideFlag = false ; }
     }

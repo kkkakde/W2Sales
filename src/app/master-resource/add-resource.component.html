@@ -81,7 +81,8 @@
                         <div *ngIf="f.ddlDesignation.errors.required">is required</div>
                       </div>
                   </div>
-                  <div class="form-group pd0 col-sm-12 " *ngIf="ZoneShowHideFlag">
+                <div class="clearfix"></div>
+                  <div *ngIf="ZoneShowHideFlag">
                         <div class="col-md-2 form-group">
                           <label class="mandatory" for="">Zone</label>
                         </div>
@@ -97,8 +98,8 @@
                                     <div *ngIf="f.ddlZone.errors.required">is required</div>
                                   </div>
                         </div>
-                       </div>
-                       <div class="form-group pd0 col-sm-12 " *ngIf="stateShowHideFlag">
+                </div>
+                       <div  *ngIf="stateShowHideFlag">
                             <div class="col-md-2 form-group">
                                     <label class="mandatory" for="">State</label>
                                 </div>
@@ -115,6 +116,38 @@
                                             </div>
                                 </div>
                     </div>
+                    <div class="clearfix"></div>
+                    <div class="col-md-2 form-group">
+                        <label class="mandatory" for="">ASM/TM</label>
+                      </div>
+                      <div class="col-md-2 form-group ">
+                        <select  formControlName="ddlDesignation" class="form-control" (change)="onChangeSelectDesignation($event)"
+                            title="Please Select Designation">
+                           <option value="" disabled>Select</option>
+                           <option *ngFor="let data of Designationlist" value={{data.PK_Designation_Id}}>
+                            {{data.Designation_Desc}}
+                           </option>
+                        </select>
+                          <div *ngIf="submitted && f.ddlDesignation.errors" class="invalid-feedback">
+                            <div *ngIf="f.ddlDesignation.errors.required">is required</div>
+                          </div>
+                      </div>
+                      
+                      <div class="col-md-2 form-group">
+                          <label class="mandatory" for="">Dealer</label>
+                        </div>
+                        <div class="col-md-2 form-group ">
+                          <select  formControlName="ddlDesignation" class="form-control" (change)="onChangeSelectDesignation($event)"
+                              title="Please Select Designation">
+                             <option value="" disabled>Select</option>
+                             <option *ngFor="let data of Designationlist" value={{data.PK_Designation_Id}}>
+                              {{data.Designation_Desc}}
+                             </option>
+                          </select>
+                            <div *ngIf="submitted && f.ddlDesignation.errors" class="invalid-feedback">
+                              <div *ngIf="f.ddlDesignation.errors.required">is required</div>
+                            </div>
+                        </div>
                   <div class="clearfix"></div>
                   <div class="col-md-4">
                     <input formControlName="IsActive" [checked]="IsActive == true" type="checkbox" style="vertical-align: middle; margin: 0 5px 0 0;">
