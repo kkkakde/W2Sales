@@ -21,6 +21,12 @@ export class Resource {
   GetStateList(Zone_Id) {
     return this.http.post(`${environment.apiUrl}Api_Common/GetStateList?Zone_Id=` + Zone_Id, {});
   }
+  GetASMTMList(State_Id) {
+    return this.http.post(`${environment.apiUrl}Api_Common/GetASMDetails?State_Id=` + State_Id, { });
+  }
+  GetDealerList(ASM_Id) {
+    return this.http.post(`${environment.apiUrl}Api_Common/GetDealerDetails?ASM_Id=` + ASM_Id, { });
+  }
   ResourceList(PKResourceId) {
     return this.http.post(`${environment.apiUrl}Api_MasterResource/ResourceList?PK_Resource_Id=` + PKResourceId, {});
   }

@@ -27,4 +27,22 @@ export class UserService {
   delete(id: number) {
     return this.http.delete(`${environment.apiUrl}/users/` + id);
   }
+  GetBLMDetails() {
+    return this.http.post(`${environment.apiUrl}/Api_SearchFilter/GetBLMDetails`, { });
+  }
+  GetZMDetails() {
+    return this.http.post(`${environment.apiUrl}/Api_SearchFilter/GetZMDetails`, { });
+  }
+  GetASMDetails(Zone_Id) {
+    return this.http.post(`${environment.apiUrl}/Api_SearchFilter/GetASMDetails?FK_Zone_Id=` + Zone_Id , { });
+  }
+  GetDealerDetails(body) {
+    return this.http.post(`${environment.apiUrl}/Api_SearchFilter/GetDealerDetails`, body);
+  }
+  GetSalesEngineerDetails(body) {
+    return this.http.post(`${environment.apiUrl}/Api_SearchFilter/GetSalesEngineerDetails`, body);
+  }
+  SearchData(body) {
+    return this.http.post(`${environment.apiUrl}/Api_SearchFilter/SearchData`, body);
+  }
 }

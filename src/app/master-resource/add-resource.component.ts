@@ -19,9 +19,13 @@ export class AddResourceComponent implements OnInit {
   public Designationlist: any;
   public Zonelist: any;
   public Statelist: any;
+  public ASMlist: any;
+  public DealerList: any;
   public RList: any;
   public ZoneShowHideFlag: boolean;
   public stateShowHideFlag: boolean;
+  public ASMShowHideFlag: boolean;
+  public DealerShowHideFlag: boolean;
   public disabledReset: boolean ;
   public ResourceId;
   public mobileNum: any;
@@ -35,6 +39,8 @@ export class AddResourceComponent implements OnInit {
     ngOnInit() {
               this.stateShowHideFlag = false;
               this.ZoneShowHideFlag = false;
+              this.ASMShowHideFlag = false;
+              this.DealerShowHideFlag = false;
               this.disabledReset = true;
               this.ResourceId = 0;
               this.GetDesignationList();
@@ -47,13 +53,13 @@ export class AddResourceComponent implements OnInit {
               LoginID : ['',  Validators.required],
               Resource_Password : ['',  Validators.required],
               Resource_EmailID : ['', Validators.required],
-              // Resource_Password : ['',  Validators.required, Validators.minLength(6)],
-              // Resource_EmailID : ['', [Validators.required, Validators.email]],
               Resource_Mobile_No : ['',  Validators.required],
               ddlDesignation : ['',  Validators.required],
               ddlZone : ['',  ''],
               ddlstate : ['',  ''],
-              IsActive : ['', '']
+              IsActive : ['', ''],
+              ddlASM : ['', ''],
+              ddlDealer : ['', '']
               });
               this.queryParamData = this.route.queryParams.subscribe(params => {
                 if ( params['PK_Resource_Id'] !== undefined) {
@@ -70,25 +76,38 @@ export class AddResourceComponent implements OnInit {
                    ddlDesignation: this.RList[0].FK_Designation_Id,
                    ddlZone: this.RList[0].FK_Zone_Id,
                    ddlstate: this.RList[0].FK_State_Id,
+                   ddlASM: this.RList[0].AreaManager_Id,
+                   ddlDealer: this.RList[0].Dealer_Id,
                    IsActive: this.RList[0].IsActive === 1 ? true : false
                 });
                 this.disabledReset = false;
-                if (this.RList[0].FK_Designation_Id === 4 || this.RList[0].FK_Designation_Id === 5 ||
-                   this.RList[0].FK_Designation_Id === 6 || this.RList[0].FK_Designation_Id === 7) {
-                  this.ZoneShowHideFlag = true;
-                  this.resourceservice.GetStateList(this.RList[0].FK_Zone_Id)
-                  .subscribe(data1 => {
-                    this.Statelist = data1;
-                  });
-                } else {
-                  this.ZoneShowHideFlag = false;
-                }
-                if (this.RList[0].FK_Designation_Id === 6 || this.RList[0].FK_Designation_Id === 7) {
-                  this.stateShowHideFlag = true;
+                if (this.RList[0].FK_Designation_Id !== 1 ) {
+                this.ZoneShowHideFlag = true;
+                this.resourceservice.GetStateList(this.RList[0].FK_Zone_Id)
+                .subscribe(data1 => {
+                  this.Statelist = data1;
+                });
+                } else { this.ZoneShowHideFlag = false; }
+                if (this.RList[0].FK_Designation_Id === 3 || this.RList[0].FK_Designation_Id === 4 ||
+                  this.RList[0].FK_Designation_Id === 5) { this.stateShowHideFlag = true;
                 } else {  this.stateShowHideFlag = false ; }
+                if (this.RList[0].FK_Designation_Id === 4 || this.RList[0].FK_Designation_Id === 5) {
+                  this.ASMShowHideFlag = true;
+                  this.resourceservice.GetASMTMList(this.RList[0].FK_State_Id)
+                  .subscribe(data1 => {
+                    this.ASMlist = data1;
+                  });
+                } else {  this.ASMShowHideFlag = false ; }
+                if (this.RList[0].FK_Designation_Id === 5) {
+                this.DealerShowHideFlag = true;
+                this.resourceservice.GetDealerList(this.RList[0].AreaManager_Id)
+                .subscribe(data2 => {
+                  this.DealerList = data2;
+                });
+                } else {this.DealerShowHideFlag = false; }
               });
             }
-              });
+          });
     }
     get f() { return this.addresourceForm.controls; }
     GetDesignationList() {
@@ -103,21 +122,41 @@ export class AddResourceComponent implements OnInit {
           this.Zonelist = data;
         });
     }
+    onChangeSelectZone(val: any) {
+      this.resourceservice.GetStateList(val.target.value)
+      .subscribe(data => {
+        this.Statelist = data;
+      });
+    }
+    onChangeSelectstate(val: any) {
+      this.resourceservice.GetASMTMList(val.target.value)
+      .subscribe(data => {
+        this.ASMlist = data;
+      });
+      this.f.ddlASM.setValue('');
+      this.f.ddlDealer.setValue('');
+      this.resourceservice.GetDealerList(0)
+      .subscribe(data => {
+        this.DealerList = data;
+      });
+    }
+    onChangeSelectASM(val: any) {
+      this.resourceservice.GetDealerList(val.target.value)
+      .subscribe(data => {
+        this.DealerList = data;
+      });
+    }
     onChangeSelectDesignation(val: any) {
-          if (val.target.value === '4' || val.target.value === '5' || val.target.value === '6' || val.target.value === '7') {
+            if (val.target.value !== '1') {
               this.ZoneShowHideFlag = true;
-            } else {
-              this.ZoneShowHideFlag = false;
-            }
-            if (val.target.value === '6' || val.target.value === '7') {
+            } else { this.ZoneShowHideFlag = false; }
+            if (val.target.value === '4' || val.target.value === '5') {
+              this.stateShowHideFlag = true; this.ASMShowHideFlag = true;
+            } else {  this.stateShowHideFlag = false ;  this.ASMShowHideFlag = false; }
+            if (val.target.value === '3' || val.target.value === '4' || val.target.value === '5') {
               this.stateShowHideFlag = true;
             } else {  this.stateShowHideFlag = false ; }
-    }
-    onChangeSelectZone(val: any) {
-            this.resourceservice.GetStateList(val.target.value)
-            .subscribe(data => {
-              this.Statelist = data;
-            });
+            if (val.target.value === '5') { this.DealerShowHideFlag = true; } else {  this.DealerShowHideFlag = false ; }
     }
     onSubmit() {
     this.submitted = true;
@@ -136,8 +175,10 @@ export class AddResourceComponent implements OnInit {
         Resource_Email_Id: this.f.Resource_EmailID.value,
         Resource_Mobile_No: this.f.Resource_Mobile_No.value,
         FK_Designation_Id: this.f.ddlDesignation.value,
-        FK_State_Id : this.f.ddlstate.value,
         FK_Zone_Id : this.f.ddlZone.value,
+        FK_State_Id : this.f.ddlstate.value,
+        AreaManager_Id : this.f.ddlASM.value,
+        Dealer_Id : this.f.ddlDealer.value,
         IsActive: this.f.IsActive.value === true ? 1 : 0,
         Created_By: this.session.session.PK_Resource_Id
       };

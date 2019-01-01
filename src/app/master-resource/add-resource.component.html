@@ -81,7 +81,8 @@
                         <div *ngIf="f.ddlDesignation.errors.required">is required</div>
                       </div>
                   </div>
-                  <div class="form-group pd0 col-sm-12 " *ngIf="ZoneShowHideFlag">
+                <div class="clearfix"></div>
+                  <div *ngIf="ZoneShowHideFlag">
                         <div class="col-md-2 form-group">
                           <label class="mandatory" for="">Zone</label>
                         </div>
@@ -97,24 +98,58 @@
                                     <div *ngIf="f.ddlZone.errors.required">is required</div>
                                   </div>
                         </div>
-                       </div>
-                       <div class="form-group pd0 col-sm-12 " *ngIf="stateShowHideFlag">
+                  </div>
+                  <div *ngIf="stateShowHideFlag">
                             <div class="col-md-2 form-group">
                                     <label class="mandatory" for="">State</label>
-                                </div>
-                                <div class="col-md-2 form-group ">
-                                        <select  formControlName="ddlstate" class="form-control" 
-                                        title="Please Select Resource State">
+                            <div class="col-md-2 form-group ">
+                                <select  formControlName="ddlstate" class="form-control" (change)="onChangeSelectstate($event)"
+                                        title="Please Select State">
                                     <option value="" disabled>Select</option>
                                     <option *ngFor="let data of Statelist" value={{data.PK_State_Id}}>
                                         {{data.State_Desc}}
                                     </option>
-                                    </select>
-                                            <div *ngIf="submitted && f.ddlstate.errors" class="invalid-feedback">
-                                            <div *ngIf="f.ddlstate.errors.required">is required</div>
-                                            </div>
+                                </select>
+                                <div *ngIf="submitted && f.ddlstate.errors" class="invalid-feedback">
+                                <div *ngIf="f.ddlstate.errors.required">is required</div>
                                 </div>
-                    </div>
+                            </div>
+                  </div>
+                  <div class="clearfix"></div>
+                  <div *ngIf="ASMShowHideFlag">
+                    <div class="col-md-2 form-group">
+                        <label class="mandatory" for="">ASM/TM</label>
+                      </div>
+                      <div class="col-md-2 form-group ">
+                        <select  formControlName="ddlASM" class="form-control" (change)="onChangeSelectASM($event)"
+                            title="Please Select ASM/TM">
+                           <option value="" disabled>Select</option>
+                           <option *ngFor="let data of ASMlist" value={{data.PK_Resource_Id}}>
+                            {{data.Resource_Name}}
+                           </option>
+                        </select>
+                          <div *ngIf="submitted && f.ddlASM.errors" class="invalid-feedback">
+                            <div *ngIf="f.ddlASM.errors.required">is required</div>
+                          </div>
+                      </div>
+                  </div>
+                  <div *ngIf="DealerShowHideFlag"> 
+                      <div class="col-md-2 form-group">
+                          <label class="mandatory" for="">Dealer</label>
+                        </div>
+                        <div class="col-md-2 form-group ">
+                          <select  formControlName="ddlDealer" class="form-control" 
+                              title="Please Select Dealer">
+                             <option value="" disabled>Select</option>
+                             <option *ngFor="let data of DealerList" value={{data.PK_Resource_Id}}>
+                              {{data.Resource_Name}}
+                             </option>
+                          </select>
+                            <div *ngIf="submitted && f.ddlDealer.errors" class="invalid-feedback">
+                              <div *ngIf="f.ddlDealer.errors.required">is required</div>
+                            </div>
+                        </div>
+                  </div>
                   <div class="clearfix"></div>
                   <div class="col-md-4">
                     <input formControlName="IsActive" [checked]="IsActive == true" type="checkbox" style="vertical-align: middle; margin: 0 5px 0 0;">
