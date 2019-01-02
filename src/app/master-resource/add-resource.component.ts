@@ -191,4 +191,14 @@ export class AddResourceComponent implements OnInit {
     Reset() {
       this.addresourceForm.reset();
     }
+
+
+
+
+
+
+
+
+
+    
     }
