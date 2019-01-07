@@ -14,6 +14,7 @@ declare var $: any;
   styleUrls: ['./add-userRole-mapping.component.css']
 })
 export class AddUserRoleMappingComponent implements OnInit {
+  timer: any = null;
   public session: any;
   addUserRoleMappingForm: FormGroup;
   loading = false;
@@ -59,13 +60,13 @@ export class AddUserRoleMappingComponent implements OnInit {
        'IsActive' : params['IsActive']
       } 
     });
-    console.log("state  ", this.userRoleMapping.FK_State_Id);
+    this.f.Zone_Name.setValue(this.userRoleMapping.FK_Zone_Id);
     this.f.User_Name.setValue(this.userRoleMapping.FK_User_Id);
     this.f.Role_Type.setValue(this.userRoleMapping.FK_Role_Id);
-    this.f.Zone_Name.setValue(this.userRoleMapping.FK_Zone_Id);
     this.f.State_Name.setValue(this.userRoleMapping.FK_State_Id);
     this.f.IsActive.setValue(this.userRoleMapping.IsActive);
-    this.getStateList(this.userRoleMapping.FK_Zone_Id);
+    this.getStateList_update(this.userRoleMapping.FK_Zone_Id);
+
   }
 
   get f() { return this.addUserRoleMappingForm.controls;
@@ -82,23 +83,27 @@ export class AddUserRoleMappingComponent implements OnInit {
   getMasterRoles(){
     this.userRoleService.getAllRoleDetails().subscribe(result => {
       this.roleList = result;
-      console.log("", this.roleList);
     });
   }
 
   getZoneList(){
     this.commonService.getZoneList().subscribe(result => {
       this.zoneList = result;
-      console.log("result", result);
     });
   }
   
   getStateList(e){
-    console.log("e.target.value", e.target.value);
     this.commonService.getStateList(e.target.value).subscribe(result => {
       this.stateList = result;
     });
   }
+
+  getStateList_update(zoneId){
+    this.commonService.getStateList(zoneId).subscribe(result => {
+      this.stateList = result;
+    });
+  }
+
  
   onSubmit() {
     var param;
@@ -108,7 +113,7 @@ export class AddUserRoleMappingComponent implements OnInit {
         this.loading = false;
         return;
     }else{
-      if(this.userRoleMapping.Role_Id != undefined){
+      if(this.userRoleMapping.PK_UserRole_Id != undefined){
          param = {
           PK_UserRole_Id:  this.userRoleMapping.PK_UserRole_Id,
           FK_User_Id: this.f.User_Name.value,
@@ -120,7 +125,7 @@ export class AddUserRoleMappingComponent implements OnInit {
         };
         this.userRoleService.updateUserRoleMappingDetails(param).subscribe(result => {
           this.userRoleList = result;
-          this.Router.navigate(['/masterRole']);
+          this.Router.navigate(['/userRoleMapping']);
           this.loading = false;
         });
       }else{

@@ -23,6 +23,7 @@
                     <th>Role Description</th>
                     <th>Zone</th>
                     <th>State</th>
+                    <th>Status</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -34,8 +35,11 @@
                     <td>{{userRole.PK_UserRole_Id}}</td>
                     <td>{{userRole.ResourceName}}</td>
                     <td>{{userRole.RoleName}}</td>
-                    <td>{{userRole.StateName}}</td>
                     <td>{{userRole.ZoneName}}</td>
+                    <td>{{userRole.StateName}}</td>
+                  
+                    <td><span *ngIf="userRole.IsActive==0">InActive</span><span *ngIf="userRole.IsActive==1">Active</span></td>
+                    
                       <td>
                           <a class="btn" (click)="editUserRoleDetails(userRole)">
                            <i class="fa fa-pencil-square-o"></i>
