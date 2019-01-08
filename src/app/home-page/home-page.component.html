@@ -8,93 +8,109 @@
         </ul>
     <form [formGroup]="SerachForm" (ngSubmit)="onSubmit()">
             <div class="tab-content">
-                    <div class="tab-pane fade in active" id="tabone">   
-                    <div class="col-md-2 form-group">
-                        <label class="mandatory">BLM</label>
+                    <div class="tab-pane fade in active" id="tabone"> 
+                    <div *ngIf="BLMShowHidetbl">
+                            <div class="col-md-2 form-group">
+                                    <label class="mandatory">BLM</label>
+                                </div>
+                                <div class="col-md-2 form-group ">
+                                 <select  formControlName="BLMName" class="form-control"
+                                  title="Please select BLM">
+                                <option value="" disabled>Select</option>
+                                <option *ngFor="let data of BLMlist" value={{data.FK_Designation_Id}}>
+                                 {{data.Resource_Name}}
+                                </option>
+                                </select>
+                                <div *ngIf="submitted && f.BLMName.errors" class="invalid-feedback">
+                                <div *ngIf="f.BLMName.errors.required">is required</div>
+                                </div>
+                                </div>
+                    </div>  
+                    <div *ngIf="ZMShowHidetbl">
+                            <div class="col-md-2 form-group">
+                                    <label class="mandatory">ZM</label>
+                                </div>
+                                <div class="col-md-2 form-group">
+                                        <select  formControlName="ZMName" class="form-control" (change)="onChangeSelectZM($event)"
+                                        title="Please select ZM">
+                                    <option value="" disabled>Select</option>
+                                    <option *ngFor="let data of ZMlist" value={{data.FK_Zone_Id}}>
+                                    {{data.Resource_Name}}
+                                    </option>
+                                    </select>
+                                    <div *ngIf="submitted && f.ZMName.errors" class="invalid-feedback">
+                                    <div *ngIf="f.ZMName.errors.required">is required</div>
+                                    </div>
+                                </div>
                     </div>
-                    <div class="col-md-2 form-group ">
-                     <select  formControlName="BLMName" class="form-control"
-                      title="Please select BLM">
-                    <option value="" disabled>Select</option>
-                    <option *ngFor="let data of BLMlist" value={{data.FK_Designation_Id}}>
-                     {{data.Resource_Name}}
-                    </option>
-                    </select>
-                    <div *ngIf="submitted && f.BLMName.errors" class="invalid-feedback">
-                    <div *ngIf="f.BLMName.errors.required">is required</div>
+                    <div *ngIf="ASMTMShowHidetbl">
+                            <div class="col-md-2 form-group">
+                                    <label class="mandatory">ASM/TM</label>
+                                </div>
+                                <div class="col-md-2 form-group">
+                                        <select  formControlName="ASMName" class="form-control" (change)="onChangeSelectASM($event)"
+                                        title="Please select ASM">
+                                      <option value="" disabled>Select</option>
+                                      <option *ngFor="let data of ASMlist" value={{data.FK_State_Id}}>
+                                       {{data.Resource_Name}}
+                                      </option>
+                                      </select>
+                                      <div *ngIf="submitted && f.ASMName.errors" class="invalid-feedback">
+                                      <div *ngIf="f.ASMName.errors.required">is required</div>
+                                      </div>
+                                </div>
                     </div>
+                    <div *ngIf="DealerShowHidetbl">
+                            <div class="col-md-2 form-group">
+                                    <label class="mandatory">Dealer</label>
+                                </div>
+                                <div class="col-md-2 form-group">
+                                    <select  formControlName="DealerName" class="form-control" (change)="onChangeSelectDealer($event)"
+                                        title="Please select dealer">
+                                    <option value="" disabled>Select</option>
+                                    <option *ngFor="let data of Dealerlist" value={{data.PK_Resource_Id}}>
+                                    {{data.Resource_Name}}
+                                    </option>
+                                    </select>
+                                    <div *ngIf="submitted && f.DealerName.errors" class="invalid-feedback">
+                                    <div *ngIf="f.DealerName.errors.required">is required</div>
+                                    </div>
+                                </div>
                     </div>
-                    <div class="col-md-2 form-group">
-                        <label class="mandatory">ZM</label>
+                    <div *ngIf="SalesEShowHidetbl">
+                        <div class="col-md-2 form-group">
+                                <label class="mandatory">Sales Engineer</label>
+                            </div>
+                            <div class="col-md-2 form-group">
+                                <select  formControlName="SalesEngineer" class="form-control"
+                                title="Please select sales engineer">
+                                  <option value="" disabled>Select</option>
+                                  <option *ngFor="let data of SalesEngineerlist" value={{data.PK_Resource_Id}}>
+                                   {{data.Resource_Name}}
+                                  </option>
+                                </select>
+                                  <div *ngIf="submitted && f.SalesEngineer.errors" class="invalid-feedback">
+                                  <div *ngIf="f.SalesEngineer.errors.required">is required</div>
+                                  </div>
+                            </div>
                     </div>
-                    <div class="col-md-2 form-group">
-                            <select  formControlName="ZMName" class="form-control" (change)="onChangeSelectZM($event)"
-                            title="Please select ZM">
-                          <option value="" disabled>Select</option>
-                          <option *ngFor="let data of ZMlist" value={{data.FK_Zone_Id}}>
-                           {{data.Resource_Name}}
-                          </option>
-                          </select>
-                          <div *ngIf="submitted && f.ZMName.errors" class="invalid-feedback">
-                          <div *ngIf="f.ZMName.errors.required">is required</div>
-                          </div>
-                    </div>
-                    <div class="col-md-2 form-group">
-                        <label class="mandatory">ASM/TM</label>
-                    </div>
-                    <div class="col-md-2 form-group">
-                            <select  formControlName="ASMName" class="form-control" (change)="onChangeSelectASM($event)"
-                            title="Please select ASM">
-                          <option value="" disabled>Select</option>
-                          <option *ngFor="let data of ASMlist" value={{data.FK_State_Id}}>
-                           {{data.Resource_Name}}
-                          </option>
-                          </select>
-                          <div *ngIf="submitted && f.ASMName.errors" class="invalid-feedback">
-                          <div *ngIf="f.ASMName.errors.required">is required</div>
-                          </div>
-                    </div>
-                    <div class="col-md-2 form-group">
-                        <label class="mandatory">Dealer</label>
-                    </div>
-                    <div class="col-md-2 form-group">
-                        <select  formControlName="DealerName" class="form-control" (change)="onChangeSelectDealer($event)"
-                            title="Please select dealer">
-                          <option value="" disabled>Select</option>
-                          <option *ngFor="let data of Dealerlist" value={{data.AreaManager_Id}}>
-                           {{data.Resource_Name}}
-                          </option>
-                          </select>
-                          <div *ngIf="submitted && f.DealerName.errors" class="invalid-feedback">
-                          <div *ngIf="f.DealerName.errors.required">is required</div>
-                          </div>
-                    </div>
-                    <div class="col-md-2 form-group">
-                        <label class="mandatory">Sales Engineer</label>
-                    </div>
-                    <div class="col-md-2 form-group">
-                        <select  formControlName="SalesEngineer" class="form-control"
-                        title="Please select sales engineer">
-                          <option value="" disabled>Select</option>
-                          <option *ngFor="let data of SalesEngineerlist" value={{data.PK_Resource_Id}}>
-                           {{data.Resource_Name}}
-                          </option>
-                        </select>
-                          <div *ngIf="submitted && f.SalesEngineer.errors" class="invalid-feedback">
-                          <div *ngIf="f.SalesEngineer.errors.required">is required</div>
-                          </div>
-                    </div>
-                    <div class="clearfix"></div>
                     <div class="col-md-2">
-                        <button class="btn btn-primary">Search</button>&nbsp;
+                        <button id="Searchbtn" class="btn btn-primary">Search</button>&nbsp;
+                        <button id="Exportbtn" class="btn btn-primary" (click)="exportAsCust()">Export</button>
                     </div>
                     <div class="clearfix"></div>
+                    <div class="clearfix"></div>
+                    <div *ngIf="CustomerShowHidetbl===true" >
+                    <div class="white_box opportunity_modal" style="margin: 10px 0 0 0;">
+                        <ul class="nav nav-tabs">
+                            <li class="active">
+                             <a>Customer List</a>
+                             </li>
+                         </ul>
                     <table class="table table-bordered report_table">
                         <thead>
                             <tr>
-                                <th (click)="sort('PK_Cust_Id')">SR.No.
-                                        <span class="glyphicon sort-icon" *ngIf="key =='PK_Cust_Id'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-                                </th>
+                                <th>SR.No.</th>
                                 <th (click)="sort('Cust_Name')">Customer Name
                                      <span class="glyphicon sort-icon" *ngIf="key =='Cust_Name'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
                                 </th>
@@ -103,24 +119,34 @@
                                    </th>
                                 <th (click)="sort('Cust_Address_Line1')">Address
                                         <span class="glyphicon sort-icon" *ngIf="key =='Cust_Address_Line1'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                                </th>
+                                <th (click)="sort('Cust_Cmprsd_Air_App')">Comp Air App
+                                    <span class="glyphicon sort-icon" *ngIf="key =='Cust_Cmprsd_Air_App'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+        
+                                </th>
+                                <th (click)="sort('Cust_End_Product')">End Product
+                                        <span class="glyphicon sort-icon" *ngIf="key =='Cust_End_Product'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
             
                                 </th>
                                 <th (click)="sort('Cust_CntctPrson_Contact_No')">Contact
                                         <span class="glyphicon sort-icon" *ngIf="key =='Cust_CntctPrson_Contact_No'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
                                 </th>
-                           
+                                <th class="text-center"> </th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let item of customerlistdata | paginate:{ id: 'listing_pagination',
-                            itemsPerPage:8,
+                            <tr *ngFor="let item of list | paginate:{ id: 'listing_pagination',
+                            itemsPerPage:5,
                             currentPage:page,
                             totalItems: totalRec }| orderBy: key : reverse  | filter:filter; let i = index  ">
-                                <td>{{item.PK_Cust_Id}}</td>
+                                <td>{{i +1 }}</td>
                                 <td>{{item.Cust_Name}}</td>
                                 <td>{{item.VisitType}}</td>
                                 <td>{{item.Cust_Address_Line1}}</td>
+                                <td>{{item.Cust_Cmprsd_Air_App}}</td>
+                                <td>{{item.Cust_End_Product | uppercase}}</td>
                                 <td>{{item.Cust_CntctPrson_Contact_No }}</td>
+                                <td><a title="Customer Opportunity Details" class="btn btn-info btnedit" (click)="OpportunityDetails(item)">+</a>&nbsp;&nbsp;</td>
                             </tr>
                         </tbody>
                         <tfoot>
@@ -132,10 +158,75 @@
                                 </tr>
                                 </tfoot>
                     </table>
+                    </div>
+                    </div>
+                    <div *ngIf="OpportunityShowHidetbl">
+                        <div class="white_box opportunity_modal" style="margin: 10px 0 0 0;">
+                            <ul class="nav nav-tabs">
+                            <li class="active">
+                            <a>Customer -> Opportunity List -> {{customerName}}</a>
+                            </li>
+                            </ul>
+                            <table class="table table-bordered report_table">
+                                <thead>
+                                <tr>
+                                    <th>SR.No.</th>
+                                    <th (click)="sort('Cust_Name')">Account
+                                        <span class="glyphicon sort-icon" *ngIf="key =='Cust_Name'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                                    </th>
+                                    <th (click)="sort('Closed_Date')">Expected Order Date
+                                        <span class="glyphicon sort-icon" *ngIf="key =='Closed_Date'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                                    </th>
+                                    <th (click)="sort('Sales_Phase')">Sales Phase
+                                        <span class="glyphicon sort-icon" *ngIf="key =='Sales_Phase'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                                    </th>
+                                    <th (click)="sort('Resource_Name')">Owner
+                                        <span class="glyphicon sort-icon" *ngIf="key =='Resource_Name'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                                    </th>
+                                    <th (click)="sort('Added_Date')">Created On
+                                        <span class="glyphicon sort-icon" *ngIf="key =='Added_Date'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                                    </th>
+                                    <th (click)="sort('Expected_Value')">Expected Value
+                                        <span class="glyphicon sort-icon" *ngIf="key =='Expected_Value'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                                    </th>
+                                    <th >Status
+                                    <span class="glyphicon sort-icon" *ngIf="key =='Expected_Value'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                                </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr *ngFor="let data of list | paginate:{ id: 'listing_pagination',
+                                itemsPerPage:8,
+                                currentPage:page,
+                                totalItems: totalRec } | orderBy: key : reverse  | filter:filter; let i = index">
+                                    <td>{{i +1 }}</td>   
+                                    <td>{{data.Opportunity_Name}}</td>
+                                    <td>{{data.Closed_Date}}</td>
+                                    <td>{{data.Sales_Phase}}</td>
+                                    <td>{{data.Resource_Name }}</td>
+                                    <td>{{data.Added_Date }}</td>
+                                    <td>{{data.Expected_Value }}</td>
+                                    <td>{{data.Status }}</td>
+                                </tr>
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <td colspan="12">
+                                    <pagination-controls id="listing_pagination" maxSize="5" directionLinks="true"
+                                    (pageChange)="page = $event"></pagination-controls>
+                                    </td>
+                                </tr>
+                                </tfoot>
+                            </table>
+                            <button class="btn btn-primary" (click)="BacktoCustomer()">Back</button>&nbsp;
+                        </div>
+                  </div>
                 </div>
             </div>  
     </form>
-    </div>
+
+</div>
+
 </div>
 <!-- <div class="col-md-12" style="margin-top: 10px;"> -->
   <!-- <div class="white_box"> -->

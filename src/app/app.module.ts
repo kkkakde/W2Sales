@@ -14,7 +14,7 @@ import { JwtInterceptor, ErrorInterceptor,  } from './_helpers';
 import { SegmentType, MappingType, SubRangeDetails, ProductDetails} from './_models';
 import { AlertService, AuthenticationService, UserService, Customer, Opportunities, visit,
     Competitor, CommonService, ProductService , SubRangeMappingService, Resource, Master, NPSScores,
-UserRoleService } from './_services/';
+UserRoleService, SearchFilter} from './_services/';
 import { HomeComponent } from './home';
 import { LoginComponent } from './login';
 import { RegisterComponent } from './register';
@@ -156,6 +156,7 @@ FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme, FintTheme);
         SubRangeMappingService,
         NPSScores,
         UserRoleService,
+        SearchFilter,
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
 

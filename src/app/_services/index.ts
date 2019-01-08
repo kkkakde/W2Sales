@@ -13,3 +13,4 @@ export * from './master.service';
 export * from './competitor.service';
 export * from './npsscores.service';
 export * from './userRole.Service';
+export * from './searchfilter.service';
