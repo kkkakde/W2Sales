@@ -21,6 +21,7 @@
                     <th>Product ID</th>
                     <th>Product Name</th>
                     <th>Description</th>
+                    <th>Status</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -32,9 +33,7 @@
                     <td>{{item.Product_Id}}</td>
                     <td>{{item.Product_Name}}</td>
                     <td>{{item.Product_Desc}}</td>
-                    <!-- <td><a class="btn btn-info btnedit" (click)="editProductDetails(item)">Edit</a>
-                        <button   class="btn btn-info btnedit" (click)="AddopportunityDetails(item)">Add Opportunity</button>&nbsp;
-                    </td> -->
+                    <td><span *ngIf="item.IsActive==0">InActive</span><span *ngIf="item.IsActive==1">Active</span></td>
                       <td>
                           <a class="btn" (click)="editProductDetails(item)">
                            <i class="fa fa-pencil-square-o"></i>

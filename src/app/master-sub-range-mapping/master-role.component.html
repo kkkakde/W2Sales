@@ -5,10 +5,10 @@
         <div class="report_outer" id="reportouter">
           <div class="report_heading col-md-8 nopadding">
             <div class="pull-left">
-                <h4>SubRange list</h4>
+                <h4>Role list</h4>
             </div>
             <div class=" pull-left" style="margin-left: 20px;">
-                <a  class="btn btn-info btn_addnew" (click)="navigateToAddSubRange()">+ Add New SubRange</a>              
+                <a  class="btn btn-info btn_addnew" (click)="navigateToAddRole()">+ Add New Role</a>              
             </div>
             <div class="clearfix"></div>
           </div>
@@ -18,29 +18,27 @@
           <table class="table table-bordered report_table">
             <thead>
                 <tr>
-                    <th>SubRange ID</th>
-                    <th>Segment ID</th>
-                    <th>SubRange Name</th>
+                    <th>Role ID</th>
+                    <th>Role Name</th>
                     <th>Description</th>
                     <th>Status</th>
                     <th>Action</th>
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let item of subRangeDetails | paginate:{ id: 'listing_pagination',
+                <tr *ngFor="let role of userRoleDetails | paginate:{ id: 'listing_pagination',
                             itemsPerPage:5,
                             currentPage:page,
                             totalItems: totalRec }">
-                        <td>{{item.PK_SubRange_Id}}</td>
-                        <td>{{item.FK_W2S_List_Id}}</td>
-                        <td>{{item.SubRange_Name}}</td>
-                        <td>{{item.SubRange_Description}}</td>
-                        <td><span *ngIf="item.IsActive==0">InActive</span><span *ngIf="item.IsActive==1">Active</span></td>
-                        <td>
-                            <a class="btn" (click)="editSubRangeDetails(item)">
-                            <i class="fa fa-pencil-square-o"></i>
-                            </a>
-                        </td>
+                    <td>{{role.PK_Role_Id}}</td>
+                    <td>{{role.Name}}</td>
+                    <td>{{role.Description}}</td>
+                    <td><span *ngIf="role.IsActive==0">InActive</span><span *ngIf="role.IsActive==1">Active</span></td>
+                      <td>
+                          <a class="btn" (click)="editRoleDetails(role)">
+                           <i class="fa fa-pencil-square-o"></i>
+                          </a>
+                      </td>
                 </tr>
             </tbody>
             <tfoot>
