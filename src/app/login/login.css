@@ -6,7 +6,7 @@ html,body{
 .allcenter_outer{
 	position: absolute;
 	/*top: 50%;*/
-	top: 10%;
+	top: 5%;
 	text-align: center;
 	width: 100%;
 	/*margin: -150px auto 0;*/
@@ -34,11 +34,7 @@ html,body{
 /*css for login page*/
 .login_box{
 	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#9be4ff+0,0088bb+100 */
-background: #9be4ff; /* Old browsers */
-background: -moz-linear-gradient(top, #9be4ff 0%, #0088bb 100%); /* FF3.6-15 */
-background: -webkit-linear-gradient(top, #9be4ff 0%,#0088bb 100%); /* Chrome10-25,Safari5.1-6 */
-background: linear-gradient(to bottom, #9be4ff 0%,#0088bb 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#9be4ff', endColorstr='#0088bb',GradientType=0 ); /* IE6-9 */
+background-color: #0088bb;
 	color: #fff; 
 	padding: 30px 30px;
 }

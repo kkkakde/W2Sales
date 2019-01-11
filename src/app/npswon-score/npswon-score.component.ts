@@ -21,7 +21,6 @@ export class NPSWonScoreComponent implements OnInit {
     this.npssourceservice.WonList(body)
     .subscribe(data => {
       this.Wonlist = data;
-      // alert(JSON.stringify(this.Wonlist));
     });
   }
 
