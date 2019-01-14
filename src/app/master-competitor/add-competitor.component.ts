@@ -74,7 +74,9 @@ public CList: any;
     };
     this.competitorservice.AddCompetitor(body)
       .subscribe(data => {
-        alert('Competitor save successfully');
+        if (data === 'edit') {
+           alert('Competitor edited successfully');
+           } else {  alert('Competitor save successfully');}
         this.router.navigate(['/masterCompetitor']);
       },
       error => {

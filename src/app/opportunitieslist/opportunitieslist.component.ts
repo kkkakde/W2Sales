@@ -388,7 +388,7 @@ export class OpportunitieslistComponent implements OnInit {
   Add_Quotation() {
     this.loading = true;
     if (this.attchment === null || this.attchment === undefined) {
-      alert ('please attach a file');
+      alert ('please select file first ');
       this.loading = false;
       return false;
       }

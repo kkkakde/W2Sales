@@ -89,7 +89,8 @@ FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme, FintTheme);
         FusionChartsModule,
         NgxSpinnerModule,
         AgmCoreModule.forRoot({
-            apiKey: 'AIzaSyAYv74bRujxn0wTupVthJtm4eJxVbsfYdo'
+            // apiKey: 'AIzaSyAYv74bRujxn0wTupVthJtm4eJxVbsfYdo'
+            apiKey: 'AIzaSyCnnaksEYiHWa3VjPvjCDNRwFbaHJXQJMw'
           }),
         CalendarModule.forRoot({
             provide: DateAdapter,
@@ -134,7 +135,7 @@ FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme, FintTheme);
         UserRoleMappingComponent,
         MasterRoleComponent,
         AddMasterRoleComponent,
-        AddUserRoleMappingComponent
+        AddUserRoleMappingComponent,
     ],
     providers: [
         AuthGuard,

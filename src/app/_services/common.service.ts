@@ -25,16 +25,19 @@ export class CommonService {
     getZoneList() {
         return this.http.post(`${environment.apiUrl}Api_Common/GetZoneAllList`, {});
     }
-
     getStateList(Zone_Id) {
         return this.http.post(`${environment.apiUrl}Api_Common/GetStateList?Zone_Id=` + Zone_Id, {});
     }
-
     getUserDetails() {
         let url = `${environment.apiUrl}Api_Common/GetUserDetails`
         return this.http
           .get(url)
           .map((result: Response) => result);
     }
-
+    getLatLongList(CreatedBy) {
+        return this.http.post(`${environment.apiUrl}Api_Common/getLatLongList?CreatedBy=` + CreatedBy, { });
+    }
+    SearchFilterWiseData(body1) {
+        return this.http.post(`${environment.apiUrl}Api_Common/SearchFilterWiseData`, body1);
+    }
 }
