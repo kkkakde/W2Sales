@@ -25,15 +25,17 @@
           <th>Opportunity Name</th>
           <th>Won Value</th>
           <th>Won Remark</th>
+          <th>Won Attachement</th>
           <!-- <th class="text-center">Action</th> -->
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let item of Wonlist?.Response | paginate:{ id: 'listing_pagination',itemsPerPage:5,currentPage:page,totalItems: totalRec}| orderBy: key : reverse | filter:filter; let i = index">
+        <tr *ngFor="let item of Wonlist | paginate:{ id: 'listing_pagination',itemsPerPage:5,currentPage:page,totalItems: totalRec}| orderBy: key : reverse | filter:filter; let i = index">
           <td>{{item.CustomerName}}</td>
           <td>{{item.OpportunityName}}</td>
           <td>{{item.Won_Value}}</td>
           <td>{{item.Won_Remarks}}</td>
+          <td><a href="{{item.Url}} " target="_blank">{{item.FileName}}</a></td>
           <!-- <td class="text-center"><button class="fa fa-trash" title="Delete" style="cursor: pointer" (click)="DeleteWon(item)"></button> </td> -->
         </tr>
       </tbody>

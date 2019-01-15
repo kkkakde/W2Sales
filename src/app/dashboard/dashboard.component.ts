@@ -1,22 +1,42 @@
 import { Component, OnInit } from '@angular/core';
-
-
-
-
+import { CommonService,SearchFilter} from '../_services';
+import {FormGroup,FormBuilder} from '@angular/forms';
+    import { from } from 'rxjs';
+import { text } from '@angular/core/src/render3/instructions';
+    declare var jquery: any;
+declare var $: any;
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent implements OnInit {
+  SerachForm: FormGroup;
   public  title: string = '';
-  public  lat: number = 19.8762;
-  public  lng: number = 75.3433;
-  public  lat1: number = 18.5204;
-  public  lng2: number = 73.8567;
+  public getLatLongList:any;
+  public ListData:any;
+  public session: any;
+  public lat:number;
+  public lng:number;
+  public BLMlist: any;
+  public ZMlist: any;
+  public ASMlist: any;
+  public Dealerlist: any;
+  public SalesEngineerlist: any;
+  public BLMShowHidetbl = true;
+  public ZMShowHidetbl = true;
+  public ASMTMShowHidetbl = true;
+  public DealerShowHidetbl = true;
+  public SalesEShowHidetbl = true;
+  public list:any;
+  public headerName;
+  public ZM;
+  public ASMTM;
+  public Dealer;
+  public SalesEngineer;
+  public headerShowHidetbl:any;
   public  type1 = 'bar2d';
     // first
- 
     dataFormat1 = 'json';
     dataSource1 = {
         "chart": {
@@ -477,7 +497,7 @@ export class DashboardComponent implements OnInit {
             "value": "10"
         }
     ]
-};
+    };
     // seventh
     type7 = 'stackedcolumn2d';
     dataFormat7 = 'json';
@@ -866,14 +886,158 @@ export class DashboardComponent implements OnInit {
             }
         ]
     };
+    constructor(private commonservice:CommonService,
+    private formBuilder: FormBuilder,
+    private searchfilterservice:SearchFilter) {
+    }
+    ngOnInit() {
+    this.GetBLMDetails();
+    this.GetZMDetails();
+    this.session = {
+        session: JSON.parse(localStorage.getItem('currentUser'))
+        };
+        if (this.session.session.FK_Designation_Id === 1) { this.BLMShowHidetbl = false; }
+        if (this.session.session.FK_Designation_Id === 2) {
+          this.BLMShowHidetbl = false;
+          this.ZMShowHidetbl = false;
+          this.searchfilterservice.GetASMDetails(this.session.session.FK_Zone_Id)
+          .subscribe(data => {
+             this.ASMlist =  data;
+          });
+         }
+         if (this.session.session.FK_Designation_Id === 3) {
+          this.BLMShowHidetbl = false;
+          this.ZMShowHidetbl = false;
+          this.ASMTMShowHidetbl = false;
+          let body = {
+            FK_Zone_Id: this.session.session.FK_Zone_Id,
+            FK_State_Id: this.session.session.FK_State_Id,
+           };
+          this.searchfilterservice.GetDealerDetails(body)
+          .subscribe(data => {
+             this.Dealerlist =  data;
+          });
+         }
+        if (this.session.session.FK_Designation_Id === 4) {
+         this.BLMShowHidetbl = false;
+         this.ZMShowHidetbl = false;
+         this.ASMTMShowHidetbl = false;
+         this.DealerShowHidetbl = false;
+         let body = {
+          FK_Zone_Id: this.session.session.FK_Zone_Id,
+          FK_State_Id: this.session.session.FK_State_Id,
+          Dealer_Id:  this.session.session.PK_Resource_Id,
+         };
+        this.searchfilterservice.GetSalesEngineerDetails(body)
+        .subscribe(data => {
+           this.SalesEngineerlist =  data;
+        });
+         }
+      this.SerachForm = this.formBuilder.group({
+        BLMName : ['', ''],
+        ZMName : ['', ''],
+        ASMName : ['', ''],
+        DealerName : ['', ''],
+        SalesEngineer : ['', '']
+      });
+    this.lat=18.5204;
+    this.lng=73.8567;
+    this.commonservice.getLatLongList(this.session.session.PK_Resource_Id)
+    .subscribe(data => {
+     this.getLatLongList = data
+      });
+    }
+    get f() { return this.SerachForm.controls; }
+    GetBLMDetails() {
+    this.searchfilterservice.GetBLMDetails()
+    .subscribe(data => {
+       this.BLMlist =  data;
+    });
+    }
+    GetZMDetails() {
+    this.searchfilterservice.GetZMDetails()
+    .subscribe(data => {
+       this.ZMlist =  data;
+    });
+    }
+    onChangeSelectZM(val: any) {
+    let zm = val.target.options[val.target.options.selectedIndex].text;
+    this.ZM=zm +'->';
+    this.searchfilterservice.GetASMDetails(val.target.value)
+    .subscribe(data => {
+       this.ASMlist =  data;
+    });
+    }
+    onChangeSelectASM(val:any) {
+    let asm = val.target.options[val.target.options.selectedIndex].text;
+    this.ASMTM=asm +'->';
+     let body = {
+      FK_Zone_Id: this.session.session.FK_Zone_Id,
+      FK_State_Id: this.f.ASMName.value,
+     };
+    this.searchfilterservice.GetDealerDetails(body)
+    .subscribe(data => {
+       this.Dealerlist =  data;
+    });
+    }
+    onChangeSelectDealer(val:any) {
+    let dealer = val.target.options[val.target.options.selectedIndex].text;
+    this.Dealer=dealer +'->';
+    let body = {
+      FK_Zone_Id: this.session.session.FK_Zone_Id,
+      FK_State_Id: this.session.session.FK_State_Id,
+      Dealer_Id: this.f.DealerName.value
+     };
+    this.searchfilterservice.GetSalesEngineerDetails(body)
+    .subscribe(data => {
+       this.SalesEngineerlist =  data;
+    });
+    }
+    onChangeSelectsales(val:any) {
+    let Sales = val.target.options[val.target.options.selectedIndex].text;
+    this.SalesEngineer=Sales;
+    }
+    showpopup() {
+      $('.panel-collapse').collapse('show');
+     this.SerachForm.get('ZMName').setValue('');
+     this.SerachForm.get('ASMName').setValue('');
+     this.SerachForm.get('DealerName').setValue('');
+     this.SerachForm.get('SalesEngineer').setValue('');
+    }
+    onSubmit() {
+    $('.panel-collapse').collapse('hide');
+    let body = {
+      FK_Zone_Id: this.f.ZMName.value,
+      FK_State_Id: this.f.ASMName.value,
+      AreaManager_Id: this.f.DealerName.value,
+      PK_Resource_Id: this.f.SalesEngineer.value
+    };
+    
+    this.commonservice.SearchFilterWiseData(body)
+    .subscribe(data => {
+      this.ListData = data;
+    });
+    }
 
 
-  constructor() {
 
-  }
 
-  ngOnInit() {
 
-  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }

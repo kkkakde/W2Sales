@@ -388,7 +388,7 @@ export class OpportunitieslistComponent implements OnInit {
   Add_Quotation() {
     this.loading = true;
     if (this.attchment === null || this.attchment === undefined) {
-      alert ('please attach a file');
+      alert ('please select file first ');
       this.loading = false;
       return false;
       }
@@ -579,9 +579,9 @@ export class OpportunitieslistComponent implements OnInit {
         };
         this.authenticationservice.Add_attachmentwon(body)
         .subscribe(data => {
-          alert('Uploaded Successfully');
           this.filename = data;
           this.UFileName = this.filename.Response;
+          alert(this.filename.Message);
         });
   }
   BtnNextWon() {

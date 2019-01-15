@@ -1,6 +1,129 @@
 <app-menubar></app-menubar>
-
-<div class="db_body col-md-12" style="margin-bottom: 50px;">    
+<div class="db_body col-md-12" style="margin-bottom: 50px;"> 
+    <div class="panel-group" id="accordion">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title pull-left" >
+                           {{this.ZM}}{{this.ASMTM}}{{this.Dealer}}{{this.SalesEngineer}}  
+                        </h4>
+                        <h4 class="panel-title pull-right">
+                            <a data-toggle="collapse" data-parent="#accordion" (click)="showpopup()">
+                                Search here: 
+                                <i class="fa fa-search"></i>
+                            </a>
+                        </h4>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div id="collapseOne" class="panel-collapse collapse ">
+                        <div class="panel-body">
+                                <form [formGroup]="SerachForm" (ngSubmit)="onSubmit()">
+                                        <div class="tab-content">
+                                                <div class="tab-pane fade in active" id="tabone"> 
+                                                <div *ngIf="BLMShowHidetbl">
+                                                        <div class="col-md-2 form-group">
+                                                                <label class="mandatory">BLM</label>
+                                                            </div>
+                                                            <div class="col-md-2 form-group ">
+                                                             <select  formControlName="BLMName" class="form-control"
+                                                              title="Please select BLM">
+                                                            <option value="" disabled>Select</option>
+                                                            <option *ngFor="let data of BLMlist" value={{data.FK_Designation_Id}}>
+                                                             {{data.Resource_Name}}
+                                                            </option>
+                                                            </select>
+                                                            <div *ngIf="submitted && f.BLMName.errors" class="invalid-feedback">
+                                                            <div *ngIf="f.BLMName.errors.required">is required</div>
+                                                            </div>
+                                                            </div>
+                                                </div>  
+                                                <div *ngIf="ZMShowHidetbl">
+                                                        <div class="col-md-2 form-group">
+                                                                <label class="mandatory">ZM</label>
+                                                            </div>
+                                                            <div class="col-md-2 form-group">
+                                                                    <select  formControlName="ZMName" class="form-control" (change)="onChangeSelectZM($event)"
+                                                                    title="Please select ZM">
+                                                                <option value="" disabled>Select</option>
+                                                                <option *ngFor="let data of ZMlist" value={{data.FK_Zone_Id}}>
+                                                                {{data.Resource_Name}}
+                                                                </option>
+                                                                </select>
+                                                                <div *ngIf="submitted && f.ZMName.errors" class="invalid-feedback">
+                                                                <div *ngIf="f.ZMName.errors.required">is required</div>
+                                                                </div>
+                                                            </div>
+                                                </div>
+                                                <div *ngIf="ASMTMShowHidetbl">
+                                                        <div class="col-md-2 form-group">
+                                                                <label class="mandatory">ASM/TM</label>
+                                                            </div>
+                                                            <div class="col-md-2 form-group">
+                                                                    <select  formControlName="ASMName" class="form-control" (change)="onChangeSelectASM($event)"
+                                                                    title="Please select ASM">
+                                                                  <option value="" disabled>Select</option>
+                                                                  <option *ngFor="let data of ASMlist" value={{data.FK_State_Id}}>
+                                                                   {{data.Resource_Name}}
+                                                                  </option>
+                                                                  </select>
+                                                                  <div *ngIf="submitted && f.ASMName.errors" class="invalid-feedback">
+                                                                  <div *ngIf="f.ASMName.errors.required">is required</div>
+                                                                  </div>
+                                                            </div>
+                                                </div>
+                                                <div *ngIf="DealerShowHidetbl">
+                                                        <div class="col-md-2 form-group">
+                                                                <label class="mandatory">Dealer</label>
+                                                            </div>
+                                                            <div class="col-md-2 form-group">
+                                                                <select  formControlName="DealerName" class="form-control" (change)="onChangeSelectDealer($event)"
+                                                                    title="Please select dealer">
+                                                                <option value="" disabled>Select</option>
+                                                                <option *ngFor="let data of Dealerlist" value={{data.PK_Resource_Id}}>
+                                                                {{data.Resource_Name}}
+                                                                </option>
+                                                                </select>
+                                                                <div *ngIf="submitted && f.DealerName.errors" class="invalid-feedback">
+                                                                <div *ngIf="f.DealerName.errors.required">is required</div>
+                                                                </div>
+                                                            </div>
+                                                </div>
+                                                <div *ngIf="SalesEShowHidetbl">
+                                                    <div class="col-md-2 form-group">
+                                                            <label class="mandatory">Sales Engineer</label>
+                                                        </div>
+                                                        <div class="col-md-2 form-group">
+                                                            <select  formControlName="SalesEngineer" class="form-control" (change)="onChangeSelectsales($event)"
+                                                            title="Please select sales engineer">
+                                                              <option value="" disabled>Select</option>
+                                                              <option *ngFor="let data of SalesEngineerlist" value={{data.PK_Resource_Id}}>
+                                                               {{data.Resource_Name}}
+                                                              </option>
+                                                            </select>
+                                                              <div *ngIf="submitted && f.SalesEngineer.errors" class="invalid-feedback">
+                                                              <div *ngIf="f.SalesEngineer.errors.required">is required</div>
+                                                              </div>
+                                                        </div>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <button id="Searchbtn" class="btn btn-primary">Search</button>&nbsp;
+                                                </div>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </div>  
+                                </form>
+                                <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+                
+    </div>
+    <div class="col-md-12" style="padding: 0 7px;">
+        <h1>{{ title }}</h1>
+        <agm-map [latitude]="lat" [longitude]="lng">
+        <agm-marker *ngFor="let m of getLatLongList" [latitude]="m.lat" [longitude]="m.lng"  [label]="m.Cust_Name"></agm-marker>
+       </agm-map>
+    </div>
+    <div class="clearfix"></div><br>
     <div class="col-md-4" style="padding: 0 7px;">
         <div class="white_box" style="padding: 15px 10px;">
             <!-- <div id="SimpleBarSalesPhase" style="height: 250px;"></div> -->
@@ -50,7 +173,6 @@
         </fusioncharts>
         </div>
     </div>
-
     <div class="col-md-4" style="padding: 0 7px;">
         <div class="white_box" style="padding: 15px 10px;">
             <!-- <div id="WonLossRevenue" style="height: 250px;">FusionCharts will render here</div> -->
@@ -63,7 +185,6 @@
         </fusioncharts>
         </div>
     </div>
-
     <div class="col-md-4" style="padding: 0 7px;">
         <div class=" white_box" style="padding: 15px 10px;">
             <div class="table-responsive">
@@ -156,20 +277,5 @@
         </fusioncharts>
         </div>
     </div>
-
     <div class="clearfix"></div><br>
-    <div class="col-md-4" style="padding: 0 7px;">
-        <!-- <div class="white_box" style="padding: 15px 10px;">
-            <div id="googleMap" style="width:100%; height:250px;"></div>
-        </div> -->
-        <h1>{{ title }}</h1>
-
-<!-- this creates a google map on the page with the given lat/lng from -->
-<!-- the component as the initial center of the map: -->
-<agm-map [latitude]="lat" [longitude]="lng" [latitude]="lat1" [longitude]="lng1">
-        <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
-        <agm-marker [latitude]="lat1" [longitude]="lng1"></agm-marker>
-</agm-map>
-    </div>
-   
 </div>
