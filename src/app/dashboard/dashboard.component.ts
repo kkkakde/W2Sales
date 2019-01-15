@@ -886,6 +886,171 @@ export class DashboardComponent implements OnInit {
             }
         ]
     };
+    //ninth
+    type9 = 'column2d';
+    dataFormat9 = 'json';
+    dataSource9 = {
+        "chart": {
+            "caption": "Visits",
+            "captionFontSize": "16",
+            "captionFont": "UniversLTStd",
+            "captionFontBold": 0,
+            "captionFontColor": "#0088bb",
+            // "subcaption": "In MMbbl = One Million barrels",
+            "xaxisname": "Month",
+            "yaxisname": "Visit Count",
+            "numbersuffix": "K",
+            "theme": "fusion"
+        },
+        "data": [
+            {
+                "label": "Jan",
+                "value": "29"
+            },
+            {
+                "label": "Feb",
+                "value": "26"
+            },
+            {
+                "label": "Mar",
+                "value": "18"
+            },
+            {
+                "label": "Apr",
+                "value": "14"
+            },
+            {
+                "label": "May",
+                "value": "15"
+            },
+            {
+                "label": "Jun",
+                "value": "10"
+            },
+            {
+                "label": "Jul",
+                "value": "30"
+            },
+            {
+                "label": "Aug",
+                "value": "30"
+            },
+            {
+                "label": "Sep",
+                "value": "15"
+            },
+            {
+                "label": "Oct",
+                "value": "10"
+            },
+            {
+                "label": "Nov",
+                "value": "30"
+            },
+            {
+                "label": "Dec",
+                "value": "30"
+            }
+        ]
+    };
+    // tenth
+    type10 = 'column2d';
+    dataFormat10 = 'json';
+    dataSource10 = {
+        "chart": {
+            "caption": "Opportunities",
+            "captionFontSize": "16",
+            "captionFont": "UniversLTStd",
+            "captionFontBold": 0,
+            "captionFontColor": "#0088bb",
+            // "subcaption": "In MMbbl = One Million barrels",
+            "xaxisname": "Month",
+            "yaxisname": "Opportunities Count",
+            "numbersuffix": "K",
+            "theme": "fusion"
+        },
+        "data": [
+            {
+                "label": "Jan",
+                "value": "29"
+            },
+            {
+                "label": "Feb",
+                "value": "26"
+            },
+            {
+                "label": "Mar",
+                "value": "18"
+            },
+            {
+                "label": "Apr",
+                "value": "14"
+            },
+            {
+                "label": "May",
+                "value": "15"
+            },
+            {
+                "label": "Jun",
+                "value": "10"
+            },
+            {
+                "label": "Jul",
+                "value": "30"
+            },
+            {
+                "label": "Aug",
+                "value": "30"
+            },
+            {
+                "label": "Sep",
+                "value": "15"
+            },
+            {
+                "label": "Oct",
+                "value": "10"
+            },
+            {
+                "label": "Nov",
+                "value": "30"
+            },
+            {
+                "label": "Dec",
+                "value": "30"
+            }
+        ]
+    };
+    // eleventh
+    type11 = 'bar2d';
+    dataFormat11 = 'json';
+    dataSource11 = {
+        "chart": {
+            "caption": "Sales Phase",
+            "captionFontSize": "16",
+            "captionFont": "UniversLTStd",
+            "captionFontBold": 0,
+            "captionFontColor": "#0088bb",
+            "yaxisname": "Values(K)",
+            "aligncaptionwithcanvas": "0",
+            "plottooltext": "<b>$dataValue</b> Revenue Done",
+            "theme": "fusion"
+        },
+        "data": [
+            {
+                "label": "Qualification",
+                "value": "4"
+            },
+            {
+                "label": "Proposal",
+                "value": "3"
+            },
+            {
+                "label": "Negotiation",
+                "value": "2"
+            }
+        ]
+      };
+    //end
     constructor(private commonservice:CommonService,
     private formBuilder: FormBuilder,
     private searchfilterservice:SearchFilter) {

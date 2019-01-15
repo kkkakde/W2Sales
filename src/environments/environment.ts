@@ -4,9 +4,9 @@
 
 export const environment = {
 production: false,
-// apiUrl: 'http://95.154.244.61/services/api/',
+apiUrl: 'http://95.154.244.61/services/api/',
 // apiUrl: 'http://localhost:44841/api/',
- apiUrl: 'services/api/',
+// apiUrl: 'services/api/',
 // session: JSON.parse(localStorage.getItem('currentUser'))
 };
 
