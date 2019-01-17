@@ -1,6 +1,6 @@
 <app-menubar></app-menubar>
 <div class="db_body col-md-12" style="margin-bottom: 50px;"> 
-    <div class="panel-group" id="accordion">
+    <!-- <div class="panel-group" id="accordion" >
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title pull-left" >
@@ -116,7 +116,7 @@
                     </div>
                 </div>
                 
-    </div>
+    </div> -->
     <div class="col-md-12" style="padding: 0 7px;">
         <h1>{{ title }}</h1>
         <agm-map [latitude]="lat" [longitude]="lng">
@@ -126,62 +126,42 @@
     <div class="clearfix"></div><br>
     <div class="col-md-4" style="padding: 0 7px;">
         <div class="white_box" style="padding: 15px 10px;">
-            <!-- <div id="RevenueChart" style="height: 250px;"></div> -->
             <fusioncharts
-            width="100%" 
-            height="250"
-            [type]="type9"
-            [dataFormat]="dataFormat9"
-            [dataSource]="dataSource9">
-        </fusioncharts>
+            [chartConfig]=this.graphObj.visitchartConfig
+            [dataSource]=this.graphObj.visitdataSource>
+            </fusioncharts>
         </div>
     </div>
     <div class="col-md-4" style="padding: 0 7px;">
         <div class="white_box" style="padding: 15px 10px;">
-            <!-- <div id="RevenueChart" style="height: 250px;"></div> -->
             <fusioncharts
-            width="100%" 
-            height="250"
-            [type]="type10"
-            [dataFormat]="dataFormat10"
-            [dataSource]="dataSource10">
-        </fusioncharts>
+            [chartConfig]=this.graphObj.opportunitychartConfig
+            [dataSource]=this.graphObj.opportunitydataSource>
+           </fusioncharts>
         </div>
     </div>
     <div class="col-md-4" style="padding: 0 7px;">
         <div class="white_box" style="padding: 15px 10px;">
-            <!-- <div id="SimpleBarSalesPhase" style="height: 250px;"></div> -->
             <fusioncharts
-            width="100%" 
-            height="250"
-            [type]="type11"
-            [dataFormat]="dataFormat11"
-            [dataSource]="dataSource11">
+            [chartConfig]= this.graphObj.salesPhasechartConfig
+            [dataSource]= this.graphObj.salesPhasedataSource>
         </fusioncharts>
         </div>
     </div>
     <div class="clearfix"></div><br>
     <div class="col-md-4" style="padding: 0 7px;">
         <div class="white_box" style="padding: 15px 10px;">
-            <!-- <div id="SimpleBarSalesPhase" style="height: 250px;"></div> -->
             <fusioncharts
-            width="100%" 
-            height="250"
-            [type]="type1"
-            [dataFormat]="dataFormat1"
-            [dataSource]="dataSource1">
+            [chartConfig]= this.graphObj.revenueSummarychartConfig 
+            [dataSource]=this.graphObj.revenueSummarydataSource >
         </fusioncharts>
         </div>
     </div>
     <div class="col-md-4" style="padding: 0 7px;">
         <div class="white_box" style="padding: 15px 10px;">
-            <!-- <div id="RevenueChart" style="height: 250px;"></div> -->
             <fusioncharts
-            width="100%" 
-            height="250"
-            [type]="type2"
-            [dataFormat]="dataFormat2"
-            [dataSource]="dataSource2">
+            [chartConfig]=this.graphObj.revenueWonbySalesReprchartConfig
+            [dataSource]=this.graphObj.revenueWonbySalesReprdataSource>
         </fusioncharts>
         </div>
     </div>

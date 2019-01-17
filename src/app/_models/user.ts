@@ -11,3 +11,5 @@
     Resource_Email_Id: string;
     Reset_PasswordCode: string;
 }
+
+

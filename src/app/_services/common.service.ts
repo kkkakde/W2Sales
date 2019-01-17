@@ -6,6 +6,7 @@ import { Observable } from 'rxjs/Observable';
 import { SegmentType, MappingType, Menulist, } from '../_models';
 
 import 'rxjs/add/operator/map';
+import { Body } from '@angular/http/src/body';
 @Injectable()
 export class CommonService {
     constructor(private http: HttpClient) { }
@@ -36,6 +37,9 @@ export class CommonService {
     }
     getLatLongList(CreatedBy) {
         return this.http.post(`${environment.apiUrl}Api_Common/getLatLongList?CreatedBy=` + CreatedBy, { });
+    }
+    getCount(body) {
+        return this.http.post(`${environment.apiUrl}Api_Dashboard/DashboardCount` , body);
     }
     SearchFilterWiseData(body1) {
         return this.http.post(`${environment.apiUrl}Api_Common/SearchFilterWiseData`, body1);
