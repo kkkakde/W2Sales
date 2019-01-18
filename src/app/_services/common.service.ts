@@ -35,8 +35,8 @@ export class CommonService {
           .get(url)
           .map((result: Response) => result);
     }
-    getLatLongList(CreatedBy) {
-        return this.http.post(`${environment.apiUrl}Api_Common/getLatLongList?CreatedBy=` + CreatedBy, { });
+    getLatLongList(body) {
+        return this.http.post(`${environment.apiUrl}Api_Common/getLatLongList` , body);
     }
     getCount(body) {
         return this.http.post(`${environment.apiUrl}Api_Dashboard/DashboardCount` , body);
