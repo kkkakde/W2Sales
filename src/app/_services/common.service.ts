@@ -42,6 +42,6 @@ export class CommonService {
         return this.http.post(`${environment.apiUrl}Api_Dashboard/DashboardCount` , body);
     }
     SearchFilterWiseData(body1) {
-        return this.http.post(`${environment.apiUrl}Api_Common/SearchFilterWiseData`, body1);
+        return this.http.post(`${environment.apiUrl}Api_Dashboard/DashboardCount`, body1);
     }
 }

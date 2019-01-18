@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonService, SearchFilter} from '../_services';
 import {FormGroup, FormBuilder} from '@angular/forms';
 import { GraphObjectList } from '../_models/graph';
+import { getYear } from 'date-fns';
 declare var jquery: any;
 declare var $: any;
 @Component({
@@ -160,19 +161,19 @@ export class DashboardComponent implements OnInit {
          FK_Zone_Id: this.session.session.FK_Zone_Id,
          Created_By: this.session.session.PK_Resource_Id,
          };
-         // alert(JSON.stringify(bodylatlng));
         this.commonservice.getLatLongList(bodylatlng)
         .subscribe(data => {
         this.getLatLongList = data;
         });
         let body = {
             CreatedBy: this.session.session.PK_Resource_Id,
-            Year: new Date().getFullYear(),
+            StartDate:'01-01-'+ new Date().getFullYear()+'',
+            EndDate:'31-12-'+ new Date().getFullYear()+''
         };
         this.commonservice.getCount(body)
         .subscribe(res => {
-           this.GraphCountList = res;
-             this.graphObj.visitdataSource = {
+            this.GraphCountList = res;
+            this.graphObj.visitdataSource = {
                 'chart': {
                         'caption': 'Visits',
                         'captionFontSize': '16',
@@ -186,7 +187,7 @@ export class DashboardComponent implements OnInit {
                     },
                 'data': this.GraphCountList.visitCount
               };
-             this.graphObj.opportunitydataSource = {
+            this.graphObj.opportunitydataSource = {
                 'chart': {
                         'caption': 'Opportunity',
                         'captionFontSize': '16',
@@ -200,16 +201,16 @@ export class DashboardComponent implements OnInit {
                     },
                 'data': this.GraphCountList.opportunityCount
               };
-              this.graphObj.salesPhasedataSource = {
+            this.graphObj.salesPhasedataSource = {
                'chart': {
                   'caption': 'Sales Phase',
                   'captionFontSize': '16',
                   'captionFont': 'UniversLTStd',
                   'captionFontBold': 0,
                   'captionFontColor': '#0088bb',
-                  'yaxisname': 'Values(K)',
+                  'yaxisname': 'Values',
                   'aligncaptionwithcanvas': '0',
-                  'plottooltext': '<b>$dataValue</b> Revenue Done',
+                  'plottooltext': '<b>$dataValue</b>',
                   'theme': 'fusion'
               },
                'data': this.GraphCountList.salesPhaseCount
@@ -1015,6 +1016,17 @@ export class DashboardComponent implements OnInit {
               
             };
         });
+        $('#StartDate').datepicker({
+            startDate: new Date(),
+            format: "dd-M-yyyy",
+            defaultDate: new Date(), autoclose: true
+          });
+          $('#EndDate').datepicker({
+            startDate: new Date(),
+            format: "dd-M-yyyy",
+            defaultDate: new Date(), autoclose: true
+          });
+
     }
     get f() { return this.SerachForm.controls; }
     GetBLMDetails() {
@@ -1074,13 +1086,23 @@ export class DashboardComponent implements OnInit {
      this.SerachForm.get('SalesEngineer').setValue('');
     }
     onSubmit() {
+     var StartDate =new Date( $('#StartDate').val());
+     var EndDate = new Date ($('#EndDate').val());
+     if((StartDate.getFullYear()) !== (EndDate.getFullYear())) {
+       alert('Please select same year date');
+       return false;
+        }
     $('.panel-collapse').collapse('hide');
     let body = {
       FK_Zone_Id: this.f.ZMName.value,
       FK_State_Id: this.f.ASMName.value,
       AreaManager_Id: this.f.DealerName.value,
-      PK_Resource_Id: this.f.SalesEngineer.value
+      PK_Resource_Id: this.f.SalesEngineer.value,
+      StartDate:$('#StartDate').val(),
+      EndDate:$('#EndDate').val(),
+      CreatedBy: this.session.session.PK_Resource_Id
     };
+    // alert(JSON.stringify(body));
     this.commonservice.SearchFilterWiseData(body)
     .subscribe(data => {
       this.ListData = data;

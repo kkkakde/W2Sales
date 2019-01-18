@@ -1,6 +1,6 @@
 <app-menubar></app-menubar>
 <div class="db_body col-md-12" style="margin-bottom: 50px;"> 
-    <!-- <div class="panel-group" id="accordion" >
+    <div class="panel-group" id="accordion" >
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title pull-left" >
@@ -104,6 +104,19 @@
                                                               </div>
                                                         </div>
                                                 </div>
+                                                <div class="col-md-2 form-group">
+                                                    <label for="">Start Date</label>
+                                                  </div>
+                                                  <div class="col-md-2 form-group ">
+                                                    <input type="text" class="form-control " id="StartDate" placeholder="dd-mmm-yyyy"  onkeypress="return false; event.charCode >= 48 && event.charCode <= 57" onkeydown="return false" autocomplete="off">
+                                                  </div>
+                                                  <div class="col-md-2 form-group">
+                                                    <label for="">End Date</label>
+                                                  </div>
+                                                  <div class="col-md-2 form-group ">
+                                                    <input type="text" class="form-control " id="EndDate" placeholder="dd-mmm-yyyy"  onkeypress="return false; event.charCode >= 48 && event.charCode <= 57" onkeydown="return false" autocomplete="off">
+                                                  </div>
+
                                                 <div class="col-md-2">
                                                     <button id="Searchbtn" class="btn btn-primary">Search</button>&nbsp;
                                                 </div>
@@ -116,7 +129,7 @@
                     </div>
                 </div>
                 
-    </div> -->
+    </div>
     <div class="col-md-12" style="padding: 0 7px;">
         <h1>{{ title }}</h1>
         <agm-map [latitude]="lat" [longitude]="lng">
