@@ -30,8 +30,7 @@
                     <label class="mandatory">Login ID</label>
                   </div>
                   <div class="col-md-2 form-group ">
-                      <input class="form-control" maxlength="15"  formControlName="LoginID" placeholder="Login ID" title="Please Enter Resource Login ID" type="text"
-                      >
+                      <input class="form-control" maxlength="50"  formControlName="LoginID" placeholder="Login ID" title="Please Enter Resource Login ID" type="text">
                       <div *ngIf="submitted && f.LoginID.errors" class="invalid-feedback">
                           <div *ngIf="f.LoginID.errors.required">is required</div>
                         </div>

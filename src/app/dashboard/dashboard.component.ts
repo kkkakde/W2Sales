@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { CommonService, SearchFilter} from '../_services';
 import {FormGroup, FormBuilder} from '@angular/forms';
 import { GraphObjectList } from '../_models/graph';
-import { getYear } from 'date-fns';
 declare var jquery: any;
 declare var $: any;
 @Component({
@@ -166,9 +165,11 @@ export class DashboardComponent implements OnInit {
         this.getLatLongList = data;
         });
         let body = {
-            CreatedBy: this.session.session.PK_Resource_Id,
+            Created_By: this.session.session.PK_Resource_Id,
             StartDate:'01-01-'+ new Date().getFullYear()+'',
-            EndDate:'31-12-'+ new Date().getFullYear()+''
+            EndDate:'31-12-'+ new Date().getFullYear()+'',
+            FK_Designation_Id: this.session.session.FK_Designation_Id ,
+            FK_Zone_Id: this.session.session.FK_Zone_Id
         };
         this.commonservice.getCount(body)
         .subscribe(res => {
@@ -1019,6 +1020,7 @@ export class DashboardComponent implements OnInit {
         $('#StartDate').datepicker({
             startDate: new Date(),
             format: "dd-M-yyyy",
+            changeYear: true,
             defaultDate: new Date(), autoclose: true
           });
           $('#EndDate').datepicker({
@@ -1026,7 +1028,6 @@ export class DashboardComponent implements OnInit {
             format: "dd-M-yyyy",
             defaultDate: new Date(), autoclose: true
           });
-
     }
     get f() { return this.SerachForm.controls; }
     GetBLMDetails() {
@@ -1086,6 +1087,7 @@ export class DashboardComponent implements OnInit {
      this.SerachForm.get('SalesEngineer').setValue('');
     }
     onSubmit() {
+     this.GraphCountList='';
      var StartDate =new Date( $('#StartDate').val());
      var EndDate = new Date ($('#EndDate').val());
      if((StartDate.getFullYear()) !== (EndDate.getFullYear())) {
@@ -1100,12 +1102,53 @@ export class DashboardComponent implements OnInit {
       PK_Resource_Id: this.f.SalesEngineer.value,
       StartDate:$('#StartDate').val(),
       EndDate:$('#EndDate').val(),
-      CreatedBy: this.session.session.PK_Resource_Id
+      Created_By: this.f.SalesEngineer.value
     };
-    // alert(JSON.stringify(body));
     this.commonservice.SearchFilterWiseData(body)
     .subscribe(data => {
-      this.ListData = data;
+        this.GraphCountList = data;
+        this.graphObj.visitdataSource = {
+            'chart': {
+                    'caption': 'Visits',
+                    'captionFontSize': '16',
+                    'captionFont': 'UniversLTStd',
+                    'captionFontBold': 0,
+                    'captionFontColor': '#0088bb',
+                    'xaxisname': 'Month',
+                    'yaxisname': 'Visit Count' + ' ' +  new Date().getFullYear(),
+                    'numbersuffix': '',
+                    'theme': 'fusion'
+                },
+            'data': this.GraphCountList.visitCount
+          };
+        this.graphObj.opportunitydataSource = {
+            'chart': {
+                    'caption': 'Opportunity',
+                    'captionFontSize': '16',
+                    'captionFont': 'UniversLTStd',
+                    'captionFontBold': 0,
+                    'captionFontColor': '#0088bb',
+                    'xaxisname': 'Month',
+                    'yaxisname': 'Opportunity Count' + ' ' +  new Date().getFullYear(),
+                    'numbersuffix': '',
+                    'theme': 'fusion'
+                },
+            'data': this.GraphCountList.opportunityCount
+          };
+        this.graphObj.salesPhasedataSource = {
+           'chart': {
+              'caption': 'Sales Phase',
+              'captionFontSize': '16',
+              'captionFont': 'UniversLTStd',
+              'captionFontBold': 0,
+              'captionFontColor': '#0088bb',
+              'yaxisname': 'Values',
+              'aligncaptionwithcanvas': '0',
+              'plottooltext': '<b>$dataValue</b>',
+              'theme': 'fusion'
+          },
+           'data': this.GraphCountList.salesPhaseCount
+         };
     });
     }
 
