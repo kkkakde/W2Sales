@@ -8,6 +8,9 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./master-competitor.component.css']
 })
 export class MasterCompetitorComponent implements OnInit {
+  page: number ;
+  filter: any;
+  totalRec: number;
 public Competitorlist: any;
 public navigationExtras: any;
 key: string = 'name'; // set default
@@ -23,7 +26,7 @@ sort(key) {
     this.competitorservice.GetCompetitorList()
     .subscribe(data => {
       this.Competitorlist = data;
-      console.log(this.Competitorlist);
+      // console.log(this.Competitorlist);
     });
   }
   navigateToAddCompetitor() {

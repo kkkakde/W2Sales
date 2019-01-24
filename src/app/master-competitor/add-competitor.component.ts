@@ -80,7 +80,7 @@ public CList: any;
         this.router.navigate(['/masterCompetitor']);
       },
       error => {
-        console.log(JSON.stringify(error));
+        // console.log(JSON.stringify(error));
         alert('Error');
       });
   }

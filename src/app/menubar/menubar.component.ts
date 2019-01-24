@@ -34,7 +34,6 @@ public MenuList: any;
     this.commonService.GetMenuList(body)
     .subscribe(data => {
       this.MenuList = data;
-      console.log(this.MenuList);
     });
   }
 

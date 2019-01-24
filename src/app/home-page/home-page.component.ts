@@ -35,6 +35,7 @@ public ZMName;
               private formBuilder: FormBuilder) { }
    ngOnInit() {
     $('#Exportbtn').hide();
+    $('#Backbtn').hide();
     this.OpportunityShowHidetbl = false;
     this.GetBLMDetails();
     this.GetZMDetails();
@@ -140,6 +141,7 @@ public ZMName;
       if (this.list.length === 0 ) {
         $('#Exportbtn').hide();
         this.CustomerShowHidetbl = false;
+        alert('Not found data');
       } else {
         this.CustomerShowHidetbl = true;
         $('#Exportbtn').show();
@@ -187,10 +189,15 @@ public ZMName;
     this.searchfilterservice.OpportunityData(item.PK_Cust_Id)
     .subscribe(data1 => {
       this.opportunitieslistdata = data1;
-      this.list = data1;
-      if (this.list.length === 0 ) {
+      if (this.opportunitieslistdata.length === 0 ) {
         alert('Not found data');
+        $('#Backbtn').show();
+        this.OpportunityShowHidetbl = false;
+        this.CustomerShowHidetbl = true;
       } else {
+        this.list = data1;
+        $('#Exportbtn').hide();
+        $('#Backbtn').show();
         this.CustomerShowHidetbl = false;
         this.OpportunityShowHidetbl = true;
        }

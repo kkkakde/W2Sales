@@ -10,7 +10,9 @@ declare var $: any;
   styleUrls: ['./customerlist.component.css']
 })
 export class CustomerlistComponent implements OnInit {
-
+  page: number ;
+  filter: any;
+  totalRec: number;
 
   public customerlistdata: any;
   public navigationExtras: any;
@@ -27,7 +29,7 @@ export class CustomerlistComponent implements OnInit {
   sort(key) {
     this.key = key;
     this.reverse = !this.reverse;
-  };
+  }
   constructor(
     private authenticationService: Customer,
     private router: Router

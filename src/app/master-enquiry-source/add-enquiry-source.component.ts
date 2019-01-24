@@ -14,7 +14,7 @@ export class AddEnquirySourceComponent implements OnInit {
   public EnquirySourceId = 0;
   public queryParamData: any;
   public ESList: any;
-
+  public IsActive;
   constructor(private masterservice: Master,
     private formBuilder: FormBuilder,
     private router: Router,

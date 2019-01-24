@@ -10,6 +10,10 @@ declare var $: any;
   styleUrls: ['./master-product.component.css']
 })
 export class MasterProductComponent implements OnInit {
+
+  page: number ;
+  filter: any;
+  totalRec: number;
   public productDetails : any;
   public navigationExtras: any;
   constructor(private ProductService: ProductService, private Router: Router) { }

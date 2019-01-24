@@ -10,10 +10,13 @@ declare var $: any;
   styleUrls: ['./master-sub-range-mapping.component.css']
 })
 export class MasterSubRangeMappingComponent implements OnInit {
-  public subRangeDetails : any;
+  page: number ;
+  filter: any;
+  totalRec: number;
+  public subRangeDetails: any;
   public navigationExtras: any;
-  constructor(private Router: Router,
-              private subRangeMappingService : SubRangeMappingService) { }
+  constructor(private router: Router,
+              private subRangeMappingService: SubRangeMappingService) { }
 
   ngOnInit() {
       this.subRangeMappingService.getSubRangeDetails().subscribe(result => {
@@ -21,11 +24,11 @@ export class MasterSubRangeMappingComponent implements OnInit {
     });
   }
 
-  navigateToAddSubRange(){
-    this.Router.navigate(['/addSubRange']);
+  navigateToAddSubRange() {
+    this.router.navigate(['/addSubRange']);
   }
 
-  editSubRangeDetails(item){
+  editSubRangeDetails(item) {
     this.navigationExtras = {
       queryParams: {
         PK_SubRange_Id:  item.PK_SubRange_Id,
@@ -35,7 +38,7 @@ export class MasterSubRangeMappingComponent implements OnInit {
         IsActive: item.IsActive
       }
     };
-    this.Router.navigate(['/addSubRange'],this.navigationExtras);
+    this.router.navigate(['/addSubRange'], this.navigationExtras);
   }
 
 }

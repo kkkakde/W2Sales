@@ -63,7 +63,7 @@
             <select class="form-control" formControlName="Cust_PK_Zone_Id" (change)="getstateListChange($event)"
                     title="Please Select Zone">
               <option value="" disabled>Select</option>
-              <option *ngFor="let zone of ZoneIdList.Response" value={{zone.PK_Zone_Id}}>
+              <option *ngFor="let zone of ZoneIdList" value={{zone.PK_Zone_Id}}>
                 {{zone.Zone_Desc}}
               </option>
             </select>

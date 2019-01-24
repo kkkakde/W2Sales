@@ -7,8 +7,17 @@ import { NPSScores } from '../_services';
   styleUrls: ['./npswon-score.component.css']
 })
 export class NPSWonScoreComponent implements OnInit {
+  page: number ;
+  filter: any;
+  totalRec: number;
   public Wonlist: any;
   public session: any;
+  key: string = 'name'; // set default
+  reverse:boolean = false;
+  sort(key) {
+    this.key = key;
+    this.reverse = !this.reverse;
+  }
   constructor(private npssourceservice: NPSScores) { }
 
   ngOnInit() {

@@ -34,7 +34,7 @@ import { CalendarModule, DateAdapter} from 'angular-calendar';
 import {adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { Ng2SearchPipeModule } from 'ng2-search-filter'; // importing the module
 import { Ng2OrderModule } from 'ng2-order-pipe'; // importing the module
-
+import {FilterPipeModule} from 'ngx-filter-pipe';
 // Import angular-fusioncharts
 import { FusionChartsModule } from 'angular-fusioncharts';
 
@@ -68,7 +68,6 @@ import { NPSWonScoreComponent } from './npswon-score/npswon-score.component';
 import { NPSLostScoreComponent } from './npslost-score/npslost-score.component';
 import { UserRoleMappingComponent } from './user-role-mapping/user-role-mapping.component';
 import { MasterRoleComponent } from './master-resource/master-role.component';
-import { AddMasterRoleComponent } from './master-resource/add-role-component';
 import { AddUserRoleMappingComponent } from './user-role-mapping/add-userRole-mapping.component';
 import { AgmCoreModule } from '@agm/core';
 // Use fcRoot function to inject FusionCharts library, and the modules you want to use
@@ -88,6 +87,7 @@ FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme, FintTheme);
         Ng2SearchPipeModule , // including into imports
         FusionChartsModule,
         NgxSpinnerModule,
+        FilterPipeModule,
         AgmCoreModule.forRoot({
             // apiKey: 'AIzaSyAYv74bRujxn0wTupVthJtm4eJxVbsfYdo'
             apiKey: 'AIzaSyCnnaksEYiHWa3VjPvjCDNRwFbaHJXQJMw'
@@ -134,7 +134,6 @@ FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme, FintTheme);
         NPSLostScoreComponent,
         UserRoleMappingComponent,
         MasterRoleComponent,
-        AddMasterRoleComponent,
         AddUserRoleMappingComponent,
     ],
     providers: [

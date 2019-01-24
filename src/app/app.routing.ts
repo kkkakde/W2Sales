@@ -35,8 +35,8 @@ import { AddCompetitorComponent } from './master-competitor/add-competitor.compo
 import { MasterEnquiryTypeComponent } from './master-enquiry-type/master-enquiry-type.component';
 import {  AddEnquiryTypeComponent} from './master-enquiry-type/add-enquiry-type.component';
 import { MasterRoleComponent } from './master-resource/master-role.component';
-import { AddMasterRoleComponent } from './master-resource/add-role-component';
-import { UserRoleMappingComponent } from './user-role-mapping/user-role-mapping.component'
+// import { AddMasterRoleComponent } from './master-resource/add-role.component';
+import { UserRoleMappingComponent } from './user-role-mapping/user-role-mapping.component';
 import { AddUserRoleMappingComponent } from './user-role-mapping/add-userRole-mapping.component';
 
 import { from } from 'rxjs';
@@ -78,7 +78,7 @@ const appRoutes: Routes = [
     { path: 'npsLostScores', component: NPSLostScoreComponent , canActivate: [AuthGuard]},
     { path: 'npsWonScores', component: NPSWonScoreComponent , canActivate: [AuthGuard]},
     { path: 'masterRole' , component: MasterRoleComponent , canActivate: [AuthGuard]},
-    { path: 'addMasterRole' , component: AddMasterRoleComponent , canActivate: [AuthGuard]},
+    // { path: 'addMasterRole' , component: AddMasterRoleComponent , canActivate: [AuthGuard]},
     { path: 'userRoleMapping' , component: UserRoleMappingComponent , canActivate: [AuthGuard]},
     { path: 'addUserRoleMapping' , component: AddUserRoleMappingComponent , canActivate: [AuthGuard]},
     { path: '**', redirectTo: '' }

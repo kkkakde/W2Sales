@@ -7,6 +7,9 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./master-industry.component.css']
 })
 export class MasterIndustryComponent implements OnInit {
+  page: number ;
+  filter: any;
+  totalRec: number;
   public IndustryList: any;
   public navigationExtras: any;
   key: string = 'name'; // set default

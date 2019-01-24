@@ -15,7 +15,7 @@ export class Customer {
   }
   // Add CUstomer
   GetZoneList() {
-    return this.http.post(`${environment.apiUrl}Api_Trans_Opportunity/GetZoneList`, {});
+    return this.http.post(`${environment.apiUrl}Api_Common/GetZoneAllList`, {});
   }
   GetStateList(Zone_Id) {
     return this.http.post(`${environment.apiUrl}Api_Common/GetStateList?Zone_Id=` + Zone_Id, {});

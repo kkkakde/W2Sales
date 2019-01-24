@@ -7,22 +7,19 @@ import { SubRangeMappingService } from '../_services/subRangeMapping.service';
   styleUrls: ['./master-range-mapping.component.css']
 })
 export class MasterRangeMappingComponent implements OnInit {
-  public rangeMappingDetails : any;
+  page: number ;
+  filter: any;
+  totalRec: number;
+  public rangeMappingDetails: any;
   constructor(private Router: Router,
               private subRangeMappingService : SubRangeMappingService) { }
-
   ngOnInit() {
-
     this.subRangeMappingService.getRangeMappingDetails().subscribe(result => {
       this.rangeMappingDetails = result;
-      console.log("this.rangeMappingDetails  ", this.rangeMappingDetails);
+      // console.log("this.rangeMappingDetails  ", this.rangeMappingDetails);
     });
-   
   }
-
-  navigateToRangeMapping(){
+  navigateToRangeMapping() {
     this.Router.navigate(['/addRangeMapping']);
   }
-    
-  
 }

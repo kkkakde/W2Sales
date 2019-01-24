@@ -8,6 +8,9 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./master-resource.component.css']
 })
 export class MasterResourceComponent implements OnInit {
+  page: number ;
+  filter: any;
+  totalRec: number;
   public ResourceList: any;
   public navigationExtras: any;
   key: string = 'name'; // set default

@@ -252,7 +252,6 @@ export class AddCustomerComponent implements OnInit {
       Created_By: this.session.session.PK_Resource_Id,
       PK_Industry_Id: Industry_Id
     };
-    console.log(body);
     this.authenticationservice.SubmitCustomerDetails(body)
       .pipe(first())
       .subscribe(data => {
@@ -277,8 +276,7 @@ export class AddCustomerComponent implements OnInit {
   onChangeMake(val: any) {
     if ( val.target.value === 'Other' ) {
     this.makeFlag = true;
-    }
-    else {
+    } else {
       this.makeFlag = false;
     }
   }
@@ -429,7 +427,6 @@ export class AddCustomerComponent implements OnInit {
       });
   }
   onSelectAttachment(val: any) {
-    console.log(val);
     if (val.target.files[0].size > 200000) {
      alert('file size limit is maximum 2MB');
      $('#upload').val('');
@@ -438,15 +435,18 @@ export class AddCustomerComponent implements OnInit {
     this.attchment = val.target.files[0];
   }
   uploadVisitCard() {
+    if (this.attchment === null || this.attchment === undefined) {
+      alert ('please attach a file');
+      this.loading = false;
+      return false;
+      }
     this.authenticationservice.UploadVisitCard(this.attchment)
      .subscribe(data => {
           this.attachmenName = data ;
           alert('File Uploaded Successfully');
           $('#spanid').html('');
-          console.log(data);
      },
      error => {
-      console.log(JSON.stringify(error));
       alert(error);
     });
  }

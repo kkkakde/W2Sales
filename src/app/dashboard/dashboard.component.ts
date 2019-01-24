@@ -1044,7 +1044,7 @@ export class DashboardComponent implements OnInit {
     }
     onChangeSelectZM(val: any) {
     let zm = val.target.options[val.target.options.selectedIndex].text;
-    this.ZM=zm +'->';
+    this.ZM=zm +'/';
     this.searchfilterservice.GetASMDetails(val.target.value)
     .subscribe(data => {
        this.ASMlist =  data;
@@ -1052,7 +1052,7 @@ export class DashboardComponent implements OnInit {
     }
     onChangeSelectASM(val:any) {
     let asm = val.target.options[val.target.options.selectedIndex].text;
-    this.ASMTM=asm +'->';
+    this.ASMTM=asm +'/';
      let body = {
       FK_Zone_Id: this.session.session.FK_Zone_Id,
       FK_State_Id: this.f.ASMName.value,
@@ -1064,7 +1064,7 @@ export class DashboardComponent implements OnInit {
     }
     onChangeSelectDealer(val:any) {
     let dealer = val.target.options[val.target.options.selectedIndex].text;
-    this.Dealer=dealer +'->';
+    this.Dealer=dealer +'/';
     let body = {
       FK_Zone_Id: this.session.session.FK_Zone_Id,
       FK_State_Id: this.session.session.FK_State_Id,
@@ -1085,6 +1085,8 @@ export class DashboardComponent implements OnInit {
      this.SerachForm.get('ASMName').setValue('');
      this.SerachForm.get('DealerName').setValue('');
      this.SerachForm.get('SalesEngineer').setValue('');
+     $('#StartDate').val('');
+     $('#EndDate').val('');
     }
     onSubmit() {
      this.GraphCountList='';

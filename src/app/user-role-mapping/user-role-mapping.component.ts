@@ -7,21 +7,22 @@ import { UserRoleService} from '../_services/userRole.Service';
   styleUrls: ['./user-role-mapping.component.css']
 })
 export class UserRoleMappingComponent implements OnInit {
-  public userRoleMapping : any;
-  public navigationExtras : any;
-  constructor(private Router: Router, private userRoleService: UserRoleService) { }
+  page: number ;
+  filter: any;
+  totalRec: number;
+  public userRoleMapping: any;
+  public navigationExtras: any;
+  constructor(private router: Router, private userRoleService: UserRoleService) { }
 
   ngOnInit() {
     this.userRoleService.getUserRoleMappingDetails().subscribe(result => {
       this.userRoleMapping = result;
-      console.log("", this.userRoleMapping);
+      // console.log("", this.userRoleMapping);
     });
   }
-
   navigateToAddUserRole(){
-     this.Router.navigate(['/addUserRoleMapping']);
+     this.router.navigate(['/addUserRoleMapping']);
   }
-
   editUserRoleDetails(userRole){
     this.navigationExtras = {
       queryParams: {
@@ -33,9 +34,7 @@ export class UserRoleMappingComponent implements OnInit {
         IsActive: userRole.IsActive,
       }
     };
-    this.Router.navigate(['/addUserRoleMapping'],this.navigationExtras);
+    this.router.navigate(['/addUserRoleMapping'], this.navigationExtras);
 
   }
-
-  
 }

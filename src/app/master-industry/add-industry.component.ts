@@ -14,7 +14,7 @@ export class AddIndustryComponent implements OnInit {
   public IndustryId = 0;
   public queryParamData: any;
   public IList: any;
-
+  public IsActive;
   constructor(private masterservice: Master,
     private formBuilder: FormBuilder,
     private router: Router,

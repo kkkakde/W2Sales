@@ -12,6 +12,7 @@ declare var $: any;
   styleUrls: ['./addopportunities.component.css']
 })
 export class AddopportunitiesComponent implements OnInit {
+  public loading;
   addOpportunitiesForm: FormGroup;
   submitted = false;
   public OpportunitySourcelist: any;

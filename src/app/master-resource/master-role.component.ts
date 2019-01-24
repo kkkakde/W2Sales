@@ -7,6 +7,9 @@ import { UserRoleService} from '../_services/userRole.Service';
   styleUrls: ['./master-role.component.css']
 })
 export class MasterRoleComponent implements OnInit {
+  page: number ;
+  filter: any;
+  totalRec: number;
   public userRoleDetails : any;
   public navigationExtras : any;
   constructor(private Router: Router, private userRoleService: UserRoleService) { }

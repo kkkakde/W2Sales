@@ -116,7 +116,7 @@ export class CalendarComponent implements OnInit {
     this.authenticationservice.Get_Visit_Detail_List(body)
     .subscribe( data => {
       this.VisitList = data;
-      console.log(this.events);
+      // console.log(this.events);
       for (let i = 0; i < this.VisitList.length; i++) {
         this.events.push({
             start: new Date(this.VisitList[i].List_Visit_Start_Date),
@@ -133,7 +133,7 @@ export class CalendarComponent implements OnInit {
         });
 
         this.refresh.next();
-      console.log(this.events);
+      // console.log(this.events);
 
     }
     });

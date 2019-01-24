@@ -920,9 +920,9 @@
 				if ($.inArray(thisYear, steps) !== -1) {
 					classes.push('active');
 				}
-				if (thisYear < startStep || thisYear > endStep) {
-					classes.push('disabled');
-				}
+				// if (thisYear < startStep || thisYear > endStep) {
+				// 	classes.push('disabled');
+				// }
         if (thisYear === this.viewDate.getFullYear()) {
 				  classes.push('focused');
         }
@@ -1059,7 +1059,7 @@
 					months.eq(d.getUTCMonth()).addClass('active');
 			});
 
-			if (year < startYear || year > endYear){
+			if (year > startYear || year > endYear){
 				months.addClass('disabled');
 			}
 			if (year === startYear){
@@ -1136,13 +1136,13 @@
 			switch (this.viewMode){
 				case 0:
 					if (this.o.startDate !== -Infinity && year <= this.o.startDate.getUTCFullYear() && month <= this.o.startDate.getUTCMonth()){
-						this.picker.find('.prev').css({visibility: 'hidden'});
+						this.picker.find('.prev').css({visibility: 'visible'});
 					}
 					else {
 						this.picker.find('.prev').css({visibility: 'visible'});
 					}
 					if (this.o.endDate !== Infinity && year >= this.o.endDate.getUTCFullYear() && month >= this.o.endDate.getUTCMonth()){
-						this.picker.find('.next').css({visibility: 'hidden'});
+						this.picker.find('.next').css({visibility: 'visible'});
 					}
 					else {
 						this.picker.find('.next').css({visibility: 'visible'});

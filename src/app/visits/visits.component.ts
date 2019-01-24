@@ -6,6 +6,9 @@ import { visit } from '../_services';
   styleUrls: ['./visits.component.css']
 })
 export class VisitsComponent implements OnInit {
+  page: number ;
+  filter: any;
+  totalRec: number;
   public list: any;
   public session: any;
   key: string = 'name'; // set default

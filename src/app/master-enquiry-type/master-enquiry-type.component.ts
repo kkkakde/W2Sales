@@ -7,6 +7,9 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./master-enquiry-type.component.css']
 })
 export class MasterEnquiryTypeComponent implements OnInit {
+  page: number ;
+  filter: any;
+  totalRec: number;
   public ETypeList: any;
   public navigationExtras: any;
   key: string = 'name'; // set default

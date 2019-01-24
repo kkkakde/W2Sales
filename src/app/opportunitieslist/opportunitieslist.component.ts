@@ -16,6 +16,9 @@ declare var $: any;
   styleUrls: ['./opportunitieslist.component.css']
 })
 export class OpportunitieslistComponent implements OnInit {
+  page: number ;
+  filter: any;
+  totalRec: number;
   addCompetitorForm: FormGroup;
   submitted = false;
   public filename: any;
@@ -535,6 +538,7 @@ export class OpportunitieslistComponent implements OnInit {
         selected.push(data);
       }
     }
+    alert(selected.length);
     if (selected.length < 1) {
       alert('Please check atleast one record');
       this.loading = false;
@@ -565,6 +569,11 @@ export class OpportunitieslistComponent implements OnInit {
       });
   }
   onSelectAttachmentWon(val: any) {
+    // if (val.target.files[0].size > 200000) {
+    //   alert('file size limit is maximum 2MB');
+    //   $('#upload').val('');
+    //   return false;
+    //  }
     this.attchmentWon = val.target.files[0];
   }
   Add_attachmentWon() {

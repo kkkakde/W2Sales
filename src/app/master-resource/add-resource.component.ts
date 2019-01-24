@@ -29,6 +29,7 @@ export class AddResourceComponent implements OnInit {
   public disabledReset: boolean ;
   public ResourceId;
   public mobileNum: any;
+  public IsActive;
   ResourceDetail = new ResourceDetails();
   public queryParamData: any;
   constructor(private resourceservice: Resource,

@@ -7,6 +7,9 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./master-enquiry-source.component.css']
 })
 export class MasterEnquirySourceComponent implements OnInit {
+  page: number ;
+  filter: any;
+  totalRec: number;
 public ESourceList: any;
 public navigationExtras: any;
 key: string = 'name'; // set default

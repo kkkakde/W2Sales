@@ -39,7 +39,7 @@ export class AddRangeMappingComponent implements OnInit {
                private formBuilder: FormBuilder,
                private commonService : CommonService,
                private subRangeMappingService : SubRangeMappingService,
-               private ProductService:ProductService,
+               private ProductService: ProductService,
                private route: ActivatedRoute) { }
 
   ngOnInit() {
@@ -129,7 +129,7 @@ export class AddRangeMappingComponent implements OnInit {
   onSubmit() {
 
     if(this.subrangeTypes == undefined || this.subrangeTypes == ""){
-      alert("Please select mapping type.");
+      alert('Please select mapping type.');
       return false;
     }
     if(this.mapping_type == 'M2'){
@@ -197,16 +197,12 @@ export class AddRangeMappingComponent implements OnInit {
       alert("Please select range mapping.");
       return false;
     }
-    
-    if(param.FK_MapType_Id == 'M2'){
-      if(this.Product_Id = undefined || this.Product_Id == ""){
-        alert("Please select range mapping.");
+    if (param.FK_MapType_Id === 'M2') {
+      if (this.Product_Id = undefined || this.Product_Id ==='') {
+        alert('Please select range mapping.');
         return false;
       }
     }
-    
-
-    
     this.subRangeMappingService.AddRangeMapping(param).subscribe(result => {
       this.segmentList = result;
       this.Router.navigate(['/masterRangeMapping']);
