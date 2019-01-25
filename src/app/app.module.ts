@@ -34,7 +34,6 @@ import { CalendarModule, DateAdapter} from 'angular-calendar';
 import {adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { Ng2SearchPipeModule } from 'ng2-search-filter'; // importing the module
 import { Ng2OrderModule } from 'ng2-order-pipe'; // importing the module
-import {FilterPipeModule} from 'ngx-filter-pipe';
 // Import angular-fusioncharts
 import { FusionChartsModule } from 'angular-fusioncharts';
 
@@ -87,7 +86,6 @@ FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme, FintTheme);
         Ng2SearchPipeModule , // including into imports
         FusionChartsModule,
         NgxSpinnerModule,
-        FilterPipeModule,
         AgmCoreModule.forRoot({
             // apiKey: 'AIzaSyAYv74bRujxn0wTupVthJtm4eJxVbsfYdo'
             apiKey: 'AIzaSyCnnaksEYiHWa3VjPvjCDNRwFbaHJXQJMw'
