@@ -177,7 +177,7 @@
                 <thead>
                   <tr>
                     <td>
-                      <input type="text" formControlName="Cust_Cmprsor_Model" class="form-control" title="Enter Model Details" placeholder="Enter Model Details">
+                      <input type="text" maxlength="25"formControlName="Cust_Cmprsor_Model" class="form-control" title="Enter Model Details" placeholder="Enter Model Details">
                     </td>
                     <td>
                         <select class="form-control" formControlName="Cust_Make" (change)="onChangeMake($event)"
@@ -186,7 +186,7 @@
                           <option value="Make1"> Make1</option>
                           <option value="Other"> Other</option>
                         </select>
-                      <input type="text" *ngIf="makeFlag" formControlName="Cust_MakeOther" class="form-control" title="Enter Other Make" placeholder="Enter Other Make">
+                      <input type="text" *ngIf="makeFlag" maxlength="25" formControlName="Cust_MakeOther" class="form-control" title="Enter Other Make" placeholder="Enter Other Make">
                       </td>
                     <td>
                       <select class="form-control" formControlName="Cust_Cmprsor_RoomDetails"

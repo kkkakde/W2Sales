@@ -53,14 +53,14 @@ export class AddResourceComponent implements OnInit {
               Resource_Name : ['', Validators.required],
               LoginID : ['',  Validators.required],
               Resource_Password : ['',  Validators.required],
-              Resource_EmailID : ['', Validators.required],
               Resource_Mobile_No : ['',  Validators.required],
               ddlDesignation : ['',  Validators.required],
-              ddlZone : ['',  ''],
-              ddlstate : ['',  ''],
+              ddlZone : ['',  Validators.required],
+              ddlstate : ['', Validators.required],
+              ddlASM : ['', Validators.required],
+              ddlDealer : ['', Validators.required],
               IsActive : ['', ''],
-              ddlASM : ['', ''],
-              ddlDealer : ['', '']
+              Resource_EmailID : ['', [Validators.required, Validators.email]],
               });
               this.queryParamData = this.route.queryParams.subscribe(params => {
                 if ( params['PK_Resource_Id'] !== undefined) {

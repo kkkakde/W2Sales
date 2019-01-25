@@ -8,6 +8,7 @@ production: false,
 // apiUrl: 'http://localhost:44841/api/',
   apiUrl: 'W2sales_UAT/api/',
 //  apiUrl: 'services/api/',
+ apiUrl: 'services/api/',
 // session: JSON.parse(localStorage.getItem('currentUser'))
 };
 export interface ISession {
