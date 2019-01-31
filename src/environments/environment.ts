@@ -9,7 +9,6 @@ apiUrl: 'http://localhost:44841/api/',
 //  apiUrl: 'services/api/',
 // session: JSON.parse(localStorage.getItem('currentUser'))
 };
-
 export interface ISession {
   session: Object;
 }
