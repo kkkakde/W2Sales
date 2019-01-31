@@ -1,0 +1,81 @@
+<div  data-backdrop="static" id=npsquestion>
+    <form  [formGroup]="npssurveyquestionForm" (ngSubmit)="onSubmit()"> 
+            <!-- Error Popup -->
+                <div *ngIf="NSPStatus=='' || NSPStatus=='R' || NSPStatus=='V'" class="modal-dialog feedbackModal"  >
+                        <div class="modal-content"  >
+                            <div class="modal-header">
+                                <h4 class="modal-title">NPS Survey</h4>
+                            </div>
+                            <div>
+                                <h2>Unauthorized User</h2>
+                            </div>
+                        </div>
+                </div>
+            <!-- END Error Popup -->
+            <!-- Won Popup -->
+                <div *ngIf="NSPStatus=='W'" class="modal-dialog feedbackModal"  >
+                        <div class="modal-content"  >
+                            <div class="modal-header">
+                                <h4 class="modal-title">NPS Survey (Won)</h4>
+                            </div>
+                            <div class="modal-body">
+                                    <div class="questionsBlock WonQuestions">
+                                        <p><span>Q: </span>Would you prefer Atlas Copco products for next purchase ?</p>
+                                        <div>
+                                            <label><input type="radio" name="q1ans" (click)="rdoYes()" checked >Yes</label>
+                                            <label><input type="radio" name="q1ans" (click)="rdoNo()">No</label>
+                                        </div>
+                                        <div class="yes qans" *ngIf="yesflag">
+                                            <p>Why would you prefer Atlas Copco products ?</p>
+                                        </div>
+                                        <div class="no qans" *ngIf="noflag">
+                                            <p>Why you would not prefer Atlas Copco products ?</p>
+                                        </div>
+                                        <textarea rows="6" formControlName="NpsSurveyQuestion"></textarea>
+                                    </div>
+                                    <div class="modal-footer">
+                                            <button class="btn btn_login" [disabled]="loading">Submit</button>&nbsp;
+                                            <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+                                            <button type="button" class="btn btn-default" id="btncancel" data-dismiss="modal">Cancel</button>
+                                    </div>
+                        </div>
+                </div>
+                </div>
+            <!-- END Won Popup -->
+
+            <!-- lost popup -->
+                <div *ngIf="NSPStatus=='L'"  class="modal-dialog feedbackModal">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <h4 class="modal-title">NPS Survey (Lost)</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="questionsBlock">
+                                        <p><span>Q1: </span>Would you prefer Atlas Copco products for next purchase ?</p>
+                                        <div>
+                                            <label><input type="radio" class="rad" name="q2ans" value="yes">Yes</label>
+                                            <label><input type="radio" class="rad" name="q2ans" value="no">No</label>
+                                        </div>
+                                    </div>
+                                    <div class="questionsBlock">
+                                        <p><span>Q2: </span>What would have been done better for this order ?</p>
+                                        <div class="lostans">
+                                            <textarea formControlName="LostFeedback" rows="3"></textarea>
+                                            <!-- <span>1000 characters remaining</span> -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn_login" [disabled]="loading">Submit</button>&nbsp;
+                                    <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+                                    <button type="button" id="btncancel" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                </div>
+                            </div>
+                </div>
+            <!-- END lost popup -->
+    </form>
+</div>
+
+
+

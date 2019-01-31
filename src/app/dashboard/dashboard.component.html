@@ -129,14 +129,15 @@
                     </div>
                 </div>
                 
+    </div><br>
+    <div class="col-md-4" style="padding: 0 7px;">
+        <div class="white_box" style="padding: 15px 10px;">
+            <h3 style="margin: 0;">{{ title }}</h3>
+            <agm-map [latitude]="lat" [longitude]="lng">
+            <agm-marker *ngFor="let m of getLatLongList" [latitude]="m.lat" [longitude]="m.lng"  [label]="m.Cust_Name"></agm-marker>
+            </agm-map>
+       </div>
     </div>
-    <div class="col-md-12" style="padding: 0 7px;">
-        <h1>{{ title }}</h1>
-        <agm-map [latitude]="lat" [longitude]="lng">
-        <agm-marker *ngFor="let m of getLatLongList" [latitude]="m.lat" [longitude]="m.lng"  [label]="m.Cust_Name"></agm-marker>
-       </agm-map>
-    </div>
-    <div class="clearfix"></div><br>
     <div class="col-md-4" style="padding: 0 7px;">
         <div class="white_box" style="padding: 15px 10px;">
             <fusioncharts
@@ -153,6 +154,7 @@
            </fusioncharts>
         </div>
     </div>
+    <div class="clearfix"></div><br>
     <div class="col-md-4" style="padding: 0 7px;">
         <div class="white_box" style="padding: 15px 10px;">
             <fusioncharts
@@ -162,7 +164,7 @@
         </div>
     </div>
     <!-- static graph -->
-    <div class="clearfix"></div><br>
+    
     <div class="col-md-4" style="padding: 0 7px;">
         <div class="white_box" style="padding: 15px 10px;">
                 <fusioncharts
@@ -185,6 +187,7 @@
             </fusioncharts>
         </div>
     </div>
+    <div class="clearfix"></div><br>
     <div class="col-md-4" style="padding: 0 7px;">
         <div class="white_box" style="padding: 15px 10px;">
                 <fusioncharts
@@ -196,7 +199,7 @@
             </fusioncharts>
         </div>
     </div>
-    <div class="clearfix"></div><br>
+   
     <div class="col-md-4" style="padding: 0 7px;">
         <div class="white_box" style="padding: 15px 10px;">
                 <fusioncharts
@@ -219,6 +222,7 @@
             </fusioncharts>
         </div>
     </div>
+    <div class="clearfix"></div><br>
     <div class="col-md-4" style="padding: 0 7px;">
         <div class=" white_box" style="padding: 15px 10px;">
             <div class="table-responsive">
@@ -274,7 +278,7 @@
             </div>
         </div>
     </div>
-    <div class="clearfix"></div><br>
+    
     <div class="col-md-4" style="padding: 0 7px;">
         <div class=" white_box" style="padding: 15px 10px;">
                 <fusioncharts
@@ -297,10 +301,6 @@
             </fusioncharts>
         </div>
     </div>
-    <div class="col-md-4" style="padding: 0 7px;">
-            <div class="white_box" style="padding: 15px 10px;">
-               <img src="../../assets/css/images/wonlossreason.jpg" alt="" class="img-responsive" style=" height: 250px;">
-            </div>
-        </div>
-        <div class="clearfix"></div><br>
+    <div class="clearfix"></div><br>
+    
 </div>

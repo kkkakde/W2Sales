@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Customer } from '../_services';
 import { Router, ActivatedRoute } from '@angular/router';
 import { first } from 'rxjs/operators';
+import { FormGroup, FormBuilder } from '@angular/forms';
 declare var jquery: any;
 declare var $: any;
 @Component({
@@ -10,10 +11,13 @@ declare var $: any;
   styleUrls: ['./customerlist.component.css']
 })
 export class CustomerlistComponent implements OnInit {
+  RecordNotesForm: FormGroup;
+  submitted = false;
+  public loading;
   page: number ;
   filter: any;
   totalRec: number;
-
+  public CustOpp: any;
   public customerlistdata: any;
   public navigationExtras: any;
   public CustID: any = 0;
@@ -22,17 +26,18 @@ export class CustomerlistComponent implements OnInit {
   public Cust_NameVisit;
   public IntimeFlag: boolean;
   public Msg = '';
-
   public difficult_tasks = [];
+  public CustomerId;
   key: string = 'name'; // set default
-  reverse:boolean = false;
+  reverse: boolean = false;
   sort(key) {
     this.key = key;
     this.reverse = !this.reverse;
   }
   constructor(
     private authenticationService: Customer,
-    private router: Router
+    private router: Router,
+    private formBuilder: FormBuilder
   ) { }
 
   ngOnInit() {
@@ -41,7 +46,11 @@ export class CustomerlistComponent implements OnInit {
     };
     this.IntimeFlag = true  ;
     this.getCustomerlist();
+    this.RecordNotesForm = this.formBuilder.group({
+      remark: ['', ''],
+    });
   }
+  get f() { return this.RecordNotesForm.controls; }
   OpenVisit() {
     $('#Cust_NameVisit').val('');
     this.Msg = '';
@@ -119,6 +128,14 @@ export class CustomerlistComponent implements OnInit {
       });
   }
   outVisit(item) {
+    this.CustomerId = item.PK_Cust_Id;
+    this.authenticationService.CheckOpportunity(item.PK_Cust_Id)
+      .subscribe(data => {
+        this.CustOpp = data;
+        if (this.CustOpp.length === 0) {
+          $('#RecordNotes').modal('show');
+        }
+      });
     this.IntimeFlag = true;
     var body = {
       PK_Cust_Id: item.PK_Cust_Id,
@@ -166,5 +183,26 @@ export class CustomerlistComponent implements OnInit {
         alert('Invalid User');
       });
     }
+  }
+  onSubmit() {
+    this.loading = true;
+    if (this.RecordNotesForm.invalid) {
+      return;
+    }
+    let body = {
+      FK_Customer_Id: this.CustomerId,
+      Remark: this.f.remark.value,
+    };
+    alert(JSON.stringify(body));
+    this.authenticationService.AddCustomerRemark(body)
+      .subscribe(data => {
+        alert('Save successfully');
+        this.loading = false;
+      },
+      error => {
+        console.log(JSON.stringify(error));
+        this.loading = false;
+        alert('Error');
+      });
   }
 }

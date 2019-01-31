@@ -4,7 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { first, isEmpty } from 'rxjs/operators';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { environment } from '../../environments/environment';
-import { Alert } from 'selenium-webdriver';
+import { Alert, Session } from 'selenium-webdriver';
 import { and } from '@angular/router/src/utils/collection';
 import { empty } from 'rxjs';
 declare var jquery: any;
@@ -21,6 +21,7 @@ export class OpportunitieslistComponent implements OnInit {
   totalRec: number;
   addCompetitorForm: FormGroup;
   submitted = false;
+  public loading;
   public filename: any;
   public wonbody: {
       Value: any,
@@ -32,6 +33,11 @@ export class OpportunitieslistComponent implements OnInit {
       Competitor_Id: number,
       filename: any;
   };
+  public customerEmailId;
+  public Vlist: any;
+  public ASMVisitlist: any;
+  public EmailIdASM ;
+  public ASMName;
   public opportunitieslistdata: any;
   public Customerlist: any;
   public ContactPersonlist: any;
@@ -79,7 +85,6 @@ export class OpportunitieslistComponent implements OnInit {
   public IntimeFlag: boolean;
   public attchment: File;
   public DataList: any;
-  loading = false;
   public radflag;
   public ResultMsg = false;
   public attchmentWon: File;
@@ -95,8 +100,6 @@ export class OpportunitieslistComponent implements OnInit {
       this.reverse = !this.reverse;
     }
   ngOnInit() {
-
-
     this.IntimeFlag = true;
     localStorage.setItem('Quotationducument', '');
     this.session = {
@@ -136,6 +139,7 @@ export class OpportunitieslistComponent implements OnInit {
       LostFeedback: ['', ''],
       ModelNo: ['', ''],
       SerialNo: ['', ''],
+      ASM_Name: ['' , '']
     });
     $('#Visit_Start_Date').datepicker({
       showAnim: 'fadeIn',
@@ -207,7 +211,6 @@ export class OpportunitieslistComponent implements OnInit {
       }
       $('#btnMoveLeftTab').show();
     });
-    
     $('#btnMoveLeftTab').click(function() {
       $('#btnMoveRightTab').show();
       $('#btnstatus').hide();
@@ -216,34 +219,30 @@ export class OpportunitieslistComponent implements OnInit {
         $('#btnMoveLeftTab').hide();
       }
     });
-
-
     $(document).ready(function() {
       var text_max = 1000;
-      $('.yes textarea').attr('maxlength','1000');
+      $('.yes textarea').attr('maxlength', '1000');
       $('.yes textarea').keyup(function() {
           var text_length = $('.yes textarea').val().length;
           var text_remaining = text_max - text_length;
           $('.yes textarea + span').html(text_remaining + ' characters remaining');
       });
 
-      $('.no textarea').attr('maxlength','1000');
+      $('.no textarea').attr('maxlength', '1000');
       $('.no textarea').keyup(function() {
           var text_length = $('.no textarea').val().length;
           var text_remaining = text_max - text_length;
-  
           $('.no textarea + span').html(text_remaining + ' characters remaining');
       });
 
-      $('.lostans textarea').attr('maxlength','1000');
+      $('.lostans textarea').attr('maxlength', '1000');
       $('.lostans textarea').keyup(function() {
           var text_length = $('.lostans textarea').val().length;
           var text_remaining = text_max - text_length;
-  
           $('.lostans textarea + span').html(text_remaining + ' characters remaining');
       });
 
-      $('.WonQuestions input[type="radio"]').click(function(){
+      $('.WonQuestions input[type="radio"]').click(function() {
         var inputValue = $(this).attr("value");
         var targetBox = $("." + inputValue);
         $(".qans").not(targetBox).hide();
@@ -280,6 +279,7 @@ export class OpportunitieslistComponent implements OnInit {
         this.DataList = data;
           this.Customerlist = this.DataList.overView;
           this.ContactPersonlist = this.DataList.ContactPerson;
+          this.customerEmailId = this.ContactPersonlist[0].Cust_CntctPrson_Email_Id;
           this.Clist = this.DataList.Competitor;
           this.productlist = this.DataList.Product;
           this.Quotationlistdata = this.DataList.Quotation;
@@ -320,12 +320,12 @@ export class OpportunitieslistComponent implements OnInit {
           this.Rangelist = data; });
   }
   // Competitor
-  Get_ContactPerson_Details() {
-    this.authenticationservice.Get_ContactPerson_Details(this.custId)
-      .subscribe(data => {
-        this.ContactPersonlist = data;
-      });
-  }
+  // Get_ContactPerson_Details() {
+  //   this.authenticationservice.Get_ContactPerson_Details(this.custId)
+  //     .subscribe(data => {
+  //       this.ContactPersonlist = data;
+  //     });
+  // }
   Get_OpportunityCompetitorDetails() {
     this.authenticationservice.Get_OpportunityCompetitorDetails(this.OpportunityId)
       .subscribe(data => {
@@ -418,12 +418,21 @@ export class OpportunitieslistComponent implements OnInit {
   }
   // Visit
   Get_OpportunityVisitDetails() {
-    this.authenticationservice.Get_OpportunityVisitDetails(this.OpportunityId)
+    let body = {
+      FK_Opportunity_Id: this.OpportunityId,
+      PK_Resource_Id: this.session.session.PK_Resource_Id
+    };
+    this.authenticationservice.Get_OpportunityVisitDetails(body)
       .subscribe(data => {
-        this.visitlist = data;
+        this.Vlist = data;
+        this.visitlist = this.Vlist.visitListData;
+        this.ASMVisitlist = this.Vlist.asmData;
+        this.EmailIdASM = this.ASMVisitlist[0].ASMEmailId;
+        this.ASMName = this.ASMVisitlist[0].ASMName;
       });
   }
   AddVisits() {
+    this.loading = true;
     if (this.f.VisitType.value === '') {
       return;
     }
@@ -446,17 +455,23 @@ export class OpportunitieslistComponent implements OnInit {
       List_Visit_End_Date: $('#Visit_End_Date').val(),
       List_Visit_End_Time: $('#Visit_End_Time').val(),
       FK_Opportunity_Id: this.OpportunityId,
-      Created_By: this.session.session.PK_Resource_Id
+      Created_By: this.session.session.PK_Resource_Id,
+      AreaManagerId: this.f.ASM_Name.value,
+      ASMEmailId: this.EmailIdASM,
+      ASMName: this.ASMName,
+      SalesEngineerName: this.session.session.Resource_Name,
     };
     this.authenticationservice.AddVisits(body)
       .subscribe(data => {
         alert('Visit saved successfully');
+        this.loading = false;
         this.Get_OpportunityVisitDetails();
         this.addCompetitorForm.get('VisitType').setValue('');
         this.addCompetitorForm.get('Visit_Start_Date').setValue('');
         this.addCompetitorForm.get('Visit_Start_Time').setValue('');
         this.addCompetitorForm.get('Visit_End_Date').setValue('');
         this.addCompetitorForm.get('Visit_End_Time').setValue('');
+        this.addCompetitorForm.get('ASM_Name').setValue('');
         $('#VisitModel').modal('hide');
         $('#OpenOpporModal').modal('hide');
         this.router.navigate(['/opportunitieslist']);
@@ -466,6 +481,7 @@ export class OpportunitieslistComponent implements OnInit {
         alert('Error');
       });
   }
+
   DeleteVisits(item) {
     this.authenticationservice.DeleteVisits(item.PK_Visit)
       .subscribe(data => {
@@ -538,7 +554,6 @@ export class OpportunitieslistComponent implements OnInit {
         selected.push(data);
       }
     }
-    alert(selected.length);
     if (selected.length < 1) {
       alert('Please check atleast one record');
       this.loading = false;
@@ -551,6 +566,7 @@ export class OpportunitieslistComponent implements OnInit {
       'ProductBO': selected,
       Created_By: this.session.session.PK_Resource_Id
     };
+    alert(JSON.stringify(body));
     this.authenticationservice.Add_opporProduct(body)
       .subscribe(data => {
         alert('save successfully');
@@ -622,6 +638,8 @@ export class OpportunitieslistComponent implements OnInit {
      $('#npsWon').modal('show');
   }
   Add_Won() {
+    this.loading = true;
+    $('#btnCancel').hide();
      if (this.f.questionTest1.value === '') {
        alert('Enter Text'); return;
      }
@@ -634,11 +652,14 @@ export class OpportunitieslistComponent implements OnInit {
        BetterOrder: this.wonbody.BetterOrder,
        Ordervalue: this.wonbody.Ordervalue,
        Feedback: this.f.questionTest1.value,
-       filename: this.wonbody.filename
+       filename: this.wonbody.filename,
+       CustomerEmailId: this.customerEmailId
       };
        this.authenticationservice.Add_Won(body)
        .subscribe(data => {
          alert('Won Save');
+         this.loading = false;
+         $('#btnCancel').show();
          $('#npsWon').modal('hide');
          $('#WonModal').modal('hide');
          $('#OpenOpporModal').modal('hide');
@@ -647,6 +668,8 @@ export class OpportunitieslistComponent implements OnInit {
          this.GetOpportunityList();
        },
        error => {
+        this.loading = false;
+        $('#btnCancel').show();
          console.log(JSON.stringify(error));
          alert('Error');
        });
@@ -677,6 +700,8 @@ export class OpportunitieslistComponent implements OnInit {
        $('#npsLost').modal('show');
   }
   Add_Lost() {
+    this.loading = true;
+    $('#btnlostCancel').hide();
        if (this.f.LostFeedback.value === '') {
          alert('Enter Lost Feedback'); return;
        }
@@ -693,7 +718,8 @@ export class OpportunitieslistComponent implements OnInit {
          Reason: this.wonbody.Reason,
          BetterOrder: this.wonbody.BetterOrder,
          Feedback: this.f.LostFeedback.value,
-         NextPurchaseFlag : this.radflag
+         NextPurchaseFlag : this.radflag,
+         CustomerEmailId: this.customerEmailId
        };
       this.authenticationservice.Add_Lost(body)
        .subscribe(data => {
@@ -703,6 +729,7 @@ export class OpportunitieslistComponent implements OnInit {
          this.addCompetitorForm.get('Lost_Remarks').setValue('');
          this.addCompetitorForm.get('ReasonLost').setValue('');
          this.addCompetitorForm.get('BetterLost').setValue('');
+         this.loading = false;
          $('#npsLost').modal('hide');
          $('#LostModal').modal('hide');
          $('#OpenOpporModal').modal('hide');
@@ -711,6 +738,7 @@ export class OpportunitieslistComponent implements OnInit {
        },
        error => {
          console.log(JSON.stringify(error));
+         this.loading = false;
          alert('Error');
        });
   }

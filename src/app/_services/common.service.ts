@@ -35,11 +35,8 @@ export class CommonService {
           .get(url)
           .map((result: Response) => result);
     }
-    getLatLongList(body) {
-        return this.http.post(`${environment.apiUrl}Api_Common/getLatLongList` , body);
-    }
-    getCount(body) {
-        return this.http.post(`${environment.apiUrl}Api_Dashboard/DashboardCount` , body);
+    getDashboardData(body) {
+        return this.http.post(`${environment.apiUrl}Api_Dashboard/GetDashboardData` , body);
     }
     SearchFilterWiseData(body) {
         return this.http.post(`${environment.apiUrl}Api_Dashboard/DashboardCount`, body);

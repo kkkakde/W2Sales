@@ -48,8 +48,8 @@ export class Opportunities {
      + FK_Opportunity_Id, {});
   }
   // Visit Details
-  Get_OpportunityVisitDetails(FK_Opportunity_Id) {
-    return this.http.post(`${environment.apiUrl}Api_Opportunity/Get_OpportunityVisitDetails?FK_Opportunity_Id=` + FK_Opportunity_Id, {});
+  Get_OpportunityVisitDetails(body) {
+    return this.http.post(`${environment.apiUrl}Api_Opportunity/Get_OpportunityVisitDetails`, body);
   }
   //
   Delete_Document(PK_Document_Id) {
@@ -144,12 +144,15 @@ export class Opportunities {
   VisitOut(body) {
     return this.http.post(`${environment.apiUrl}Api_MasterCustomer/VisitInOut`, body);
   }
-
   Get_Visit_Detail_List(body) {
     return this.http.post(`${environment.apiUrl}Api_Opportunity/VisitList`, body);
-}
-
-
+  }
+  AddCustomerFeedback(body) {
+    return this.http.post(`${environment.apiUrl}Api_Opportunity/AddCustomerFeedback`, body);
+  }
+  GetCustFeedback(PK_Opportunity_Id) {
+    return this.http.post(`${environment.apiUrl}Api_Opportunity/GetCustFeedback?PK_Opportunity_Id=` + PK_Opportunity_Id, {});
+  }
 
 
 

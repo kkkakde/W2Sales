@@ -69,7 +69,8 @@ import { NPSLostScoreComponent } from './npslost-score/npslost-score.component';
 import { UserRoleMappingComponent } from './user-role-mapping/user-role-mapping.component';
 import { MasterRoleComponent } from './master-resource/master-role.component';
 import { AddUserRoleMappingComponent } from './user-role-mapping/add-userRole-mapping.component';
-import { AgmCoreModule } from '@agm/core';
+import { AgmCoreModule } from '@agm/core';;
+import { NpsSurveyQuestionComponent } from './nps-survey-question/nps-survey-question.component';
 // Use fcRoot function to inject FusionCharts library, and the modules you want to use
 FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme, FintTheme);
 
@@ -135,6 +136,7 @@ FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme, FintTheme);
         UserRoleMappingComponent,
         MasterRoleComponent,
         AddUserRoleMappingComponent,
+        NpsSurveyQuestionComponent,
     ],
     providers: [
         AuthGuard,

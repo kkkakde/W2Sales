@@ -42,6 +42,7 @@ import { AddUserRoleMappingComponent } from './user-role-mapping/add-userRole-ma
 import { from } from 'rxjs';
 import { NPSLostScoreComponent } from './npslost-score/npslost-score.component';
 import { NPSWonScoreComponent } from './npswon-score/npswon-score.component';
+import { NpsSurveyQuestionComponent } from './nps-survey-question/nps-survey-question.component';
 
 
 const appRoutes: Routes = [
@@ -78,6 +79,7 @@ const appRoutes: Routes = [
     { path: 'npsLostScores', component: NPSLostScoreComponent , canActivate: [AuthGuard]},
     { path: 'npsWonScores', component: NPSWonScoreComponent , canActivate: [AuthGuard]},
     { path: 'masterRole' , component: MasterRoleComponent , canActivate: [AuthGuard]},
+    {path: 'npssurveyquestion', component: NpsSurveyQuestionComponent},
     // { path: 'addMasterRole' , component: AddMasterRoleComponent , canActivate: [AuthGuard]},
     { path: 'userRoleMapping' , component: UserRoleMappingComponent , canActivate: [AuthGuard]},
     { path: 'addUserRoleMapping' , component: AddUserRoleMappingComponent , canActivate: [AuthGuard]},
