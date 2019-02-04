@@ -69,10 +69,10 @@ export class Customer {
     fd,
     );
   }
-  CheckOpportunity(PK_Cust_Id) {
-    return this.http.post(`${environment.apiUrl}Api_Opportunity/CheckOpportunity?PK_Cust_Id=` + PK_Cust_Id, {});
+  CheckOpportunity(body1) {
+    return this.http.post(`${environment.apiUrl}Api_Opportunity/CheckOpportunity`, body1);
   }
-  AddCustomerRemark(body) {
-    return this.http.post(`${environment.apiUrl}Api_Opportunity/AddCustomerRemark`, body);
+  AddCustomerRemark(body2) {
+    return this.http.post(`${environment.apiUrl}Api_Opportunity/AddCustomerRemark`, body2);
   }
 }

@@ -3,6 +3,7 @@ import { Customer } from '../_services';
 import { Router, ActivatedRoute } from '@angular/router';
 import { first } from 'rxjs/operators';
 import { FormGroup, FormBuilder } from '@angular/forms';
+import { Alert } from 'selenium-webdriver';
 declare var jquery: any;
 declare var $: any;
 @Component({
@@ -11,7 +12,7 @@ declare var $: any;
   styleUrls: ['./customerlist.component.css']
 })
 export class CustomerlistComponent implements OnInit {
-  RecordNotesForm: FormGroup;
+  recordNotesForm: FormGroup;
   submitted = false;
   public loading;
   page: number ;
@@ -28,6 +29,8 @@ export class CustomerlistComponent implements OnInit {
   public Msg = '';
   public difficult_tasks = [];
   public CustomerId;
+  public Visit_Tracking_Id;
+  public Action;
   key: string = 'name'; // set default
   reverse: boolean = false;
   sort(key) {
@@ -46,11 +49,11 @@ export class CustomerlistComponent implements OnInit {
     };
     this.IntimeFlag = true  ;
     this.getCustomerlist();
-    this.RecordNotesForm = this.formBuilder.group({
+    this.recordNotesForm = this.formBuilder.group({
       remark: ['', ''],
     });
   }
-  get f() { return this.RecordNotesForm.controls; }
+  get f() { return this.recordNotesForm.controls; }
   OpenVisit() {
     $('#Cust_NameVisit').val('');
     this.Msg = '';
@@ -128,28 +131,40 @@ export class CustomerlistComponent implements OnInit {
       });
   }
   outVisit(item) {
-    this.CustomerId = item.PK_Cust_Id;
-    this.authenticationService.CheckOpportunity(item.PK_Cust_Id)
+  // if (this.customerlistdata[0].Cust_CntctPrson_Contact_No == null || this.customerlistdata[0].Cust_CntctPrson_Contact_No === undefined) {
+  //     alert('Please assign contact person');
+  //     return false;
+  //   }
+    let body1 = {
+      FK_Customer_Id: item.PK_Cust_Id,
+      Created_By: this.session.session.PK_Resource_Id
+    };
+    this.authenticationService.CheckOpportunity(body1)
       .subscribe(data => {
         this.CustOpp = data;
         if (this.CustOpp.length === 0) {
           $('#RecordNotes').modal('show');
+          this.Action = 'Out';
+          this.CustomerId = item.PK_Cust_Id;
+          this.Visit_Tracking_Id = item.Visit_Tracking_Id;
+          return false;
+        } else {
+          this.IntimeFlag = true;
+          var body = {
+            PK_Cust_Id: item.PK_Cust_Id,
+            Action: 'Out',
+            Created_By: this.session.session.PK_Resource_Id,
+            Visit_Tracking_Id: item.Visit_Tracking_Id,
+          };
+          this.authenticationService.VisitOut(body)
+            .subscribe(
+            res => {
+              this.getCustomerlist();
+            },
+            error => {
+              alert('Invalid User');
+            });
         }
-      });
-    this.IntimeFlag = true;
-    var body = {
-      PK_Cust_Id: item.PK_Cust_Id,
-      Action: 'Out',
-      Created_By: this.session.session.PK_Resource_Id,
-      Visit_Tracking_Id: item.Visit_Tracking_Id,
-    };
-    this.authenticationService.VisitOut(body)
-      .subscribe(
-      data => {
-        this.getCustomerlist();
-      },
-      error => {
-        alert('Invalid User');
       });
   }
   inVisit(item) {
@@ -164,14 +179,31 @@ export class CustomerlistComponent implements OnInit {
     if (result !== undefined && result.length > 0) {
       const r = confirm('are you sure you want to out !');
       if (r === true) {
-        this.authenticationService.VisitOut(body)
-          .subscribe(
-          data => {
-            this.getCustomerlist();
-          },
-          error => {
-            alert('Invalid User');
-          });
+        // check Codition Sales Engineer another customer  In
+        let body1 = {
+          FK_Customer_Id: result[0].PK_Cust_Id,
+          Created_By: this.session.session.PK_Resource_Id
+        };
+        this.authenticationService.CheckOpportunity(body1)
+        .subscribe(data => {
+          this.CustOpp = data;
+          if (this.CustOpp.length === 0) {
+            $('#RecordNotes').modal('show');
+            this.Action = 'In';
+            this.CustomerId = item.PK_Cust_Id;
+            this.Visit_Tracking_Id = item.Visit_Tracking_Id;
+            return false;
+          } else {
+            this.authenticationService.VisitOut(body)
+            .subscribe(
+            res => {
+              this.getCustomerlist();
+            },
+            error => {
+              alert('Invalid User');
+            });
+          }
+        });
       }
     } else {
       this.authenticationService.VisitOut(body)
@@ -185,23 +217,40 @@ export class CustomerlistComponent implements OnInit {
     }
   }
   onSubmit() {
+    this.submitted = true;
     this.loading = true;
-    if (this.RecordNotesForm.invalid) {
+    if (this.recordNotesForm.invalid) {
       return;
     }
-    let body = {
+    let body2 = {
       FK_Customer_Id: this.CustomerId,
       Remark: this.f.remark.value,
     };
-    alert(JSON.stringify(body));
-    this.authenticationService.AddCustomerRemark(body)
+    this.authenticationService.AddCustomerRemark(body2)
       .subscribe(data => {
+        $('#RecordNotes').modal('hide');
         alert('Save successfully');
-        this.loading = false;
+        let body = {
+          PK_Cust_Id: this.CustomerId,
+          Action: this.Action,
+          Created_By: this.session.session.PK_Resource_Id,
+          Visit_Tracking_Id: this.Visit_Tracking_Id,
+        };
+          this.authenticationService.VisitOut(body)
+            .subscribe(
+            data1 => {
+              this.getCustomerlist();
+              this.loading = false;
+            },
+            error => {
+              alert('Invalid User');
+              this.loading = false;
+            });
       },
       error => {
         console.log(JSON.stringify(error));
         this.loading = false;
+        $('#RecordNotes').modal('hide');
         alert('Error');
       });
   }
