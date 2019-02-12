@@ -1,5 +1,5 @@
 export const environment = {
-  production: true,
+  production: false,
   apiUrl: 'http://localhost:4000',
   session: JSON.parse(localStorage.getItem('currentUser'))
 };

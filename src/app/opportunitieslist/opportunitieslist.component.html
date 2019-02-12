@@ -69,7 +69,7 @@
                   <td>{{data.Resource_Name }}</td>
                   <td>{{data.Added_Date }}</td>
                   <td>{{data.Expected_Value }}</td>
-                  <td>{{data.Status }}</td>
+                  <td style.background-color="{{('Reported to'===data.Status) ? 'orange': (('Won'===data.Status) ? 'FUCHSIA' :  (('Stopped'===data.Status) ? 'Cyan' :'red'))}}">{{data.Status}}</td>
                   <td>
                      <!-- *ngIf="data.TrackInTime ==='00:00' || data.TrackOutTime !=='00:00'" -->
                     <a *ngIf="data.TrackInTime===false"  (click)="inVisit(data)" class="btn btn-info btnedit">In</a>&nbsp;&nbsp;
@@ -599,6 +599,8 @@
               <option value="Sales Engineer">Sales Engineer</option>
               <option value="Service Support">Service Support</option>
               <option value="Product">Product</option>
+              <option value="Product">Relationship</option>
+              <option value="Product">Delivery Timeline</option>
             </select>
           </div>
           <div class="clearfix"></div>
@@ -688,9 +690,12 @@
             <select formControlName="ReasonLost" class="form-control">
                 <option value="" disabled>Select</option>
               <option value="Sales support">Sales support</option>
-              <option value="Service support">Service support</option>
+              <option value="Service support">Service</option>
               <option value="Price">Price</option>
               <option value="Terms & Conditions">Terms & Conditions</option>
+              <option value="Relationship">Relationship</option>
+              <option value="Delivery Timeline">Delivery Timeline</option>
+              <option value="Brand preference">Brand preference</option>
             </select>
           </div>
           <div class="clearfix"></div>

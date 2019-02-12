@@ -2,23 +2,22 @@ export class GraphObjectList {
     visitdataSource: object;
     opportunitydataSource: object;
     salesPhasedataSource: object;
-    revenueSummarydataSource: object;
-    revenueWonbySalesReprdataSource: object;
-    
-    wonLossRatedataSource: object;
-    wonLossRevenuedataSource: object;
-    wonLossReasondataSource: object;
+    opportunityValueSummarydataSource: object;
     opportunitiesbyStatusdataSource: object;
-    appointmentbyCategorydataSource: object;
+    visitbyCategorydataSource: object;
+    WonLossOpportunityValuedataSource: object;
+    WonReasondataSource: object;
+    LossReasondataSource: object;
+    WonLossRatedataSource: object;
 
     visitchartConfig: object;
     opportunitychartConfig: object;
     salesPhasechartConfig: object;
-    revenueSummarychartConfig: object;
-    revenueWonbySalesReprchartConfig: object;
-    wonLossRatechartConfig: object;
-    wonLossRevenuechartConfig: object;
-    wonLossReasonchartConfig: object;
+    opportunityValueSummarychartConfig: object;
     opportunitiesbyStatuschartConfig: object;
-    appointmentbyCategorychartConfig: object;
+    visitbyCategorychartConfig: object;
+    WonLossOpportunityValuechartConfig: object;
+    WonReasonchartConfig: object;
+    LossReasonchartConfig: object;
+    WonLossRatechartConfig: object;
   }

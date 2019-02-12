@@ -55,12 +55,12 @@ export class AddResourceComponent implements OnInit {
               Resource_Password : ['',  Validators.required],
               Resource_Mobile_No : ['',  Validators.required],
               ddlDesignation : ['',  Validators.required],
-              ddlZone : ['',  Validators.required],
-              ddlstate : ['', Validators.required],
-              ddlASM : ['', Validators.required],
-              ddlDealer : ['', Validators.required],
+              ddlZone : ['', ''],
+              ddlstate : ['', ''],
+              ddlASM : ['', ''],
+              ddlDealer : ['', ''],
               IsActive : ['', ''],
-              Resource_EmailID : ['', [Validators.required, Validators.email]],
+              Resource_EmailID : ['', [Validators.required, Validators.email]]
               });
               this.queryParamData = this.route.queryParams.subscribe(params => {
                 if ( params['PK_Resource_Id'] !== undefined) {
@@ -165,9 +165,57 @@ export class AddResourceComponent implements OnInit {
       return;
     }
     if (!$('#MobileNo').val().match('[0-9]{10}')) {
-           alert('Please put 10 digit mobile number');
-           return;
-           }
+      alert('Please put 10 digit mobile number');
+      return;
+      }
+    if (this.f.ddlDesignation.value === '2') {
+      if (this.f.ddlZone.value === '') {
+        alert('Please select zone');
+        return;
+      }
+    }
+    if (this.f.ddlDesignation.value === '3') {
+      if (this.f.ddlZone.value === '') {
+        alert('Please select zone');
+        return;
+      }
+      if (this.f.ddlstate.value === '') {
+        alert('Please select state');
+        return;
+      }
+    }
+    if (this.f.ddlDesignation.value === '4') {
+      if (this.f.ddlZone.value === '') {
+        alert('Please select zone');
+        return;
+      }
+      if (this.f.ddlstate.value === '') {
+        alert('Please select state');
+        return;
+      }
+      if (this.f.ddlASM.value === '') {
+        alert('Please select ASM/TM');
+        return;
+      }
+    }
+    if (this.f.ddlDesignation.value === '5') {
+      if (this.f.ddlZone.value === '') {
+        alert('Please select zone');
+        return;
+      }
+      if (this.f.ddlstate.value === '') {
+        alert('Please select state');
+        return;
+      }
+      if (this.f.ddlASM.value === '') {
+        alert('Please select ASM/TM');
+        return;
+      }
+      if (this.f.ddlDealer.value === '') {
+        alert('Please select Dealer');
+        return;
+      }
+    }
       let body = {
         PK_Resource_Id: this.ResourceId,
         Resource_Name: this.f.Resource_Name.value,

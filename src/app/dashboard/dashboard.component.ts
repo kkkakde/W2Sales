@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonService, SearchFilter} from '../_services';
 import { FormGroup, FormBuilder} from '@angular/forms';
 import { GraphObjectList } from '../_models/graph';
+import { SalesPhaseStructure } from '../_models';
 declare var jquery: any;
 declare var $: any;
 @Component({
@@ -10,73 +11,6 @@ declare var $: any;
   styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent implements OnInit {
-    type2 = 'column2d';
-    dataFormat2 = 'json';
-    dataSource2 = {
-        "chart": {
-            "caption": "Opportunity Value Summary",
-            "captionFontSize": "16",
-            "captionFont": "UniversLTStd",
-            "captionFontBold": 0,
-            "captionFontColor": "#0088bb",
-            //"subcaption": "In MMbbl = One Million barrels",
-            "xaxisname": "Month",
-            "yaxisname": "Revenue",
-            "numbersuffix": "K",
-            "theme": "fusion"
-        },
-        "data": [
-            {
-                "label": "Jan",
-                "value": "29"
-            },
-            {
-                "label": "Feb",
-                "value": "26"
-            },
-            {
-                "label": "Mar",
-                "value": "18"
-            },
-            {
-                "label": "Apr",
-                "value": "14"
-            },
-            {
-                "label": "May",
-                "value": "15"
-            },
-            {
-                "label": "Jun",
-                "value": "10"
-            },
-            {
-                "label": "Jul",
-                "value": "30"
-            },
-            {
-                "label": "Aug",
-                "value": "30"
-            },
-            {
-                "label": "Sep",
-                "value": "15"
-            },
-            {
-                "label": "Oct",
-                "value": "10"
-            },
-            {
-                "label": "Nov",
-                "value": "30"
-            },
-            {
-                "label": "Dec",
-                "value": "30"
-            }
-        ]
-    };
-
     type3 = 'bar2d';
     dataFormat3 = 'json';
     dataSource3 = {
@@ -87,6 +21,8 @@ export class DashboardComponent implements OnInit {
             "captionFontBold": 0,
             "captionFontColor": "#0088bb",
             "yaxisname": "Revenue(INR)",
+            "labelDisplay": "rotate",
+            "slantLabel": "1",
             "aligncaptionwithcanvas": "0",
             "plottooltext": "<b>$dataValue</b> Revenue Done",
             "theme": "fusion"
@@ -108,152 +44,6 @@ export class DashboardComponent implements OnInit {
         ]
     };
 
-    type4 = 'msline';
-    dataFormat4 = 'json';
-    dataSource4 = {
-        "chart": {
-            "caption": "Won Loss Rate",
-            "captionFontSize": "16",
-            "captionFont": "UniversLTStd",
-            "captionFontBold": 0,
-            "captionFontColor": "#0088bb",
-            "yaxisname": "Percentage(%)",
-            //"subcaption": "2012-2016",
-            "showhovereffect": "1",
-            "numbersuffix": "%",
-            "drawcrossline": "1",
-            "plottooltext": "<b>$dataValue</b> of $seriesName in $label",
-            "theme": "fusion"
-        },
-        "categories": [
-            {
-                "category": [
-                    {
-                        "label": "Jan"
-                    },
-                    {
-                        "label": "Feb"
-                    },
-                    {
-                        "label": "Mar"
-                    },
-                    {
-                        "label": "Apr"
-                    },
-                    {
-                        "label": "May"
-                    },
-                    {
-                        "label": "Jun"
-                    },
-                    {
-                        "label": "Jul"
-                    },
-                    {
-                        "label": "Aug"
-                    },
-                    {
-                        "label": "Sep"
-                    },
-                    {
-                        "label": "Oct"
-                    },
-                    {
-                        "label": "Nov"
-                    },
-                    {
-                        "label": "Dec"
-                    }
-                ]
-            }
-        ],
-        "dataset": [
-            {
-                "seriesname": "Won",
-                "data": [
-                    {
-                        "value": "62"
-                    },
-                    {
-                        "value": "64"
-                    },
-                    {
-                        "value": "64"
-                    },
-                    {
-                        "value": "66"
-                    },
-                    {
-                        "value": "78"
-                    },
-                    {
-                        "value": "62"
-                    },
-                    {
-                        "value": "64"
-                    },
-                    {
-                        "value": "64"
-                    },
-                    {
-                        "value": "66"
-                    },
-                    {
-                        "value": "78"
-                    },
-                    {
-                        "value": "66"
-                    },
-                    {
-                        "value": "78"
-                    }
-                ]
-            },
-            {
-                "seriesname": "Loss",
-                "data": [
-                    {
-                        "value": "16"
-                    },
-                    {
-                        "value": "28"
-                    },
-                    {
-                        "value": "34"
-                    },
-                    {
-                        "value": "12"
-                    },
-                    {
-                        "value": "24"
-                    },
-                    {
-                        "value": "16"
-                    },
-                    {
-                        "value": "28"
-                    },
-                    {
-                        "value": "34"
-                    },
-                    {
-                        "value": "42"
-                    },
-                    {
-                        "value": "54"
-                    },
-                    {
-                        "value": "42"
-                    },
-                    {
-                        "value": "54"
-                    }
-                ]
-            }
-
-        ]
-    };
-
     type5 = 'mscolumn2d';
     dataFormat5 = 'json';
     dataSource5 = {
@@ -266,6 +56,8 @@ export class DashboardComponent implements OnInit {
             //"subcaption": "2012-2016",
             "xaxisname": "Month",
             "yaxisname": "Revenue",
+            "labelDisplay": "rotate",
+            "slantLabel": "1",
             "formatnumberscale": "1",
             "plottooltext": "<b>$dataValue</b> on <b>$seriesName</b> in $label",
             "theme": "fusion",
@@ -400,456 +192,6 @@ export class DashboardComponent implements OnInit {
         ]
     };
 
-    type6 = 'column2d';
-    dataFormat6 = 'json';
-    dataSource6 = {
-        "chart": {
-        "caption": "Won Loss Reason",
-        "captionFontSize": "16",
-        "captionFont": "UniversLTStd",
-        "captionFontBold": 0,
-        "captionFontColor": "#0088bb",
-        //"subcaption": "In MMbbl = One Million barrels",
-        "xaxisname": "Reason",
-        "yaxisname": "No. of deals",
-        //"numbersuffix": "K",
-        "theme": "fusion"
-    },
-    "data": [
-        {
-            "label": "Reason1",
-            "value": "29"
-        },
-        {
-            "label": "Reason2",
-            "value": "26"
-        },
-        {
-            "label": "Reason3",
-            "value": "18"
-        },
-        {
-            "label": "Reason4",
-            "value": "14"
-        },
-        {
-            "label": "Reason5",
-            "value": "15"
-        },
-        {
-            "label": "Reason6",
-            "value": "10"
-        }
-    ]
-    };
-
-    type7 = 'stackedcolumn2d';
-    dataFormat7 = 'json';
-    dataSource7 = {
-        "chart": {
-            "caption": "Opportunities by Status",
-            "captionFontSize": "16",
-            "captionFont": "UniversLTStd",
-            "captionFontBold": 0,
-            "captionFontColor": "#0088bb",
-            //"subcaption": " Top 5 Developed Countries",
-            //"numbersuffix": " TWh",
-            "showsum": "0",
-            //"plottooltext": "$label produces <b>$dataValue</b> of energy from $seriesName",
-            "theme": "fusion",
-            "drawcrossline": "1"
-        },
-        "categories": [
-            {
-                "category": [
-                    {
-                        "label": "Jan"
-                    },
-                    {
-                        "label": "Feb"
-                    },
-                    {
-                        "label": "Mar"
-                    },
-                    {
-                        "label": "Apr"
-                    },
-                    {
-                        "label": "May"
-                    },
-                    {
-                        "label": "Jun"
-                    },
-                    {
-                        "label": "Jul"
-                    },
-                    {
-                        "label": "Aug"
-                    },
-                    {
-                        "label": "Sep"
-                    },
-                    {
-                        "label": "Oct"
-                    },
-                    {
-                        "label": "Nov"
-                    },
-                    {
-                        "label": "Dec"
-                    }
-                ]
-            }
-        ],
-        "dataset": [
-            {
-                "seriesname": "Next Visit",
-                "data": [
-                    {
-                        "value": "400"
-                    },
-                    {
-                        "value": "830"
-                    },
-                    {
-                        "value": "500"
-                    },
-                    {
-                        "value": "420"
-                    },
-                    {
-                        "value": "790"
-                    },
-                    {
-                        "value": "380"
-                    },
-                    {
-                        "value": "400"
-                    },
-                    {
-                        "value": "830"
-                    },
-                    {
-                        "value": "500"
-                    },
-                    {
-                        "value": "420"
-                    },
-                    {
-                        "value": "790"
-                    },
-                    {
-                        "value": "380"
-                    }
-                ]
-            },
-            {
-                "seriesname": "Lost",
-                "data": [
-                    {
-                        "value": "350"
-                    },
-                    {
-                        "value": "620"
-                    },
-                    {
-                        "value": "410"
-                    },
-                    {
-                        "value": "370"
-                    },
-                    {
-                        "value": "720"
-                    },
-                    {
-                        "value": "310"
-                    },
-                    {
-                        "value": "350"
-                    },
-                    {
-                        "value": "620"
-                    },
-                    {
-                        "value": "410"
-                    },
-                    {
-                        "value": "370"
-                    },
-                    {
-                        "value": "720"
-                    },
-                    {
-                        "value": "310"
-                    }
-                ]
-            },
-            {
-                "seriesname": "Stopped",
-                "data": [
-                    {
-                        "value": "180"
-                    },
-                    {
-                        "value": "330"
-                    },
-                    {
-                        "value": "230"
-                    },
-                    {
-                        "value": "160"
-                    },
-                    {
-                        "value": "440"
-                    },
-                    {
-                        "value": "350"
-                    },
-                    {
-                        "value": "180"
-                    },
-                    {
-                        "value": "330"
-                    },
-                    {
-                        "value": "230"
-                    },
-                    {
-                        "value": "160"
-                    },
-                    {
-                        "value": "440"
-                    },
-                    {
-                        "value": "350"
-                    }
-                ]
-            },
-            {
-                "seriesname": "Win",
-                "data": [
-                    {
-                        "value": "60"
-                    },
-                    {
-                        "value": "200"
-                    },
-                    {
-                        "value": "200"
-                    },
-                    {
-                        "value": "50"
-                    },
-                    {
-                        "value": "230"
-                    },
-                    {
-                        "value": "150"
-                    },
-                    {
-                        "value": "60"
-                    },
-                    {
-                        "value": "200"
-                    },
-                    {
-                        "value": "200"
-                    },
-                    {
-                        "value": "50"
-                    },
-                    {
-                        "value": "230"
-                    },
-                    {
-                        "value": "150"
-                    }
-                ]
-            }
-        ]
-    };
-
-    type8 = 'stackedcolumn2d';
-    dataFormat8 = 'json';
-    dataSource8 = {
-        "chart": {
-            "caption": "Visit by Category",
-            "captionFontSize": "16",
-            "captionFont": "UniversLTStd",
-            "captionFontBold": 0,
-            "captionFontColor": "#0088bb",
-            //"subcaption": " Top 5 Developed Countries",
-            //"numbersuffix": " TWh",
-            "showsum": "0",
-            //"plottooltext": "$label produces <b>$dataValue</b> of energy from $seriesName",
-            "theme": "fusion",
-            "drawcrossline": "1"
-        },
-        "categories": [
-            {
-                "category": [
-                    {
-                        "label": "1"
-                    },
-                    {
-                        "label": "2"
-                    },
-                    {
-                        "label": "3"
-                    },
-                    {
-                        "label": "4"
-                    },
-                    {
-                        "label": "5"
-                    }
-                ]
-            }
-        ],
-        "dataset": [
-            {
-                "seriesname": "Customer Visit",
-                "data": [
-                    {
-                        "value": "400"
-                    },
-                    {
-                        "value": "830"
-                    },
-                    {
-                        "value": "500"
-                    },
-                    {
-                        "value": "420"
-                    },
-                    {
-                        "value": "790"
-                    }
-                ]
-            },
-            {
-                "seriesname": "ITRAK Measurement",
-                "data": [
-                    {
-                        "value": "350"
-                    },
-                    {
-                        "value": "620"
-                    },
-                    {
-                        "value": "410"
-                    },
-                    {
-                        "value": "370"
-                    },
-                    {
-                        "value": "720"
-                    }
-                ]
-            },
-            {
-                "seriesname": "O-Box Measurement",
-                "data": [
-                    {
-                        "value": "210"
-                    },
-                    {
-                        "value": "400"
-                    },
-                    {
-                        "value": "450"
-                    },
-                    {
-                        "value": "180"
-                    },
-                    {
-                        "value": "570"
-                    }
-                ]
-            },
-            {
-                "seriesname": "AC Support",
-                "data": [
-                    {
-                        "value": "180"
-                    },
-                    {
-                        "value": "330"
-                    },
-                    {
-                        "value": "230"
-                    },
-                    {
-                        "value": "160"
-                    },
-                    {
-                        "value": "440"
-                    }
-                ]
-            },
-            {
-                "seriesname": "Payment followup",
-                "data": [
-                    {
-                        "value": "180"
-                    },
-                    {
-                        "value": "330"
-                    },
-                    {
-                        "value": "230"
-                    },
-                    {
-                        "value": "160"
-                    },
-                    {
-                        "value": "440"
-                    }
-                ]
-            },
-            {
-                "seriesname": "Customer Complaint",
-                "data": [
-                    {
-                        "value": "180"
-                    },
-                    {
-                        "value": "330"
-                    },
-                    {
-                        "value": "230"
-                    },
-                    {
-                        "value": "160"
-                    },
-                    {
-                        "value": "440"
-                    }
-                ]
-            },
-            {
-                "seriesname": "Other",
-                "data": [
-                    {
-                        "value": "180"
-                    },
-                    {
-                        "value": "330"
-                    },
-                    {
-                        "value": "230"
-                    },
-                    {
-                        "value": "160"
-                    },
-                    {
-                        "value": "440"
-                    }
-                ]
-            }
-        ]
-    };
-
     typeSR = 'doughnut2d';
     dataFormatSR = 'json';
     dataSourceSR = {
@@ -911,10 +253,10 @@ export class DashboardComponent implements OnInit {
   public SalesEngineer;
   public headerShowHidetbl: any;
   public chartData: any;
-//   public  type1 = 'bar2d';
   public  GraphCountList: any;
   public chartConfig: object;
   graphObj: GraphObjectList = new GraphObjectList();
+  public WonLossSummaryList:any;
   constructor(private commonservice: CommonService,
   private formBuilder: FormBuilder,
   private searchfilterservice: SearchFilter) {
@@ -933,9 +275,52 @@ export class DashboardComponent implements OnInit {
          this.graphObj.salesPhasechartConfig = {
             width: '100%',
             height: '250',
-            type: 'column2d',
+            type: 'stackedcolumn2d',
             dataFormat: 'json',
          };
+         this.graphObj.opportunityValueSummarychartConfig = {
+            width: '100%',
+            height: '250',
+            type: 'column2d',
+            dataFormat: 'json',
+         }
+         this.graphObj.opportunitiesbyStatuschartConfig = {
+            width: '100%',
+            height: '250',
+            type: 'stackedcolumn2d',
+            dataFormat: 'json',
+         }
+         this.graphObj.visitbyCategorychartConfig = {
+            width: '100%',
+            height: '250',
+            type: 'stackedcolumn2d',
+            dataFormat: 'json',
+         }
+         this.graphObj.WonLossOpportunityValuechartConfig = {
+            width: '100%',
+            height: '250',
+            type: 'mscolumn2d',
+            dataFormat: 'json',
+         }
+         this.graphObj.WonReasonchartConfig = {
+            width: '100%',
+            height: '250',
+            type: 'column2d',
+            dataFormat: 'json',
+         }
+         this.graphObj.LossReasonchartConfig = {
+            width: '100%',
+            height: '250',
+            type: 'column2d',
+            dataFormat: 'json',
+         }
+         this.graphObj.WonLossRatechartConfig = {
+            width: '100%',
+            height: '250',
+            type: 'msline',
+            dataFormat: 'json',
+         }
+
     }
     ngOnInit() {
     this.GetBLMDetails();
@@ -999,6 +384,7 @@ export class DashboardComponent implements OnInit {
         this.commonservice.getDashboardData(body)
         .subscribe(data => {
         this.DataList = data;
+        this.WonLossSummaryList = this.DataList.WonLossSummaryCount;
         this.getLatLongList = this.DataList.latlngCount;
         this.graphObj.visitdataSource = {
             'chart': {
@@ -1010,10 +396,12 @@ export class DashboardComponent implements OnInit {
                     'xaxisname': 'Month',
                     'yaxisname': 'No. of Visits',
                     'numbersuffix': '',
+                    "labelDisplay": "rotate",
+                    "slantLabel": "1",
                     'theme': 'fusion'
                 },
             'data': this.DataList.visitCount
-          };
+        };
         this.graphObj.opportunitydataSource = {
             'chart': {
                     'caption': 'Opportunities',
@@ -1024,10 +412,12 @@ export class DashboardComponent implements OnInit {
                     'xaxisname': 'Month',
                     'yaxisname': 'No. of Opportunities',
                     'numbersuffix': '',
+                    "labelDisplay": "rotate",
+                    "slantLabel": "1",
                     'theme': 'fusion'
                 },
             'data': this.DataList.opportunityCount
-          };
+        };
         this.graphObj.salesPhasedataSource = {
            'chart': {
               'caption': 'Sales Phase',
@@ -1036,14 +426,351 @@ export class DashboardComponent implements OnInit {
               'captionFontBold': 0,
               'captionFontColor': '#0088bb',
               'yaxisname': 'Values',
+              "labelDisplay": "rotate",
+              "slantLabel": "1",
               'aligncaptionwithcanvas': '0',
               'plottooltext': '<b>$dataValue</b>',
               'theme': 'fusion'
           },
-           'data': this.DataList.salesPhaseCount
-         };
+          "categories": [
+            {
+              "category": [
+                {
+                  "label": "Jan"
+                },
+                {
+                  "label": "Feb"
+                },
+                {
+                  "label": "Mar"
+                },
+                {
+                  "label": "Apr"
+                },
+                {
+                  "label": "May"
+                },
+                {
+                  "label": "Jun"
+                },
+                {
+                  "label": "Jul"
+                },
+                {
+                  "label": "Aug"
+                },
+                {
+                  "label": "Sep"
+                },
+                {
+                  "label": "Oct"
+                },
+                {
+                  "label": "Nov"
+                },
+                {
+                  "label": "Dec"
+                }
+              ]
+            }
+          ],
+          "dataset": this.DataList.salesPhaseCount,
+        };
+        this.graphObj.opportunityValueSummarydataSource = {
+            "chart": {
+                "caption": "Opportunity Value Summary",
+                "captionFontSize": "16",
+                "captionFont": "UniversLTStd",
+                "captionFontBold": 0,
+                "captionFontColor": "#0088bb",
+                //"subcaption": "In MMbbl = One Million barrels",
+                "xaxisname": "Month",
+                "yaxisname": "Revenue",
+                "numbersuffix": "K",
+                "labelDisplay": "rotate",
+                "slantLabel": "1",
+                "theme": "fusion"
+            },
+            "data":this.DataList.opportValueSummaryCount
+        }
+        this.graphObj.opportunitiesbyStatusdataSource = {
+            "chart": {
+                "caption": "Opportunities by Status",
+                "captionFontSize": "16",
+                "captionFont": "UniversLTStd",
+                "captionFontBold": 0,
+                "captionFontColor": "#0088bb",
+                "labelDisplay": "rotate",
+                "slantLabel": "1",
+                //"subcaption": " Top 5 Developed Countries",
+                //"numbersuffix": " TWh",
+                "showsum": "0",
+                //"plottooltext": "$label produces <b>$dataValue</b> of energy from $seriesName",
+                "theme": "fusion",
+                "drawcrossline": "1"
+            },
+            "categories": [
+                {
+                    "category": [
+                        {
+                            "label": "Jan"
+                        },
+                        {
+                            "label": "Feb"
+                        },
+                        {
+                            "label": "Mar"
+                        },
+                        {
+                            "label": "Apr"
+                        },
+                        {
+                            "label": "May"
+                        },
+                        {
+                            "label": "Jun"
+                        },
+                        {
+                            "label": "Jul"
+                        },
+                        {
+                            "label": "Aug"
+                        },
+                        {
+                            "label": "Sep"
+                        },
+                        {
+                            "label": "Oct"
+                        },
+                        {
+                            "label": "Nov"
+                        },
+                        {
+                            "label": "Dec"
+                        }
+                    ]
+                }
+            ],
+            "dataset": this.DataList.opportunitiesbyStatusCount,
+        };
+        this.graphObj.visitbyCategorydataSource = {
+            "chart": {
+                "caption": "Visit by Category",
+                "captionFontSize": "16",
+                "captionFont": "UniversLTStd",
+                "captionFontBold": 0,
+                "captionFontColor": "#0088bb",
+                "labelDisplay": "rotate",
+                "slantLabel": "1",
+                "showsum": "0",
+                "theme": "fusion",
+                "drawcrossline": "1"
+            },
+            "categories": [
+                {
+                    "category": [
+                        {
+                            "label": "Jan"
+                        },
+                        {
+                            "label": "Feb"
+                        },
+                        {
+                            "label": "Mar"
+                        },
+                        {
+                            "label": "Apr"
+                        },
+                        {
+                            "label": "May"
+                        },
+                        {
+                            "label": "Jun"
+                        },
+                        {
+                            "label": "Jul"
+                        },
+                        {
+                            "label": "Aug"
+                        },
+                        {
+                            "label": "Sep"
+                        },
+                        {
+                            "label": "Oct"
+                        },
+                        {
+                            "label": "Nov"
+                        },
+                        {
+                            "label": "Dec"
+                        }
+                    ]
+                }
+            ],
+            "dataset": this.DataList.visitbyCategoryCount,
+        };
+        this.graphObj.WonLossOpportunityValuedataSource = {
+            "chart": {
+                "caption": "Won Loss Opportunity Value",
+                "captionFontSize": "16",
+                "captionFont": "UniversLTStd",
+                "captionFontBold": 0,
+                "captionFontColor": "#0088bb",
+                //"subcaption": "2012-2016",
+                "xaxisname": "Month",
+                "yaxisname": "Revenue",
+                "labelDisplay": "rotate",
+                "slantLabel": "1",
+                "formatnumberscale": "1",
+                "plottooltext": "<b>$dataValue</b> on <b>$seriesName</b> in $label",
+                "theme": "fusion",
+                "drawcrossline": "1"
+            },
+            "categories": [
+                {
+                    "category": [
+                        {
+                            "label": "Jan"
+                        },
+                        {
+                            "label": "Feb"
+                        },
+                        {
+                            "label": "Mar"
+                        },
+                        {
+                            "label": "Apr"
+                        },
+                        {
+                            "label": "May"
+                        },
+                        {
+                            "label": "Jun"
+                        },
+                        {
+                            "label": "Jul"
+                        },
+                        {
+                            "label": "Aug"
+                        },
+                        {
+                            "label": "Sep"
+                        },
+                        {
+                            "label": "Oct"
+                        },
+                        {
+                            "label": "Nov"
+                        },
+                        {
+                            "label": "Dec"
+                        }
+                    ]
+                }
+            ],
+            "dataset":'',
+        }
+        this.graphObj.WonReasondataSource = {
+            "chart": {
+                "caption": "Won Reason",
+                "captionFontSize": "16",
+                "captionFont": "UniversLTStd",
+                "captionFontBold": 0,
+                "captionFontColor": "#0088bb",
+                //"subcaption": "In MMbbl = One Million barrels",
+                "xaxisname": "Reason",
+                "yaxisname": "No.of deals",
+                "labelFontSize": "11",
+                "labelDisplay": "rotate",
+                "slantLabel": "1",
+                //"numbersuffix": "K",
+                "theme": "fusion"
+            },
+             "data":this.DataList.WonReasonCount,
+        };
+        this.graphObj.LossReasondataSource = {
+            "chart": {
+                "caption": "Loss Reason",
+                "captionFontSize": "16",
+                "captionFont": "UniversLTStd",
+                "captionFontBold": 0,
+                "captionFontColor": "#0088bb",
+                //"subcaption": "In MMbbl = One Million barrels",
+                "xaxisname": "Reason",
+                "yaxisname": "No. of deals",
+                "labelFontSize": "11",
+                "labelDisplay": "rotate",
+                "slantLabel": "1",
+                //"numbersuffix": "K",
+                "theme": "fusion"
+            },
+            "data":this.DataList.LossReasonCount,
+        };
+        this.graphObj.WonLossRatedataSource = {
+            "chart": {
+                "caption": "Won Loss Rate",
+                "captionFontSize": "16",
+                "captionFont": "UniversLTStd",
+                "captionFontBold": 0,
+                "captionFontColor": "#0088bb",
+                "yaxisname": "Percentage(%)",
+                //"subcaption": "2012-2016",
+                "showhovereffect": "1",
+                "numbersuffix": "",
+                "drawcrossline": "1",
+                "labelDisplay": "rotate",
+                "slantLabel": "1",
+                "plottooltext": "<b>$dataValue</b> of $seriesName in $label",
+                "theme": "fusion"
+            },
+            "categories": [
+                {
+                    "category": [
+                        {
+                            "label": "Jan"
+                        },
+                        {
+                            "label": "Feb"
+                        },
+                        {
+                            "label": "Mar"
+                        },
+                        {
+                            "label": "Apr"
+                        },
+                        {
+                            "label": "May"
+                        },
+                        {
+                            "label": "Jun"
+                        },
+                        {
+                            "label": "Jul"
+                        },
+                        {
+                            "label": "Aug"
+                        },
+                        {
+                            "label": "Sep"
+                        },
+                        {
+                            "label": "Oct"
+                        },
+                        {
+                            "label": "Nov"
+                        },
+                        {
+                            "label": "Dec"
+                        }
+                    ]
+                }
+            ],
+            "dataset":this.DataList.wonLossRateCount,
+        }
         });
-          $('#StartDate').datepicker({
+
+        $('#StartDate').datepicker({
             startDate: new Date(),
             format: "dd-M-yyyy",
           });
@@ -1113,14 +840,17 @@ export class DashboardComponent implements OnInit {
      $('#StartDate').val('');
      $('#EndDate').val('');
     }
+    closepopup() {
+        $('.panel-collapse').collapse('hide');
+    }
     onSubmit() {
      this.GraphCountList='';
-     var StartDate =new Date( $('#StartDate').val());
-     var EndDate = new Date ($('#EndDate').val());
-     if((StartDate.getFullYear()) !== (EndDate.getFullYear())) {
-       alert('Please select same year date');
-       return false;
-        }
+    //  var StartDate =new Date( $('#StartDate').val());
+    //  var EndDate = new Date ($('#EndDate').val());
+    //  if((StartDate.getFullYear()) !== (EndDate.getFullYear())) {
+    //    alert('Please select same year date');
+    //    return false;
+    //     }
     $('.panel-collapse').collapse('hide');
     let body = {
       FK_Zone_Id: this.f.ZMName.value,
@@ -1144,6 +874,8 @@ export class DashboardComponent implements OnInit {
                     'xaxisname': 'Month',
                     'yaxisname': 'Visit Count' + ' ' +  new Date().getFullYear(),
                     'numbersuffix': '',
+                    "labelDisplay": "rotate",
+                    "slantLabel": "1",
                     'theme': 'fusion'
                 },
             'data': this.GraphCountList.visitCount
@@ -1158,6 +890,8 @@ export class DashboardComponent implements OnInit {
                     'xaxisname': 'Month',
                     'yaxisname': 'Opportunity Count' + ' ' +  new Date().getFullYear(),
                     'numbersuffix': '',
+                    "labelDisplay": "rotate",
+                    "slantLabel": "1",
                     'theme': 'fusion'
                 },
             'data': this.GraphCountList.opportunityCount
@@ -1171,6 +905,8 @@ export class DashboardComponent implements OnInit {
               'captionFontColor': '#0088bb',
               'yaxisname': 'Values',
               'aligncaptionwithcanvas': '0',
+              "labelDisplay": "rotate",
+              "slantLabel": "1",
               'plottooltext': '<b>$dataValue</b>',
               'theme': 'fusion'
           },
