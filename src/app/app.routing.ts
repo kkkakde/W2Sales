@@ -46,8 +46,9 @@ import { NpsSurveyQuestionComponent } from './nps-survey-question/nps-survey-que
 
 
 const appRoutes: Routes = [
-    { path: '', component: HomeComponent, canActivate: [AuthGuard] },
-    { path: 'login', component: LoginComponent },
+   // { path: '', component: HomeComponent, canActivate: [AuthGuard] },
+    { path: '', component: LoginComponent  },
+    { path: 'login', component: LoginComponent  },
     { path: 'register', component: RegisterComponent  , canActivate: [AuthGuard] },
     { path: 'addcustomer', component: AddCustomerComponent  , canActivate: [AuthGuard]},
     { path: 'customerlist', component: CustomerlistComponent , canActivate: [AuthGuard]},
@@ -85,4 +86,4 @@ const appRoutes: Routes = [
     { path: 'addUserRoleMapping' , component: AddUserRoleMappingComponent , canActivate: [AuthGuard]},
     { path: '**', redirectTo: '' }
 ];
-export const routing = RouterModule.forRoot(appRoutes, { useHash: true} ) ;
+export const routing = RouterModule.forRoot(appRoutes, { useHash: false} );
