@@ -141,7 +141,9 @@ export class CustomerlistComponent implements OnInit {
     };
     this.authenticationService.CheckOpportunity(body1)
       .subscribe(data => {
+        alert(JSON.stringify(data));
         this.CustOpp = data;
+        alert(JSON.stringify( this.CustOpp));
         if (this.CustOpp.length === 0) {
           $('#RecordNotes').modal('show');
           this.Action = 'Out';

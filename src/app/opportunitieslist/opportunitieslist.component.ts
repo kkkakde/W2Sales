@@ -566,7 +566,6 @@ export class OpportunitieslistComponent implements OnInit {
       'ProductBO': selected,
       Created_By: this.session.session.PK_Resource_Id
     };
-    alert(JSON.stringify(body));
     this.authenticationservice.Add_opporProduct(body)
       .subscribe(data => {
         alert('save successfully');

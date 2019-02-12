@@ -56,3 +56,17 @@ float:left;
 #VisitModel .modal-dialog{
     width: 80%;
 }
+
+
+.red {
+    background-color:rgb(216, 94, 94); 
+}
+.Cyan {
+    background-color:Cyan;
+}
+.FUCHSIA {
+    background-color:rgb(255, 0, 255);
+}
+.orange {
+    background-color:rgb(243, 165, 21);
+}

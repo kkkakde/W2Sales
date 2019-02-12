@@ -43,14 +43,14 @@
                       <input class="form-control" formControlName="Resource_Password" [ngClass]="{ 'is-invalid': submitted && f.Resource_Password.errors }" placeholder="Password" title="Please Enter Resource Password" type="password">
                       <div *ngIf="submitted && f.Resource_Password.errors" class="invalid-feedback">
                           <div *ngIf="f.Resource_Password.errors.required">Password is required</div>
-                          <div *ngIf="f.Resource_Password.errors.minlength">Password must be at least 6 characters</div>
+                          <!-- <div *ngIf="f.Resource_Password.errors.minlength">Password must be at least 6 characters</div> -->
                       </div>
                   </div>
                   <div class="col-md-2 form-group">
                     <label class="mandatory" for="">Email ID</label>
                   </div>
                   <div class="col-md-2 form-group ">
-                      <input class="form-control" type="email" id="Resource_EmailID" formControlName="Resource_EmailID" [ngClass]="{ 'is-invalid': submitted && f.Resource_EmailID.errors }" placeholder="Email ID" title="Please Enter Email ID" type="text">
+                      <input class="form-control" type="email"  formControlName="Resource_EmailID" [ngClass]="{ 'is-invalid': submitted && f.Resource_EmailID.errors }" placeholder="Email ID" title="Please Enter Email ID" type="text">
                       <div *ngIf="submitted && f.Resource_EmailID.errors" class="invalid-feedback">
                           <div *ngIf="f.Resource_EmailID.errors.required">Email is required</div>
                           <div *ngIf="f.Resource_EmailID.errors.email">Email must be a valid email address</div>
